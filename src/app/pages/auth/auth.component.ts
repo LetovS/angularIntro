@@ -8,18 +8,7 @@ import { RegistrationComponent } from './registration/registration.component';
   selector: 'app-auth',
   standalone: true,
   imports: [CommonModule, TabViewModule, AuthorizationComponent, RegistrationComponent],
-  template: `
-    <div class="auth-container">
-      <p-tabView>
-        <p-tabPanel header="Авторизация">
-          <app-authorization></app-authorization>
-        </p-tabPanel>
-        <p-tabPanel header="Регистрация">
-          <app-registration></app-registration>
-        </p-tabPanel>
-      </p-tabView>
-    </div>
-  `,
+  templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent {}

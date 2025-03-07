@@ -1,7 +1,10 @@
-<p>auth works!</p>
-<div>
-  <app-registration></app-registration>
-</div>
-<div>
-  <app-authorization></app-authorization>
+<div class="auth-container">
+  <p-tabView>
+    <p-tabPanel header="Авторизация">
+      <app-authorization></app-authorization>
+    </p-tabPanel>
+    <p-tabPanel header="Регистрация">
+      <app-registration></app-registration>
+    </p-tabPanel>
+  </p-tabView>
 </div>
