@@ -1,11 +1,31 @@
-<div class="form-group">
-  <label for="login">Логин</label>
-  <input id="login" type="text" pInputText [(ngModel)]="login" required />
-</div>
-<div class="form-group">
-  <label for="password">Пароль</label>
-  <input id="password" type="password" pInputText [(ngModel)]="password" required />
-</div>
-<div class="form-group">
-  <button pButton type="button" (click)="onLogin()" [disabled]="isPasswordsMismatch">Войти</button>
+<div>
+  <div class="flex justify-content-between align-items-center flex-wrap">
+    <span class="mt-3">Логин</span>
+    <input type="text"
+           pInputText
+           [ngClass]="{isPasswordsMismatch}"
+           [(ngModel)]="login"/>
+  </div>
+  <div class="mt-3 flex justify-content-between align-items-center flex-wrap">
+    <span class="mt-3">Пароль</span>
+    <input type="password"
+           pInputText
+           [ngClass]="{checkPassword}"
+           [(ngModel)]="password"/>
+  </div>
+  <div class="mt-3 flex align-items-start">
+    <p-checkbox
+      id="stay-here"
+      [binary]="true"
+      [(ngModel)]="isStay">
+    </p-checkbox>
+    <label for="stay-here" class="ml-2">{{labelText}}</label>
+  </div>
+  <div class="mt-3 flex justify-content-between align-items-center flex-wrap">
+    <p-button
+      label="Войти"
+      [disabled]="isPasswordsMismatch"
+      (onClick)="onLogin()">
+    </p-button>
+  </div>
 </div>

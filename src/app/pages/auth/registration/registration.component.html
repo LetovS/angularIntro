@@ -1,21 +1,44 @@
-<div class="p-grid p-fluid">
-  <div class="p-col-12 p-md-6">
-    <label for="reg-login" class="block">Логин</label>
-    <input id="reg-login" type="text" pInputText [(ngModel)]="regLogin" required class="w-full" />
+<div class="flex flex-column m-auto">
+  <div class="flex justify-content-between align-items-center flex-wrap">
+    <span class="mt-3">Login</span>
+    <input type="text"
+           pInputText
+           [ngClass]="{'input-error': !login || login.length < 3}"
+           [(ngModel)]="login"/>
   </div>
-  <div class="p-col-12 p-md-6">
-    <label for="email" class="block">Email</label>
-    <input id="email" type="email" pInputText [(ngModel)]="email" required class="w-full" />
+  <div class="mt-3 flex justify-content-between align-items-center flex-wrap">
+    <span class="mt-3">Password</span>
+    <input type="password"
+           pInputText
+           [ngClass]="{'input-error': !password || password.length < 6}"
+           [(ngModel)]="confirmPassword"/>
   </div>
-  <div class="p-col-12 p-md-6">
-    <label for="reg-password" class="block">Пароль</label>
-    <input id="reg-password" type="password" pInputText [(ngModel)]="regPassword" required class="w-full" />
+  <div class="mt-3 flex justify-content-between align-items-center flex-wrap">
+    <span class="mt-3">Confirm password</span>
+    <input type="password"
+           pInputText
+            [ngClass]="{'input-error': password !== confirmPassword}"
+           [(ngModel)]="confirmPassword"/>
   </div>
-  <div class="p-col-12 p-md-6">
-    <label for="confirm-password" class="block">Подтвердите пароль</label>
-    <input id="confirm-password" type="password" pInputText [(ngModel)]="confirmPassword" required class="w-full" />
+  <div class="mt-3 flex justify-content-between align-items-center flex-wrap">
+    <span class="mt-3">Email</span>
+    <input type="email"
+      pInputText
+    [(ngModel)]="email"/>
   </div>
-  <div class="p-col-12">
-    <button pButton type="button" (click)="onRegister()" [disabled]="isPasswordsMismatch" class="w-full">Зарегистрироваться</button>
+  <div class="mt-3 flex align-items-start">
+    <p-checkbox
+      id="saveInStore"
+    [binary]="true"
+    [(ngModel)]="isRemember">
+    </p-checkbox>
+    <label for="saveInStore" class="ml-2">{{labelText}}</label>
+  </div>
+  <div class="mt-3 flex justify-content-between align-items-center flex-wrap">
+    <p-button
+    label="Войти"
+    [disabled]="!login || !password || login.length < 3 || password.length < 6"
+    (onClick)="onAuth()">
+    </p-button>
   </div>
 </div>
