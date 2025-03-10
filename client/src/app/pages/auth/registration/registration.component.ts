@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
+import {UserService} from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -14,6 +15,7 @@ import {Checkbox} from 'primeng/checkbox';
 })
 export class RegistrationComponent{
 
+  constructor(private userService: UserService) {}
   login: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -34,11 +36,17 @@ export class RegistrationComponent{
     }
     console.log('Регистрация:', this.login, this.password, this.email);
   }
-  onAuth(){
 
+  onAuth(ev: Event){
+    console.log(ev);
+    let result = this.userService.addUser({login: this.login, password: this.password}, this.isRemember);
+    console.log(result);
   }
 
   onCheckLogin(){
     return !this.login || this.login.length < 3;
+  }
+  input (ev: Event){
+    console.log(ev);
   }
 }
