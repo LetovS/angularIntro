@@ -37,4 +37,8 @@ export class RegistrationComponent{
   onAuth(){
 
   }
+
+  onCheckLogin(){
+    return !this.login || this.login.length < 3;
+  }
 }
