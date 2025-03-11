@@ -7,22 +7,23 @@ export interface IUser {
 }
 
 export class CreateUserDto {
-  @ApiProperty({ description: 'User login', example: 'user1' })
+  @ApiProperty({ description: 'User login', example: 'demo' })
   login: string;
 
-  @ApiProperty({ description: 'User password', example: 'pass1' })
+  @ApiProperty({ description: 'User password', example: '123456' })
   password: string;
 }
-
+const userStorage: IUser[] = [];
 @Injectable()
 export class UsersService {
-  private userStorage: IUser[] = [];
+  
   private currentUser: IUser | null = null;
 
-  private getUserByLogin(login: string): IUser | null {
+  public getUserByLogin(login: string): IUser | null {
     console.log('Search starting ...');
 
-    const result = this.userStorage.find((u) => u.login === login) || null;
+    const result = userStorage.find((u) => u.login === login) || null;
+    console.log(userStorage);
     if(result)
       console.log('It\'s found');
     else
@@ -31,17 +32,21 @@ export class UsersService {
     return result;
   }
 
-
   public addUser(user: IUser): true | string {
     if (this.getUserByLogin(user.login)) {
       return 'User already exists';
     }
     console.log('Adding new user...');
-    this.userStorage.push(user);
+    userStorage.push(user);
     return true;
   }
 
   public isUserExist(login: string): boolean {
     return !!this.getUserByLogin(login);
   }
+
+  public getUsersCount(){
+    return userStorage.length;
+  }
 }
+this

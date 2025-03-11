@@ -10,12 +10,13 @@ async function bootstrap() {
     .setTitle('NestJS API')
     .setDescription('API documentation for NestJS application')
     .setVersion('1.0')
-    .addTag('users') // Добавьте теги для группировки эндпоинтов
+    .addTag('users')
+    .addTag('Auth') // Добавьте теги для группировки эндпоинтов
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document); // 'api' — путь к документации
-
+  app.enableCors();
   await app.listen(3000);
 }
 bootstrap().catch((err) => {

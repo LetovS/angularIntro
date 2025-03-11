@@ -7,7 +7,7 @@ import { UsersService, IUser, CreateUserDto } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('add')
+  @Post('register')
   @ApiOperation({ summary: 'Add a new user' }) // Описание операции
   @ApiBody({ type: CreateUserDto }) // Указание типа тела запроса
   @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
@@ -24,5 +24,13 @@ export class UsersController {
   isUserExist(@Query('login') login: string): boolean {
     console.log(login);
     return this.usersService.isUserExist(login);
+  }
+
+  @Get('users-count')
+  @ApiOperation({ summary: 'Count of number users' })
+  @ApiResponse({ status: 200, description: 'Count' })
+  getUsersCount(): number {
+    
+    return this.usersService.getUsersCount();
   }
 }
