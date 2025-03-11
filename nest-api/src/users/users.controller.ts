@@ -12,25 +12,31 @@ export class UsersController {
   @ApiBody({ type: CreateUserDto }) // Указание типа тела запроса
   @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
   @ApiResponse({ status: 400, description: 'Bad request' })
-  addUser(@Body() user: IUser): true | string {
+  async addUser(@Body() user: IUser): Promise<true | string> {
     console.log(user);
-    return this.usersService.addUser(user);
+    return await this.usersService.addUser(user);
   }
 
   @Get('exists')
   @ApiOperation({ summary: 'Check if user exists' })
   @ApiResponse({ status: 200, description: 'User exists' })
   @ApiResponse({ status: 404, description: 'User not found' })
-  isUserExist(@Query('login') login: string): boolean {
+  async isUserExist(@Query('login') login: string): Promise<boolean> {
     console.log(login);
-    return this.usersService.isUserExist(login);
+    return await this.usersService.isUserExist(login);
   }
 
   @Get('users-count')
   @ApiOperation({ summary: 'Count of number users' })
   @ApiResponse({ status: 200, description: 'Count' })
-  getUsersCount(): number {
-    
-    return this.usersService.getUsersCount();
+  async getUsersCount(): Promise<number> {
+    return await this.usersService.getUsersCount();
+  }
+
+  @Get('users-list')
+  @ApiOperation({ summary: 'Users' })
+  @ApiResponse({ status: 200, description: 'list' })
+  async getUsers(): Promise<IUser[]> {
+    return await this.usersService.getUsers();
   }
 }

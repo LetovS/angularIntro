@@ -12,28 +12,30 @@ export class CreateUserDto {
 
   @ApiProperty({ description: 'User password', example: '123456' })
   password: string;
+
+  @ApiProperty({ description: 'User nickname', example: 'test' })
+  nickname: string;
+
+  @ApiProperty({ description: 'User email', example: 'demo@demo.com' })
+  email: string;
 }
 const userStorage: IUser[] = [];
 @Injectable()
 export class UsersService {
-  
   private currentUser: IUser | null = null;
 
-  public getUserByLogin(login: string): IUser | null {
+  public async getUserByLogin(login: string): Promise<IUser | null> {
+    await Promise.resolve();
     console.log('Search starting ...');
 
     const result = userStorage.find((u) => u.login === login) || null;
-    console.log(userStorage);
-    if(result)
-      console.log('It\'s found');
-    else
-      console.log('Not found');
 
     return result;
   }
 
-  public addUser(user: IUser): true | string {
-    if (this.getUserByLogin(user.login)) {
+  public async addUser(user: IUser): Promise<true | string> {
+    await Promise.resolve();
+    if (await this.getUserByLogin(user.login)) {
       return 'User already exists';
     }
     console.log('Adding new user...');
@@ -41,12 +43,19 @@ export class UsersService {
     return true;
   }
 
-  public isUserExist(login: string): boolean {
-    return !!this.getUserByLogin(login);
+  public async isUserExist(login: string): Promise<boolean> {
+    await Promise.resolve();
+    const user = await this.getUserByLogin(login);
+    return !!user;
   }
 
-  public getUsersCount(){
+  public async getUsersCount(): Promise<number> {
+    await Promise.resolve();
     return userStorage.length;
   }
+
+  public async getUsers(): Promise<IUser[]> {
+    await Promise.resolve();
+    return userStorage;
+  }
 }
-this

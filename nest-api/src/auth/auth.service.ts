@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
+import { IUser, UsersService } from '../users/users.service';
+
+export interface IAuth {
+  access_token: string;
+}
 
 @Injectable()
 export class AuthService {
@@ -9,19 +13,27 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(login: string, password: string): Promise<any> {
-    const user = this.usersService.getUserByLogin(login);
-    console.log(user);
+  async validateUser(login: string, password: string): Promise<IUser | null> {
+    await Promise.resolve();
+
+    const user = await this.usersService.getUserByLogin(login);
+
+    console.log(`Пользователь ${JSON.stringify(user)}`);
+
     if (user && user.password === password) {
+      console.log(`Проверка пароля ддя ${user.password} и ${password}`);
       return user;
     }
     return null;
   }
 
-  async login(user: any) {
+  async login(user: IUser): Promise<IAuth> {
+    await Promise.resolve();
     const payload = { login: user.login };
-    return {
-      access_token: this.jwtService.sign(payload),
-    };
+
+    const token: string = this.jwtService.sign(payload);
+    console.log(`Полученный токен - ${token}`);
+    const response: IAuth = { access_token: token };
+    return response;
   }
 }
