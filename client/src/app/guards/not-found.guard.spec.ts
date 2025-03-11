@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
-
 import { notFoundGuard } from './not-found.guard';
 
 describe('notFoundGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
+  const executeGuard: CanActivateFn = (...guardParameters) =>
       TestBed.runInInjectionContext(() => notFoundGuard(...guardParameters));
 
   beforeEach(() => {

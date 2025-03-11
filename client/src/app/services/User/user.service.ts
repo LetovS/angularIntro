@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import {IUser} from '../../models/User/iuser';
+import {IUser,IUserRegistration} from '../../models/User/iuser';
+import {HttpClient} from '@angular/common/http';
+import {API} from '../../shared/api';
 
 @Injectable({
   providedIn: 'root'
@@ -7,18 +9,22 @@ import {IUser} from '../../models/User/iuser';
 export class UserService {
   private userStorage: IUser[] = [];
   private currentUser: IUser | null = null;
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   private getUserByLogin(login : string): IUser | null {
     return this.userStorage.find(u => u.login === login) || null;
   }
 
-  public addUser(user : IUser, isRememberMe?: boolean) : true | string{
-    if (this.getUserByLogin(user.login)){
-      return 'User already exists';
+  public addUser(user : IUserRegistration, isRememberMe?: boolean) : true | string{
+
+    const result = this.httpClient.post(API.registration, user).subscribe();
+    if (result){
+      return true;
     }
-    this.userStorage.push(user);
-    return true;
+    else{
+      return 'Something gone wrong';
+    }
+
   }
 
   public isUserExist(login : string) : boolean{

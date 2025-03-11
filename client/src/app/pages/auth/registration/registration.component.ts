@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
 import {UserService} from '../../../services/User/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -15,7 +16,8 @@ import {UserService} from '../../../services/User/user.service';
 })
 export class RegistrationComponent{
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
+  nickname: string;
   login: string = '';
   password: string = '';
   confirmPassword: string = '';
@@ -37,9 +39,31 @@ export class RegistrationComponent{
     console.log('Регистрация:', this.login, this.password, this.email);
   }
 
-  onAuth(ev: Event){
+  async onAuth(ev: Event){
     console.log(ev);
-    let result = this.userService.addUser({login: this.login, password: this.password}, this.isRemember);
+    let result = this.userService
+      .addUser({
+          nickname: this.nickname,
+          login: this.login,
+          password: this.password,
+          email: this.email
+        },
+        this.isRemember);
+    if (result) {
+      console.log('1');
+      try {
+        const navigationSuccess = await this.router.navigate(['/not-found']);
+        if (navigationSuccess) {
+          console.log('Redirect successful');
+        } else {
+          console.log('Redirect failed');
+        }
+      } catch (error) {
+        console.error('Navigation error:', error);
+      }
+    } else {
+      console.log('2');
+    }
     console.log(result);
   }
 

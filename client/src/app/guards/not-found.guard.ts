@@ -10,6 +10,6 @@ export class NotFoundGuard implements CanActivate {
 
   canActivate(): boolean {
     this.router.navigate(['/auth']); // Перенаправляем на /auth
-    return false; // Запрещаем доступ к маршруту
+    return true; // Запрещаем доступ к маршруту
   }
 }
