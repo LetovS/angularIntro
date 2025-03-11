@@ -13,6 +13,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
   @ApiResponse({ status: 400, description: 'Bad request' })
   addUser(@Body() user: IUser): true | string {
+    console.log(user);
     return this.usersService.addUser(user);
   }
 
@@ -21,6 +22,7 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'User exists' })
   @ApiResponse({ status: 404, description: 'User not found' })
   isUserExist(@Query('login') login: string): boolean {
+    console.log(login);
     return this.usersService.isUserExist(login);
   }
 }
