@@ -49,6 +49,7 @@ export class RegistrationComponent{
           email: this.email
         },
         this.isRemember);
+
     if (result) {
       console.log('1');
       try {

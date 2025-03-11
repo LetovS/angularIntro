@@ -12,7 +12,9 @@
            pInputText
            [ngClass]="{checkPassword}"
            [(ngModel)]="password"/>
+    <small *ngIf="errorMessage" class="p-error">{{ errorMessage }}</small>
   </div>
+
   <div class="mt-3 flex align-items-start">
     <p-checkbox
       id="stay-here"
