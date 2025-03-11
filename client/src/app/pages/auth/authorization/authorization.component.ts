@@ -34,7 +34,7 @@ export class AuthorizationComponent {
       next: (response: IAuth) => {
         console.log('Ответ пришел:', response.access_token);
         this.errorMessage = null;
-        
+
       },
       error: (err) => {
         if (err.status === 401) {
