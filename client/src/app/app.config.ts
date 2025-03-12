@@ -1,14 +1,18 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {ApplicationConfig, ErrorHandler, provideZoneChangeDetection} from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { routes } from './app.routes';
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withInterceptors} from '@angular/common/http';
+import {MessageService} from 'primeng/api';
+import { ErrorHandlerInterceptor } from '../middleware/error-handler.interceptor';
+import {GlobalErrorHandler} from '../handlers/GlobalErrorHandler';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([ErrorHandlerInterceptor])),
+    MessageService,
     provideRouter(routes),
     provideAnimationsAsync(),
     providePrimeNG({
@@ -18,9 +22,8 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: false || 'none'
         }
       }
-    })]
+    }),
+    /*{ provide: ErrorHandler, useClass: GlobalErrorHandler } doesn't work =/*/
+  ]
 };
-function providerHttpClient(): import("primeng/config").PrimeNGConfigType {
-    throw new Error('Function not implemented.');
-}
 
