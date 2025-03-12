@@ -6,6 +6,9 @@ import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
 import {IAuth, UserService} from '../../../services/User/user.service';
 import {IUser} from '../../../models/User/iuser';
+import {MessageService} from 'primeng/api';
+import {NotificationsService} from '../../../services/notifications/notifications.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-authorization',
@@ -15,7 +18,8 @@ import {IUser} from '../../../models/User/iuser';
   styleUrls: ['authorization.component.scss']
 })
 export class AuthorizationComponent {
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,
+              private notificationService: NotificationsService) {
 }
   login: string = '';
   password: string = '';
@@ -33,16 +37,11 @@ export class AuthorizationComponent {
     this.userService.auth(user).subscribe({
       next: (response: IAuth) => {
         console.log('Ответ пришел:', response.access_token);
+        this.notificationService.initToast('success',
+          'Authorization successful',
+          'Authorization');
         this.errorMessage = null;
-
-      },
-      error: (err) => {
-        if (err.status === 401) {
-          this.errorMessage = 'Логин или пароль неверны'; // Устанавливаем сообщение об ошибке
-        } else {
-          this.errorMessage = 'Произошла ошибка при аутентификации';
-        }
-      },
+      }
     });
   }
 
@@ -51,5 +50,4 @@ export class AuthorizationComponent {
       console.log('wrong format');
     }
   }
-
 }

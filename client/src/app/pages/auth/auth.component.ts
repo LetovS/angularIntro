@@ -10,7 +10,8 @@ import { RegistrationComponent } from './registration/registration.component';
   imports: [CommonModule,
     TabsModule,
     AuthorizationComponent,
-    RegistrationComponent],
+    RegistrationComponent
+  ],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })

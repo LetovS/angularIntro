@@ -6,17 +6,27 @@ import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
 import {UserService} from '../../../services/User/user.service';
 import {Router} from '@angular/router';
+import {NotificationsService} from '../../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-registration',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, Checkbox],
+  imports: [
+    CommonModule,
+    FormsModule,
+    InputTextModule,
+    ButtonModule,
+    Checkbox
+  ],
   templateUrl: `./registration.component.html`,
   styleUrls: ['registration.component.scss']
 })
 export class RegistrationComponent{
 
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private userService: UserService,
+              private router: Router,
+              private notificationService: NotificationsService) {}
+
   nickname: string;
   login: string = '';
   password: string = '';
@@ -48,24 +58,13 @@ export class RegistrationComponent{
           password: this.password,
           email: this.email
         },
-        this.isRemember);
-
-    if (result) {
-      console.log('1');
-      try {
-        const navigationSuccess = await this.router.navigate(['/not-found']);
-        if (navigationSuccess) {
-          console.log('Redirect successful');
-        } else {
-          console.log('Redirect failed');
+        this.isRemember).subscribe(
+      () => {
+        this.notificationService.initToast('success',
+          'Registration successful',
+          'Registration');
         }
-      } catch (error) {
-        console.error('Navigation error:', error);
-      }
-    } else {
-      console.log('2');
-    }
-    console.log(result);
+      );
   }
 
   onCheckLogin(){
