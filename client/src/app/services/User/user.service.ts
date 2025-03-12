@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {IUser,IUserRegistration} from '../../models/User/iuser';
 import {HttpClient} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, Observable, of, tap} from 'rxjs';
+import {catchError, Observable, of, tap, throwError} from 'rxjs';
 
 
 export interface IAuth {
@@ -16,29 +16,33 @@ export class UserService {
   private currentUser: IUser | null = null;
   constructor(private httpClient: HttpClient) { }
 
-  public addUser(user : IUserRegistration, isRememberMe?: boolean) : true | string{
+  public addUser(user : IUserRegistration, isRememberMe?: boolean) : Observable<any>{
+    return this.httpClient
+      .post(API.registration, user)
+      .pipe(
+        tap((response) => {
 
-    const result = this.httpClient.post(API.registration, user).subscribe();
-
-    if (result){
-      return true;
-    }
-    else{
-      return 'Something gone wrong';
-    }
+        }),
+        catchError((error) => {
+          throw error;
+        }));
   }
 
   public auth(user: IUser): Observable<IAuth> {
-    console.log('Sending request to:', API.auth);
-
     return this.httpClient.post<IAuth | null>(API.auth, user).pipe(
       tap((response) => {
-        console.log('Response received:', response); // Логируем ответ
+        console.log('Response received:', response);
       }),
       catchError((error) => {
-        console.error('Error during authentication:', error);
-        throw new Error('Authentication failed');
+        alert(error)
+        return  throwError(() => error);
       })
     );
   }
+}
+
+
+interface IUserError {
+  status: number,
+  message: string
 }
