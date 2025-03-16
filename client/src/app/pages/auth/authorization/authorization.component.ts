@@ -6,9 +6,8 @@ import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
 import {IAuth, UserService} from '../../../services/User/user.service';
 import {IUser} from '../../../models/User/iuser';
-import {MessageService} from 'primeng/api';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-authorization',
@@ -19,7 +18,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class AuthorizationComponent {
   constructor(private userService: UserService,
-              private notificationService: NotificationsService) {
+              private notificationService: NotificationsService,
+              private router: Router) {
 }
   login: string = '';
   password: string = '';
@@ -36,11 +36,12 @@ export class AuthorizationComponent {
 
     this.userService.auth(user).subscribe({
       next: (response: IAuth) => {
-        console.log('Ответ пришел:', response.access_token);
         this.notificationService.initToast('success',
           'Authorization successful',
           'Authorization');
-        this.errorMessage = null;
+        this.errorMessage = null
+        localStorage.setItem('token', response.access_token)
+        this.router.navigate(['/main'])
       }
     });
   }

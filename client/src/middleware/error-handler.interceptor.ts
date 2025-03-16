@@ -21,7 +21,7 @@ export const ErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
             errorMessage = 'Некорректный запрос';
             break;
           case 401:
-            errorMessage = 'Неавторизованный доступ';
+            errorMessage = 'Неверный логин или пароль';
             break;
           case 403:
             errorMessage = 'Доступ запрещён';
