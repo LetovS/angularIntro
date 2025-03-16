@@ -8,6 +8,7 @@ import {loginGuard} from './guards/LoginGuard/login.guard';
 export const routes: Routes = [
   {path: 'auth', component: AuthComponent},
   {path: 'not-found', component: NotFoundComponent },
+  {path: 'main', component: LayoutComponent },
   {path: '', redirectTo:'/auth', pathMatch: 'full'},
   {path: '**', redirectTo:'/not-found', pathMatch: 'full'}
 ];

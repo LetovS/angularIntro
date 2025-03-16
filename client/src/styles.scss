@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+// src/styles.scss
+@use "input";
+@use "reset";
+@use "variables";
 
 * {
   box-sizing: border-box;
@@ -9,14 +13,13 @@ html, body {
   background-color: #423f3f;
 }
 
-header, footer{
+footer{
   height: 4rem;
   width: 100%;
   display: block;
 }
-header{
-  background-color: #4583c5;
-}
 footer{
   background-color: #8d982a;
 }
+
+
