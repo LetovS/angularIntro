@@ -41,7 +41,7 @@ export class AuthorizationComponent {
           'Authorization');
         this.errorMessage = null
         localStorage.setItem('token', response.access_token)
-        this.router.navigate(['/main'])
+        this.router.navigate(['/tours'])
       }
     });
   }
