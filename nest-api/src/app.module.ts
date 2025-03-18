@@ -6,6 +6,8 @@ import { AuthService } from './auth/auth.service';
 import { AuthController } from './auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from './users/users.service';
+import { ToursController } from './tours/tours.controller';
+import { ToursService } from './tours/tours.service';
 
 @Module({
   imports: [
@@ -15,7 +17,7 @@ import { UsersService } from './users/users.service';
       signOptions: { expiresIn: '1h' }, // Время жизни токена
     }),
   ],
-  controllers: [AppController, AuthController],
-  providers: [AppService, AuthService, AuthService, UsersService],
+  controllers: [AppController, AuthController, ToursController],
+  providers: [AppService, AuthService, AuthService, UsersService, ToursService],
 })
 export class AppModule {}

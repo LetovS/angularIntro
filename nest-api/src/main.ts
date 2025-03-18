@@ -11,7 +11,8 @@ async function bootstrap() {
     .setDescription('API documentation for NestJS application')
     .setVersion('1.0')
     .addTag('users')
-    .addTag('Auth') // Добавьте теги для группировки эндпоинтов
+    .addTag('tours')
+    .addTag('Auth')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
