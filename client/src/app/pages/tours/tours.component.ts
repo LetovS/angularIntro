@@ -2,11 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
 import {DatePipe} from '@angular/common';
+import {CardModule} from 'primeng/card';
 
 @Component({
   selector: 'app-tours',
   imports: [
-    DatePipe
+    DatePipe,
+    CardModule
   ],
   standalone: true,
   templateUrl: './tours.component.html',

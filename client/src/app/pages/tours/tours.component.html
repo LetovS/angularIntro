@@ -1,15 +1,15 @@
-<div class="tours-container">
+<div class="tours-container flex flex-wrap justify-content-around align-items-stretch">
   @for (item of tours; track item.id) {
-    <div class="tour-card">
-      @if (item.img) {
-        <img [src]="item.img" [alt]="item.name" class="tour-image">
-      }
-      <h2>{{ item.name }}</h2>
-      <p><strong>Price:</strong> {{ item.price }}</p>
-      <p>{{ item.description }}</p>
-      @if (item.date) {
-        <p><strong>Date:</strong> {{ item.date | date: 'dd.MM.yyyy' }}</p>
-      }
-    </div>
+     <div class="m-2 col-3 tour-card align-self-stretch">
+       <p-card
+       header="{{item.name}}}"
+       subheader="{{item.price}}}"
+       styleClass="tour-p-card">
+       <ng-template pTemplate="header">
+         <img src="/imgs/{{item.img}}}" alt="card" class="w-full">
+       </ng-template>
+      <p>{{item.description}</p>
+       </p-card>
+     </div>
   }
 </div>

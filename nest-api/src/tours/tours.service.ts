@@ -51,7 +51,7 @@ export class ToursService {
                 "description": "From the south to the center of the country",
                 "tourOperator": "LocalAdventures",
                 "price": "€2,192",
-                "img": "ocean.jpg",
+                "img": "pic0.jpg",
                 "type": "multi"
             },
             {
