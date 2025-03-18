@@ -23,10 +23,18 @@ export class ToursController {
         return this.toursService.addTour(tour);
     }
 
+    @Post('init-test-data')
+    @ApiOperation({summary: 'Init data for demo'})
+    @ApiResponse({status: 200, description: 'seccusful'})
+    @ApiResponse({status: 500, description: 'Something went wrong'})
+    async initData(): Promise<void>{
+        return this.toursService.initData();
+    }
+
     @Delete('remove-tour/:tourId')
     @ApiOperation({summary: 'Remove tour'})
     @ApiParam({ name: 'tourId', type: String, description: 'ID of the tour to remove' })
-    @ApiResponse({status: 201, description: 'seccusful'})
+    @ApiResponse({status: 200, description: 'seccusful'})
     @ApiResponse({status: 404, description: 'Not found'})
     async removeTour(@Param('tourId') tourId: string): Promise<true | string>{
         console.log(tourId);
