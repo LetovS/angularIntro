@@ -2,13 +2,13 @@
   @for (item of tours; track item.id) {
      <div class="m-2 col-3 tour-card align-self-stretch">
        <p-card
-       header="{{item.name}}}"
-       subheader="{{item.price}}}"
+       header="{{item.name}}"
+       subheader="{{item.price}}"
        styleClass="tour-p-card">
        <ng-template pTemplate="header">
-         <img src="/imgs/{{item.img}}}" alt="card" class="w-full">
+         <img src="/imgs/{{item.img}}" alt="card" class="w-full">
        </ng-template>
-      <p>{{item.description}</p>
+      <p>{{item.description}}</p>
        </p-card>
      </div>
   }
