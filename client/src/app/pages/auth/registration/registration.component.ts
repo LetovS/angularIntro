@@ -24,7 +24,6 @@ import {NotificationsService} from '../../../services/notifications/notification
 export class RegistrationComponent{
 
   constructor(private userService: UserService,
-              private router: Router,
               private notificationService: NotificationsService) {}
 
   nickname: string;
@@ -63,6 +62,9 @@ export class RegistrationComponent{
         this.notificationService.initToast('success',
           'Registration successful',
           'Registration');
+        },
+        () => {
+
         }
       );
   }
