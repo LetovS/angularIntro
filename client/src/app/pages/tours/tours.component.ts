@@ -41,7 +41,9 @@ export class ToursComponent implements OnInit, OnDestroy {
 
   selectedTour: ITour | null = null;
   isModalOpen: boolean = false;
+
   openDetail(tour: ITour){
+    console.log(`Ищем тур по ${tour.id}`)
     this.toursService.getTour(tour.id).subscribe(
       (data) => {
         this.tour = data;
