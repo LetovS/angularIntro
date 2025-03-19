@@ -26,13 +26,11 @@ export class TourItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Tour detail');
 
     const tourId = this.route.snapshot.paramMap.get('tourId');
     this.toursService.getTour(tourId).subscribe(
       (data) => {
         this.tour = data;
-        console.log(data);
       }
     );
   }

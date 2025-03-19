@@ -8,6 +8,7 @@
 .layout-header{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 1.5rem;
   background-color: var.$header-background;
   color: #fff;
@@ -26,6 +27,24 @@
 }
 
 .layout-header__right-block{
-
+  display: flex;
+  justify-content: space-between;
 }
 
+.user-info, .logout, .date, cart{
+  margin: 0 .9rem;
+}
+
+.user-info{
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+}
+
+.custom-p-button{
+  width: 100px;
+}
+
+.cart:hover{
+  transform: scale(1.07);
+  background: #007bff;
+}

@@ -23,6 +23,7 @@ export class ToursComponent implements OnInit, OnDestroy {
 
   tours: ITour [];
   tour: ITour | null = null;
+
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {
@@ -38,9 +39,8 @@ export class ToursComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.tours = [];
   }
-  getTourDetail(tour: ITour): void{
-    console.log(tour.id)
 
+  getTourDetail(tour: ITour): void{
 
   }
 

@@ -1,21 +1,18 @@
-export class MenuItem {
-  label: string;
-  routeLink: string [];
-}
+import {MenuItem} from 'primeng/api';
 
-export function initMenuItems() {
+export function initMenuItems(): MenuItem [] {
   return [
     {
       label: 'Билеты',
-      routeLink: ['/tours'],
+      routerLink : ['/tours'],
     },
     {
       label: 'Настройки',
-      routeLink: ['/settings'],
+      routerLink : ['/settings'],
     },
     {
       label: 'Заказы',
-      routeLink: ['/orders'],
+      routerLink : ['/orders'],
     }
   ]
 }

@@ -20,10 +20,8 @@ export class ToursService {
       .get<ITour[]>(API.tours + '/tours') // Указываем тип ответа <ITour[]>
       .pipe(
         tap((response) => {
-          console.log('Tours received:', response);
         }),
         catchError((error: HttpErrorResponse) => {
-          console.error('Failed to get tours', error);
           throw error;
         })
       );
@@ -38,10 +36,8 @@ export class ToursService {
       .get<ITour>(API.tours + `/tour/${tourId}`) // Указываем тип ответа <ITour[]>
       .pipe(
         tap((response) => {
-          console.log('Tours received:', response);
         }),
         catchError((error: HttpErrorResponse) => {
-          console.error('Failed to get tours', error);
           throw error;
         })
       );

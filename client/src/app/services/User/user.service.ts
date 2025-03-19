@@ -41,6 +41,9 @@ export class UserService {
     );
   }
 
+  /*
+    Возвращает текущего юзера
+   */
   public getUser(): IUser{
     return this.currentUser;
   }

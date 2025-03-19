@@ -1,8 +1,36 @@
 <div class="layout-header">
-  <div class="layout-header__menu"></div>
+  <div class="layout-header__menu">
+    <p-menubar  [model]="menuItems"/>
+  </div>
   <div class="layout-header__right-block">
-    <div class="user-info"></div>
-    <div class="logout"></div>
+    <div class="user-info">
+
+    </div>
+    <div class="logout">
+      <p-button
+        [icon]="logoutIcon"
+        label="{{user?.login}}"
+        pTooltip="Logout"
+        (mouseenter)="hoverLogoutBtn(true)"
+        (mouseleave)="hoverLogoutBtn(false)"
+        (onClick)="logOut()"
+        severity="secondary"
+        styleClass="custom-p-button"
+      >
+      </p-button>
+    </div>
+    <div class="cart">
+      <p-button
+        [icon]="cartLogo"
+        label="Корзина"
+        pTooltip="Перейти к заказам"
+        tooltipPosition="bottom"
+        (onClick)="navigateToOrders()"
+        severity="secondary"
+        styleClass="custom-p-button"
+      >
+      </p-button>
+    </div>
     <div class="date">
       <div>
         {{dateTime | date: 'HH:mm:ss'}}
