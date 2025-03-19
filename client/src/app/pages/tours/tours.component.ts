@@ -21,7 +21,9 @@ export class ToursComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {
-          this.tours = data;
+          this.tours = data.map(tour => {
+            return { ...tour, description: tour.description.substring(0,50) };
+          });
         },
         () => {
 
