@@ -1,0 +1,31 @@
+.tours-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .9rem;
+}
+.images-size{
+  width: 250px;
+  height: 300px;
+}
+.tour-card {
+  border: 1px solid #ccc;
+  border-radius: .5rem;
+  padding: .5rem;
+  width: 30%;
+  height: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.tour-card:hover{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.tour-image {
+  width: 150px; /* Фиксированная ширина */
+  height: 100px; /* Фиксированная высота */
+  border-radius: .7rem;
+  margin-top: 10px;
+  object-fit: cover; /* Сохраняет пропорции изображения, обрезая лишнее */
+}

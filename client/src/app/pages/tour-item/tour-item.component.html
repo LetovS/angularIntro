@@ -1,0 +1,17 @@
+@if (tour){
+  <div class="m-1 col-4 tour-card">
+    <p-card
+      header="{{tour.name}}"
+      subheader="{{tour.price}}"
+      styleClass="tour-p-card">
+      <ng-template #header class="images-size">
+        <img src="/imgs/{{tour.img}}" alt="card" class="w-full">
+      </ng-template>
+      <p>{{tour.description}}</p>
+    </p-card>
+  </div>
+}
+
+
+
+

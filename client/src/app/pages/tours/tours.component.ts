@@ -3,6 +3,8 @@ import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
 import {CardModule} from 'primeng/card';
 import {Button} from 'primeng/button';
+import {ActivatedRoute, Router} from '@angular/router';
+import {relative} from '@angular/compiler-cli';
 
 @Component({
   selector: 'app-tours',
@@ -15,9 +17,12 @@ import {Button} from 'primeng/button';
   styleUrl: './tours.component.scss'
 })
 export class ToursComponent implements OnInit, OnDestroy {
-  constructor(private toursService: ToursService) {}
+  constructor(private toursService: ToursService,
+              private router: Router,
+              private route: ActivatedRoute) {}
 
   tours: ITour [];
+  tour: ITour | null = null;
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {
@@ -33,5 +38,13 @@ export class ToursComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.tours = [];
   }
+  getTourDetail(tour: ITour): void{
+    console.log(tour.id)
 
+
+  }
+
+  goToTour(item: ITour) {
+    this.router.navigate([`tour`, item.id], {relativeTo: this.route});
+  }
 }

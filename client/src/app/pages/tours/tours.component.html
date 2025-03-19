@@ -1,6 +1,6 @@
 <div class="tours-container flex flex-wrap justify-content-around align-items-stretch">
   @for (item of tours; track item.id) {
-     <div class="m-2 col-1 tour-card">
+     <div (click)="goToTour(item)" class="m-2 col-1 tour-card">
        <p-card
         header="{{item.name}}"
         subheader="{{item.price}}"
@@ -10,7 +10,12 @@
         </ng-template>
         <p>{{item.description}}</p>
         <div class="flex gap-4 mt-1 mt-3">
-          <p-button label="Подробнее" severity="primary" class="w-full" styleClass="w-full"/>
+          <p-button label="Подробнее"
+                    severity="primary"
+                    class="w-full"
+                    styleClass="w-full"
+                    (click)="getTourDetail(item)"
+          />
         </div>
       </p-card>
      </div>
