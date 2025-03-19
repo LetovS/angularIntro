@@ -1,0 +1,9 @@
+<div *ngIf="isOpen" class="modal-overlay" (click)="onOutsideClick($event)">
+  <div class="modal-content">
+    <!-- Кнопка закрытия -->
+    <button class="close-button" (click)="onClose()">×</button>
+
+    <!-- Контент модального окна -->
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+</div>

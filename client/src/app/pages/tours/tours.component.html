@@ -1,18 +1,50 @@
+<script src="tours.component.ts"></script>
 <div class="tours-container flex flex-wrap justify-content-around align-items-stretch">
   @for (item of tours; track item.id) {
-     <div class="m-2 col-1 tour-card align-self-stretch">
+     <div class="m-2 col-1 tour-card">
        <p-card
         header="{{item.name}}"
-        subheader="{{item.price}}"
-        styleClass="tour-p-card">
+        subheader="{{item.price}}">
         <ng-template #header>
           <img src="/imgs/{{item.img}}" alt="card" class="w-full">
         </ng-template>
         <p>{{item.description}}</p>
-        <div class="flex gap-4 mt-1 mt-3">
-          <p-button label="Подробнее" severity="primary" class="w-full" styleClass="w-full"/>
-        </div>
+         <ng-template #footer>
+           <div class="flex gap-4 mt-3">
+             <p-button label="Подробнее"
+                       severity="primary"
+                       class="w-full"
+                       styleClass="w-full"
+                       (onClick)="openDetail(item)"
+             />
+           </div>
+         </ng-template>
       </p-card>
      </div>
   }
 </div>
+
+<app-modal [isOpen]="isModalOpen" [content]="modalContent" (closeModal)="closeModal()"></app-modal>
+
+<ng-template #modalContent>
+  <div  class="m-2 col-3 tour-card">
+    <p-card
+      header="{{tour.name}}"
+      subheader="{{tour.price}}">
+      <ng-template #header>
+        <img src="/imgs/{{tour.img}}" alt="card" class="w-full">
+      </ng-template>
+      <p>{{tour.description}}</p>
+      <ng-template #footer>
+        <div class="flex gap-4 mt-3">
+          <p-button label="Купить"
+                    severity="primary"
+                    class="w-full"
+                    styleClass="w-full"
+                    (onClick)="buyTour()"
+          />
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</ng-template>
