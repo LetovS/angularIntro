@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {IUser,IUserRegistration} from '../../models/User/iuser';
+import {IUser,IUserRegistration, IUserError} from '../../models/User/iuser';
 import {HttpClient} from '@angular/common/http';
 import {API} from '../../shared/api';
 import {catchError, Observable, of, tap, throwError} from 'rxjs';
@@ -31,7 +31,8 @@ export class UserService {
   public auth(user: IUser): Observable<IAuth> {
     return this.httpClient.post<IAuth | null>(API.auth, user).pipe(
       tap((response) => {
-        console.log('Response received:', response);
+        console.log('Response received:', response); //TODO использовать токен
+        this.setUser(user);
       }),
       catchError((error) => {
         alert(error)
@@ -39,10 +40,12 @@ export class UserService {
       })
     );
   }
-}
 
+  public getUser(): IUser{
+    return this.currentUser;
+  }
 
-interface IUserError {
-  status: number,
-  message: string
+  public setUser(user: IUser): void{
+    this.currentUser = user;
+  }
 }

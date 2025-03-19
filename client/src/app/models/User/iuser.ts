@@ -9,3 +9,8 @@ export interface IUserRegistration {
   login: string;
   nickname: string;
 }
+
+export interface IUserError {
+  status: number,
+  message: string
+}
