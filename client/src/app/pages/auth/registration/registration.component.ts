@@ -34,6 +34,13 @@ export class RegistrationComponent{
   isRemember: boolean = false;
   labelText: string = 'Сохранить';
 
+  labelSignUp: string = $localize`:@@signup:Sign Up`
+  labelNickname: string = $localize`:@@nickname:Nickname`
+  labelLogin: string = $localize`:@@login:Login`
+  labelPassword: string = $localize`:@@password:Password`
+  labelConfPassword: string = $localize`:@@password.confirm:Confirm password`
+  labelEmail: string = $localize`:@@email:Email`
+
   get isPasswordsMismatch(): boolean {
     return !this.password ||
       !this.confirmPassword ||

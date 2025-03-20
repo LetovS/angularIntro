@@ -26,6 +26,33 @@
       <trans-unit id="showDetail" datatype="html">
         <source>Show tour's detail</source>
       </trans-unit>
+      <trans-unit id="buy" datatype="html">
+        <source>Buy</source>
+      </trans-unit>
+      <trans-unit id="auth.authorization" datatype="html">
+        <source>Authorization</source>
+      </trans-unit>
+      <trans-unit id="auth.registration" datatype="html">
+        <source>Registration</source>
+      </trans-unit>
+      <trans-unit id="login" datatype="html">
+        <source>Login</source>
+      </trans-unit>
+      <trans-unit id="password" datatype="html">
+        <source>Password</source>
+      </trans-unit>
+      <trans-unit id="password.confirm" datatype="html">
+        <source>Confirm password</source>
+      </trans-unit>
+      <trans-unit id="email" datatype="html">
+        <source>Email</source>
+      </trans-unit>
+      <trans-unit id="nickname" datatype="html">
+        <source>Nickname</source>
+      </trans-unit>
+      <trans-unit id="signup" datatype="html">
+        <source>Sign Up</source>
+      </trans-unit>
     </body>
   </file>
 </xliff>

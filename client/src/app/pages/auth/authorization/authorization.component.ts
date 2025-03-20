@@ -26,6 +26,9 @@ export class AuthorizationComponent {
   isStay: boolean = false;
   labelText: string = 'Не выходить?';
   errorMessage: string | null = null;
+  labelLogin: string = $localize`:@@login:Login`
+  labelPassword: string = $localize`:@@password:Password`
+  labelSignUp: string = $localize`:@@signup:Sign Up`
   get isPasswordsMismatch(): boolean {
     return !this.login || !this.password || this.password.length < 6;
   }

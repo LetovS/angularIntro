@@ -16,6 +16,10 @@ import { RegistrationComponent } from './registration/registration.component';
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy{
+
+  labelAuth: string = $localize`:@@auth.authorization:Authorization`
+  labelRegistration: string = $localize`:@@auth.registration:Registration`
+
   ngOnInit() {
     console.log('init')
   }
