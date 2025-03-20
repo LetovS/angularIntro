@@ -31,7 +31,7 @@ export class ToursController {
   }
 
   @Get('tour/:tourId')
-  @ApiOperation({ summary: "Recived tour by Id" })
+  @ApiOperation({ summary: 'Recived tour by Id' })
   @ApiParam({
     name: 'tourId',
     type: String,
@@ -40,10 +40,9 @@ export class ToursController {
   @ApiResponse({ status: 200, description: 'Tour' })
   @ApiResponse({ status: 404, description: 'Tour not found' })
   @ApiResponse({ status: 500, description: 'Server error' })
-  
   async getTourById(@Param('tourId') tourId: string): Promise<TourDto | null> {
     const result = await this.toursService.getTour(tourId);
-    if(result){
+    if (result) {
       return result;
     }
     throw new NotFoundException('Tour not found');
