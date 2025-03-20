@@ -1,4 +1,3 @@
-<script src="tours.component.ts"></script>
 <div class="tours-container flex flex-wrap justify-content-around align-items-stretch">
   @for (item of tours; track item.id) {
      <div (click)="goToTour(item)" class="m-2 col-1 tour-card">
@@ -16,7 +15,7 @@
                     severity="primary"
                     class="w-full"
                     styleClass="w-full"
-                    (click)="getTourDetail(item)"
+                    (click)="openDetail(item); $event.stopPropagation()"
           />
         </div>
       </p-card>

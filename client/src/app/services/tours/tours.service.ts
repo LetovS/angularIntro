@@ -44,23 +44,6 @@ export class ToursService {
   }
 
   /**
-   * Получает список туров.
-   * @returns Observable<ITour[]> - Массив туров.
-   */
-  public getTour(tourId: string): Observable<ITour> {
-    return this.httpClient
-      .get<ITour>(API.tours + `/tour/${tourId}`) // Указываем тип ответа <ITour[]>
-      .pipe(
-        tap((response) => {
-        }),
-        catchError((error: HttpErrorResponse) => {
-          throw error;
-        })
-      );
-  }
-
-
-  /**
    * Добавляет новый тур.
    * @param tour - Объект тура, который нужно добавить (тип ITour).
    * @returns Observable<any> - Ответ от сервера после успешного добавления тура.

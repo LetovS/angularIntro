@@ -31,7 +31,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   tour: ITour | null = null;
   labelDetail: string = $localize`:@@detail:Detail`;
   toolTipDetail: string = $localize`:@@showDetail:Show tour's detail`;
-  tour: ITour | null;
+
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {
@@ -46,10 +46,6 @@ export class ToursComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.tours = [];
-  }
-
-  getTourDetail(tour: ITour): void{
-
   }
 
   goToTour(item: ITour) {
