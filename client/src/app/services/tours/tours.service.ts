@@ -28,6 +28,22 @@ export class ToursService {
   }
 
   /**
+   * Получает детали тура по Ид.
+   * @returns Observable<ITour | null> - Массив туров.
+   */
+  public getTour(tourId: string): Observable<ITour | null> {
+    return this.httpClient
+      .get<ITour | null>(API.tours + `/tour/${tourId}`) // Указываем тип ответа <ITour[]>
+      .pipe(
+        tap((response) => {
+        }),
+        catchError((error: HttpErrorResponse) => {
+          throw error;
+        })
+      );
+  }
+
+  /**
    * Получает список туров.
    * @returns Observable<ITour[]> - Массив туров.
    */

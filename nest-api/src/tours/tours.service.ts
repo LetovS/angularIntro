@@ -16,6 +16,12 @@ export class ToursService {
     return toursStorage;
   }
 
+  async getTour(tourId: string): Promise<ITour | null> {
+    await Promise.resolve();
+    const tour = toursStorage.find((t) => t.id === tourId) || null;
+    return tour;
+  }
+
   async addTour(newTour: ITour): Promise<number | string> {
     console.log(`Search tour by name: ${newTour.name}`);
     await Promise.resolve();

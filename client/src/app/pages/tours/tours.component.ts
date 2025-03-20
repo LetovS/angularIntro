@@ -1,8 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgModule, OnDestroy, OnInit} from '@angular/core';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
 import {CardModule} from 'primeng/card';
 import {Button} from 'primeng/button';
+import {ModalComponent} from '../../common/modal/modal.component';
+import {CommonModule } from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {relative} from '@angular/compiler-cli';
 import {Tooltip} from 'primeng/tooltip';
@@ -12,7 +14,9 @@ import {Tooltip} from 'primeng/tooltip';
   imports: [
     CardModule,
     Button,
-    Tooltip
+    Tooltip,
+    ModalComponent,
+    CommonModule
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -27,6 +31,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   tour: ITour | null = null;
   labelDetail: string = $localize`:@@detail:Detail`;
   toolTipDetail: string = $localize`:@@showDetail:Show tour's detail`;
+  tour: ITour | null;
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {
@@ -49,5 +54,29 @@ export class ToursComponent implements OnInit, OnDestroy {
 
   goToTour(item: ITour) {
     this.router.navigate([`tour`, item.id], {relativeTo: this.route});
+  }
+  selectedTour: ITour | null = null;
+  isModalOpen: boolean = false;
+
+  openDetail(tour: ITour){
+    console.log(`Ищем тур по ${tour.id}`)
+    this.toursService.getTour(tour.id).subscribe(
+      (data) => {
+        this.tour = data;
+        this.openModal(this.tour);
+      });
+  }
+  openModal(tour: ITour) {
+    this.selectedTour = tour;
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
+  buyTour() {
+    alert('Тур куплен!');
+    this.closeModal();
   }
 }
