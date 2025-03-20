@@ -1,0 +1,31 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="tickets" datatype="html">
+        <source>Tickets</source>
+      </trans-unit>
+      <trans-unit id="settings" datatype="html">
+        <source>Settings</source>
+      </trans-unit>
+      <trans-unit id="orders" datatype="html">
+        <source>Orders</source>
+      </trans-unit>
+      <trans-unit id="cart" datatype="html">
+        <source>Cart</source>
+      </trans-unit>
+      <trans-unit id="moveToOrders" datatype="html">
+        <source>Move to orders</source>
+      </trans-unit>
+      <trans-unit id="logout" datatype="html">
+        <source>Logout</source>
+      </trans-unit>
+      <trans-unit id="detail" datatype="html">
+        <source>Detail</source>
+        <source>Show tour's detail</source>
+      </trans-unit>
+      <trans-unit id="showDetail" datatype="html">
+        <source>Show tour's detail</source>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

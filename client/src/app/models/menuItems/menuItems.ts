@@ -3,16 +3,16 @@ import {MenuItem} from 'primeng/api';
 export function initMenuItems(): MenuItem [] {
   return [
     {
-      label: 'Билеты',
-      routerLink : ['/tours'],
+      label: $localize`:@@tickets:Tickets`,
+      routerLink: ['/tours'],
     },
     {
-      label: 'Настройки',
-      routerLink : ['/settings'],
+      label: $localize`:@@settings:Settings`,
+      routerLink: ['/settings'],
     },
     {
-      label: 'Заказы',
-      routerLink : ['/orders'],
-    }
+      label: $localize`:@@orders:Orders`,
+      routerLink: ['/orders'],
+    },
   ]
 }

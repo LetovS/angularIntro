@@ -5,12 +5,14 @@ import {CardModule} from 'primeng/card';
 import {Button} from 'primeng/button';
 import {ActivatedRoute, Router} from '@angular/router';
 import {relative} from '@angular/compiler-cli';
+import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-tours',
   imports: [
     CardModule,
-    Button
+    Button,
+    Tooltip
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -23,7 +25,8 @@ export class ToursComponent implements OnInit, OnDestroy {
 
   tours: ITour [];
   tour: ITour | null = null;
-
+  labelDetail: string = $localize`:@@detail:Detail`;
+  toolTipDetail: string = $localize`:@@showDetail:Show tour's detail`;
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {

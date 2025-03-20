@@ -23,6 +23,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: IUser;
   logoutIcon = 'pi pi-user'
   cartLogo: string = 'pi pi-shopping-cart';
+  cartTitle: string = $localize`:@@cart:Cart`;
+  cartToolTip: string = $localize`:@@moveToOrders:Move to orders`;
+  logoutLabel: string = $localize`:@@logout:Logout`;
 
   constructor(private userService: UserService,
               private toursService: ToursService,

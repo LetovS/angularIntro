@@ -1,0 +1,40 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="tickets" datatype="html">
+        <source>Tickets</source>
+        <target>Билеты</target>
+      </trans-unit>
+      <trans-unit id="settings" datatype="html">
+        <source>Settings</source>
+        <target>Настройки</target>
+      </trans-unit>
+      <trans-unit id="orders" datatype="html">
+        <source>Orders</source>
+        <target>Заказы</target>
+      </trans-unit>
+      <trans-unit id="cart" datatype="html">
+        <source>Cart</source>
+        <target>Корзина</target>
+      </trans-unit>
+      <trans-unit id="moveToOrders" datatype="html">
+        <source>Move to orders</source>
+        <target>Перейти к заказам</target>
+      </trans-unit>
+      <trans-unit id="logout" datatype="html">
+        <source>Logout</source>
+        <target>Выйти</target>
+      </trans-unit>
+      <trans-unit id="detail" datatype="html">
+        <source>Detail</source>
+        <target>Подробнее</target>
+        <source>Show tour's detail</source>
+        <target>Показать подробности о туре</target>
+      </trans-unit>
+      <trans-unit id="showDetail" datatype="html">
+        <source>Show tour's detail</source>
+        <target>Подробности о туре</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

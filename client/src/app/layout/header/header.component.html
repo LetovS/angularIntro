@@ -10,7 +10,7 @@
       <p-button
         [icon]="logoutIcon"
         label="{{user?.login}}"
-        pTooltip="Logout"
+        [pTooltip]="logoutLabel"
         (mouseenter)="hoverLogoutBtn(true)"
         (mouseleave)="hoverLogoutBtn(false)"
         (onClick)="logOut()"
@@ -22,8 +22,8 @@
     <div class="cart">
       <p-button
         [icon]="cartLogo"
-        label="Корзина"
-        pTooltip="Перейти к заказам"
+        [label]="cartTitle"
+        [pTooltip]="cartToolTip"
         tooltipPosition="bottom"
         (onClick)="navigateToOrders()"
         severity="secondary"
