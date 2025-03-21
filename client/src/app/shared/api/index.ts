@@ -6,4 +6,5 @@ export const API= {
   auth: `${baseUrl}`+ '/' + `${environment.authController}` + '/login',
   registration: `${baseUrl}`+ '/' + `${environment.usersController}` + '/register',
   tours: `${baseUrl}`+ '/' + `${environment.toursController}`,
+  config: '/config/config.json'
 }
