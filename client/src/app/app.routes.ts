@@ -25,6 +25,5 @@ export const routes: Routes = [
     }
   ]},
   {path: '', redirectTo:'/auth', pathMatch: 'full'},
-  {path: 'config',  pathMatch: 'full'},
   {path: '**', redirectTo:'/not-found', pathMatch: 'full'}
 ];
