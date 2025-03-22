@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   Get,
-  Query,
   Delete,
   Param,
   NotFoundException,
@@ -14,7 +13,6 @@ import {
   ApiResponse,
   ApiBody,
   ApiParam,
-  ApiQuery,
 } from '@nestjs/swagger';
 import { ToursService, TourDto, ITour } from './tours.service';
 
