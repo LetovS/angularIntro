@@ -1,5 +1,11 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBody } from '@nestjs/swagger';
+import { Controller, Post, Body, Get, Query, Param } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiParam,
+} from '@nestjs/swagger';
 import { UsersService, IUser, CreateUserDto } from './users.service';
 
 @ApiTags('users') // Группировка эндпоинтов по тегу
@@ -38,5 +44,17 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'list' })
   async getUsers(): Promise<IUser[]> {
     return await this.usersService.getUsers();
+  }
+
+  @Get('user/:userId')
+  @ApiOperation({ summary: 'Get user by id' })
+  @ApiParam({
+    name: 'userId',
+    type: String,
+    description: 'ID of the user',
+  })
+  @ApiResponse({ status: 200, description: 'user' })
+  async getUserById(@Param('userId') userId: string): Promise<IUser | null> {
+    return await this.usersService.getUser(userId);
   }
 }

@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
+import { v4 as uuidv4 } from 'uuid';
 
 export interface IUser {
+  id: string;
   login: string;
   password: string;
 }
@@ -19,7 +21,9 @@ export class CreateUserDto {
   @ApiProperty({ description: 'User email', example: 'demo@demo.com' })
   email: string;
 }
+
 const userStorage: IUser[] = [];
+
 @Injectable()
 export class UsersService {
   private currentUser: IUser | null = null;
@@ -38,6 +42,7 @@ export class UsersService {
     if (await this.getUserByLogin(user.login)) {
       return 'User already exists';
     }
+    user.id = uuidv4();
     console.log('Adding new user...');
     userStorage.push(user);
     return true;
@@ -57,5 +62,12 @@ export class UsersService {
   public async getUsers(): Promise<IUser[]> {
     await Promise.resolve();
     return userStorage;
+  }
+
+  public async getUser(userId: string){
+    await Promise.resolve();
+    const user: IUser | null = userStorage.find((u) => u.id === userId) || null;
+    if (user) return user;
+    return null;
   }
 }
