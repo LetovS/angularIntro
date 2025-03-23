@@ -90,10 +90,12 @@
               "buildTarget": "intro:build:ru"
             },
             "production": {
-              "buildTarget": "intro:build:production"
+              "buildTarget": "intro:build:production",
+              "port": 4200
             },
             "development": {
-              "buildTarget": "intro:build:development"
+              "buildTarget": "intro:build:development",
+              "port": 4200
             }
           },
           "defaultConfiguration": "development"

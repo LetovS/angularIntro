@@ -1,10 +1,24 @@
-FROM node:20-alpine AS build
-WORKDIR /usr/src/app
+# Используем базовый образ Node.js для сборки
+FROM node:20 AS build
 
-COPY . /usr/src/app
+# Устанавливаем рабочую директорию
+WORKDIR /app
 
-RUN npm install -g @angular/cli
+# Копируем package.json и package-lock.json
+COPY . .
+# Устанавливаем зависимости
+RUN npm install -g @angular/cli && npm install
 
-RUN npm install
+# Собираем приложение
+RUN npm run build
 
-CMD ["ng", "serve", "--configuration=ru", "--host","0.0.0.0"]
+## Используем образ Nginx для production
+FROM nginx:latest
+
+# Копируем конфигурацию Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+# Копируем собранное Angular приложение
+COPY --from=build /app/dist/intro/browser/en-US /usr/share/nginx/html
+
+# Запускаем Nginx
+#CMD ["nginx", "-g", "daemon off;"]
