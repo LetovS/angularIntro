@@ -2,23 +2,26 @@
 FROM node:20 AS build
 
 # Устанавливаем рабочую директорию
-WORKDIR /app
+WORKDIR /dist/src/app
 
+RUN npm cache clean --force
 # Копируем package.json и package-lock.json
 COPY . .
 # Устанавливаем зависимости
-RUN npm install -g @angular/cli && npm install
+RUN npm install -g @angular/cli && npm install && npm install -g serve
 
-# Собираем приложение
 RUN npm run build
 
 ## Используем образ Nginx для production
-FROM nginx:latest
+FROM nginx:latest as ngi
 
 # Копируем конфигурацию Nginx
+COPY --from=build /dist/src/app/dist/intro/browser/en-US /usr/share/nginx/html
+
 COPY nginx.conf /etc/nginx/nginx.conf
 # Копируем собранное Angular приложение
-COPY --from=build /app/dist/intro/browser/en-US /usr/share/nginx/html
+
+EXPOSE 80
 
 # Запускаем Nginx
 #CMD ["nginx", "-g", "daemon off;"]

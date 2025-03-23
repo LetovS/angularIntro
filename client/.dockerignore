@@ -1,7 +1,7 @@
-node_modules
-dist
+/node_modules
+/dist
 .gitignore
-.vscode
+/.vscode/*
 .editorconfig
 README.md
 Dockerfile
