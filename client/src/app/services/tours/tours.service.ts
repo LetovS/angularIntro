@@ -82,7 +82,7 @@ export class ToursService {
     if (Array.isArray(toursStore)) {
       return toursStore.filter((t) => {
         if (t && typeof t.name === 'string') {
-          return t.name.toLowerCase().startsWith(targetValue.toLowerCase());
+          return t.name.toLowerCase().includes(targetValue.toLowerCase());
         } else{
           return false;
         }
