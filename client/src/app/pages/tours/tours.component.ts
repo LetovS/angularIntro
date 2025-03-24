@@ -10,6 +10,8 @@ import {Tooltip} from 'primeng/tooltip';
 import {InputGroup} from 'primeng/inputgroup';
 import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {InputText} from 'primeng/inputtext';
+import {SearchTourPipe} from '../../pipies/searchPipe/search-tour.pipe';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-tours',
@@ -21,7 +23,9 @@ import {InputText} from 'primeng/inputtext';
     CommonModule,
     InputGroup,
     InputGroupAddon,
-    InputText
+    InputText,
+    SearchTourPipe,
+    FormsModule
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -38,6 +42,8 @@ export class ToursComponent implements OnInit, OnDestroy {
   labelDetail: string = $localize`:@@detail:Detail`;
   toolTipDetail: string = $localize`:@@showDetail:Show tour's detail`;
   labelBuy: string = $localize`:@@buy:Buy`;
+  searchValue: string = '';
+
   ngOnInit(): void {
 
         this.toursService.getTours().subscribe(
