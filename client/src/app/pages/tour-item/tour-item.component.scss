@@ -23,9 +23,17 @@
 }
 
 .tour-image {
-  width: 150px; /* Фиксированная ширина */
-  height: 100px; /* Фиксированная высота */
+  width: 150px;
+  height: 100px;
   border-radius: .7rem;
   margin-top: 10px;
-  object-fit: cover; /* Сохраняет пропорции изображения, обрезая лишнее */
+  object-fit: cover;
+}
+
+.load-data{
+  color: #ffffff;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

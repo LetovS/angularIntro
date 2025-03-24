@@ -1,6 +1,13 @@
-@if (tour){
-  <div class="m-1 col-4 tour-card">
+<p-button
+  label="Back"
+  styleClass="p-button-link"
+  routerLink="/tours"
+/>
+
+<div class="m-1 col-4 tour-card">
+<!--  @if(tour){-->
     <p-card
+      *ngIf="tour; else temp"
       header="{{tour.name}}"
       subheader="{{tour.price}}"
       styleClass="tour-p-card">
@@ -9,9 +16,11 @@
       </ng-template>
       <p>{{tour.description}}</p>
     </p-card>
-  </div>
-}
+<!--  } @else {-->
+<!--    <div class="load-data">Загрузка...</div>-->
+<!--  }-->
+</div>
 
-
-
-
+<ng-template #temp>
+  <div class="load-data">Загрузка...</div>
+</ng-template>
