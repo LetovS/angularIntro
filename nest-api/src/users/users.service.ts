@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface IUser {
   id: string;
   login: string;
   password: string;
+  nickname: string;
+  email: string;
+  refreshTokens?: string[]; // Массив активных refresh-токенов
 }
 
 export class CreateUserDto {
@@ -30,21 +32,31 @@ export class UsersService {
 
   public async getUserByLogin(login: string): Promise<IUser | null> {
     await Promise.resolve();
-    console.log('Search starting ...');
-
-    const result = userStorage.find((u) => u.login === login) || null;
-
-    return result;
+    return userStorage.find((u) => u.login === login) || null;
   }
 
-  public async addUser(user: IUser): Promise<true | string> {
+  public async getUserById(id: string): Promise<IUser | null> {
     await Promise.resolve();
-    if (await this.getUserByLogin(user.login)) {
+    return userStorage.find((u) => u.id === id) || null;
+  }
+
+  public async addUser(userData: CreateUserDto): Promise<true | string> {
+    await Promise.resolve();
+    
+    if (await this.getUserByLogin(userData.login)) {
       return 'User already exists';
     }
-    user.id = uuidv4();
-    console.log('Adding new user...');
-    userStorage.push(user);
+
+    const newUser: IUser = {
+      id: Math.random().toString(36).substring(2, 9), // Генерация простого ID
+      login: userData.login,
+      password: userData.password,
+      nickname: userData.nickname,
+      email: userData.email,
+      refreshTokens: []
+    };
+
+    userStorage.push(newUser);
     return true;
   }
 
@@ -64,10 +76,47 @@ export class UsersService {
     return userStorage;
   }
 
-  public async getUser(userId: string){
+  async saveRefreshToken(userId: string, token: string): Promise<void> {
     await Promise.resolve();
-    const user: IUser | null = userStorage.find((u) => u.id === userId) || null;
-    if (user) return user;
-    return null;
+    const user = await this.getUserById(userId);
+    if (user) {
+      if (!user.refreshTokens) {
+        user.refreshTokens = [];
+      }
+      user.refreshTokens.push(token);
+    }
+  }
+  
+  async validateRefreshToken(userId: string, token: string): Promise<boolean> {
+    await Promise.resolve();
+    const user = await this.getUserById(userId);
+    return !!user?.refreshTokens?.includes(token);
+  }
+  
+  async replaceRefreshToken(userId: string, oldToken: string, newToken: string): Promise<void> {
+    await Promise.resolve();
+    const user = await this.getUserById(userId);
+    if (user?.refreshTokens) {
+      const tokenIndex = user.refreshTokens.indexOf(oldToken);
+      if (tokenIndex !== -1) {
+        user.refreshTokens[tokenIndex] = newToken;
+      }
+    }
+  }
+  
+  async removeRefreshToken(userId: string, token: string): Promise<void> {
+    await Promise.resolve();
+    const user = await this.getUserById(userId);
+    if (user?.refreshTokens) {
+      user.refreshTokens = user.refreshTokens.filter(t => t !== token);
+    }
+  }
+
+  async invalidateAllRefreshTokens(userId: string): Promise<void> {
+    await Promise.resolve();
+    const user = await this.getUserById(userId);
+    if (user) {
+      user.refreshTokens = [];
+    }
   }
 }

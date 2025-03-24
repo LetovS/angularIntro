@@ -1,7 +1,9 @@
+// auth.controller.ts
 import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthService, IAuth } from './auth.service';
-import { CreateUserDto } from '../users/users.service';
+import { AuthService, IAuthTokens } from './auth.service';
+import { LoginUserDto } from './dto/login-user.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -9,25 +11,35 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Authenticate user and return JWT token' })
+  @ApiOperation({ summary: 'Authenticate user and return JWT tokens' })
   @ApiResponse({ status: 200, description: 'Authentication successful' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async login(@Body() createUserDto: CreateUserDto): Promise<IAuth | null> {
-    console.log(`Request data ${JSON.stringify(createUserDto)}`);
-
+  async login(@Body() loginUserDto: LoginUserDto): Promise<IAuthTokens> {
     const user = await this.authService.validateUser(
-      createUserDto.login,
-      createUserDto.password,
+      loginUserDto.login,
+      loginUserDto.password,
     );
 
-    console.log(`Юзер найден - ${JSON.stringify(user)}`);
-
     if (!user) {
-      console.log('Возврааем 401');
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const response: IAuth = await this.authService.login(user);
-    return response;
+    return this.authService.login(user);
+  }
+
+  @Post('refresh')
+  @ApiOperation({ summary: 'Refresh access token using refresh token' })
+  @ApiResponse({ status: 200, description: 'Token refreshed successfully' })
+  @ApiResponse({ status: 401, description: 'Invalid refresh token' })
+  async refresh(@Body() refreshTokenDto: RefreshTokenDto): Promise<IAuthTokens> {
+    return this.authService.refreshTokens(refreshTokenDto.refreshToken);
+  }
+
+  @Post('logout')
+  @ApiOperation({ summary: 'Invalidate refresh token' })
+  @ApiResponse({ status: 200, description: 'Logout successful' })
+  async logout(@Body() refreshTokenDto: RefreshTokenDto): Promise<{ message: string }> {
+    await this.authService.invalidateRefreshToken(refreshTokenDto.refreshToken);
+    return { message: 'Logout successful' };
   }
 }
