@@ -64,7 +64,7 @@ export class UsersService {
     return userStorage;
   }
 
-  public async getUser(userId: string){
+  public async getUser(userId: string) {
     await Promise.resolve();
     const user: IUser | null = userStorage.find((u) => u.id === userId) || null;
     if (user) return user;
