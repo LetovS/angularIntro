@@ -43,7 +43,8 @@ export class AuthorizationComponent {
           'Authorization successful',
           'Authorization');
         this.errorMessage = null
-        localStorage.setItem('token', response.access_token)
+        sessionStorage.setItem('user', JSON.stringify(user));
+        sessionStorage.setItem('token', response.access_token);
         this.router.navigate(['/tours'])
       }
     });

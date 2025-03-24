@@ -6,8 +6,10 @@ import {Button} from 'primeng/button';
 import {ModalComponent} from '../../common/modal/modal.component';
 import {CommonModule } from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {relative} from '@angular/compiler-cli';
 import {Tooltip} from 'primeng/tooltip';
+import {InputGroup} from 'primeng/inputgroup';
+import {InputGroupAddon} from 'primeng/inputgroupaddon';
+import {InputText} from 'primeng/inputtext';
 
 @Component({
   selector: 'app-tours',
@@ -16,7 +18,10 @@ import {Tooltip} from 'primeng/tooltip';
     Button,
     Tooltip,
     ModalComponent,
-    CommonModule
+    CommonModule,
+    InputGroup,
+    InputGroupAddon,
+    InputText
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -28,16 +33,17 @@ export class ToursComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute) {}
 
   tours: ITour [];
+  toursStore: ITour [];
   tour: ITour | null = null;
   labelDetail: string = $localize`:@@detail:Detail`;
   toolTipDetail: string = $localize`:@@showDetail:Show tour's detail`;
   labelBuy: string = $localize`:@@buy:Buy`;
   ngOnInit(): void {
+
         this.toursService.getTours().subscribe(
         (data) => {
-          this.tours = data.map(tour => {
-            return { ...tour, description: tour.description.substring(0,50) };
-          });
+          this.tours = data;
+          this.toursStore = [...data];
         },
         () => {
 
@@ -74,5 +80,11 @@ export class ToursComponent implements OnInit, OnDestroy {
   buyTour() {
     alert('Тур куплен!');
     this.closeModal();
+  }
+
+  searchTour(ev: Event) {
+    const target = ev.target as HTMLInputElement;
+    const targetValue = target.value;
+    this.tours = this.toursService.searchTours(this.toursStore, targetValue);
   }
 }

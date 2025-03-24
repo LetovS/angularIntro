@@ -44,7 +44,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     logOut(): void {
+      console.log('Устанавливаем currentUser - null and remove token')
       this.userService.setUser(null);
+      sessionStorage.removeItem('user');
       // удалить данные о пользователе
       this.router.navigate(['/auth']);
     }

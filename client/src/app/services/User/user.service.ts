@@ -45,7 +45,8 @@ export class UserService {
     Возвращает текущего юзера
    */
   public getUser(): IUser{
-    return this.currentUser;
+    const user = JSON.parse(sessionStorage.getItem('user')) as IUser;
+    return this.currentUser || user;
   }
 
   public setUser(user: IUser): void{

@@ -77,4 +77,18 @@ export class ToursService {
           throw error;
         }));
   }
+
+  searchTours(toursStore: ITour[], targetValue: string): ITour [] {
+    if (Array.isArray(toursStore)) {
+      return toursStore.filter((t) => {
+        if (t && typeof t.name === 'string') {
+          return t.name.toLowerCase().startsWith(targetValue.toLowerCase());
+        } else{
+          return false;
+        }
+      });
+    } else {
+      return [];
+    }
+  }
 }
