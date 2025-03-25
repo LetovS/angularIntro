@@ -11,6 +11,7 @@ export function initData(): ITour[] {
       price: '€2,192',
       img: 'pic0.jpg',
       type: 'multi',
+      locationId: 'loc1',
     },
     {
       id: uuidv4(),
@@ -21,6 +22,7 @@ export function initData(): ITour[] {
       img: 'pic1.jpg',
       type: 'multi',
       date: new Date(2025, 12, 25),
+      locationId: 'loc2',
     },
     {
       id: uuidv4(),
@@ -31,6 +33,7 @@ export function initData(): ITour[] {
       price: '€1,100',
       img: 'pic2.jpg',
       date: new Date(2025, 12, 25),
+      locationId: 'loc3',
     },
     {
       id: uuidv4(),
@@ -40,6 +43,7 @@ export function initData(): ITour[] {
       tourOperator: 'Emerald Waterways',
       price: '€825',
       img: 'pic3.jpg',
+      locationId: 'loc4',
     },
     {
       id: uuidv4(),
@@ -50,6 +54,7 @@ export function initData(): ITour[] {
       price: '€761',
       img: 'pic4.jpg',
       type: 'multi',
+      locationId: 'loc5',
     },
     {
       id: uuidv4(),
@@ -59,6 +64,7 @@ export function initData(): ITour[] {
       tourOperator: 'BH Lanka Tours',
       price: '€1200',
       img: 'pic5.jpg',
+      locationId: 'loc6',
     },
     {
       id: uuidv4(),
@@ -68,6 +74,7 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€950',
       img: 'pic6.jpg',
+      locationId: 'loc2',
     },
     {
       id: uuidv4(),
@@ -78,6 +85,7 @@ export function initData(): ITour[] {
       price: '€1200',
       img: 'pic7.jpg',
       type: 'single',
+      locationId: 'loc1',
     },
     {
       id: uuidv4(),
@@ -87,6 +95,7 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€680',
       img: 'pic8.jpg',
+      locationId: 'loc1',
     },
     {
       id: uuidv4(),
@@ -96,6 +105,7 @@ export function initData(): ITour[] {
       tourOperator: 'Emerald Waterways',
       price: '€1,279',
       img: 'pic9.jpg',
+      locationId: 'loc3',
     },
     {
       id: uuidv4(),
@@ -104,6 +114,8 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€1,192',
       img: 'pic10.jpg',
+      locationId: 'loc1',
     },
   ];
+  
 }

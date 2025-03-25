@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -13,6 +14,7 @@ import {
   ApiResponse,
   ApiBody,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { ToursService, TourDto, ITour } from './tours.service';
 
@@ -27,6 +29,23 @@ export class ToursController {
   async getTours(): Promise<TourDto[] | null> {
     return await this.toursService.getTours();
   }
+
+  @Get('nearestTours')
+  @ApiOperation({ summary: 'Get tours nearest to a location' })
+  @ApiQuery({
+    name: 'locationId',
+    type: String,
+    description: 'ID of the location\'s tour',
+  })
+  @ApiResponse({ status: 200, description: 'Tours' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @ApiResponse({ status: 500, description: 'Server error' })
+  async getToursByLocationId(@Query('locationId') locationId: string): Promise<ITour[]> {
+    console.log(`Searching tours by ${locationId}`)
+    return this.toursService.getToursByLocationId(locationId);
+  }
+  
+
 
   @Get('tour/:tourId')
   @ApiOperation({ summary: 'Recived tour by Id' })

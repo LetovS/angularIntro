@@ -23,6 +23,13 @@ export class ToursService {
     return tour;
   }
 
+  async getToursByLocationId(locationId: string): Promise<ITour []>{
+    await Promise.resolve();
+    const result: ITour [] = toursStorage.filter((t) => t.locationId === locationId) as ITour [];
+    console.log(`Found ${JSON.stringify(result)}`)
+    return result;
+  }
+
   async addTour(newTour: ITour): Promise<number | string> {
     console.log(`Search tour by name: ${newTour.name}`);
     await Promise.resolve();
@@ -82,6 +89,7 @@ export class TourDto implements ITour {
   date?: Date;
   @ApiProperty({ description: "Tour's type", example: 'single' })
   type?: string;
+  locationId?: string;
 }
 
 export interface ITour {
@@ -93,4 +101,5 @@ export interface ITour {
   img?: string;
   date?: Date;
   type?: string;
+  locationId?: string;
 }
