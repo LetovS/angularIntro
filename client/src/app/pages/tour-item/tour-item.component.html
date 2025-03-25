@@ -4,23 +4,23 @@
   routerLink="/tours"
 />
 
-<div class="m-1 col-4 tour-card">
-<!--  @if(tour){-->
-    <p-card
-      *ngIf="tour; else temp"
-      header="{{tour.name}}"
-      subheader="{{tour.price}}"
-      styleClass="tour-p-card">
-      <ng-template #header class="images-size">
-        <img src="/imgs/{{tour.img}}" alt="card" class="w-full">
-      </ng-template>
-      <p>{{tour.description}}</p>
-    </p-card>
-<!--  } @else {-->
-<!--    <div class="load-data">Загрузка...</div>-->
-<!--  }-->
+<div class="flex justify-content-around">
+  <div class="m-1 col-4 tour-card">
+    @if(tour){
+      <p-card
+        header="{{tour.name}}"
+        subheader="{{tour.price}}"
+        styleClass="tour-p-card">
+        <ng-template #header class="images-size">
+          <img src="/imgs/{{tour.img}}" alt="card" class="w-full">
+        </ng-template>
+        <p>{{tour.description}}</p>
+      </p-card>
+    } @else {
+      <div class="load-data">Загрузка...</div>
+    }
+  </div>
+  <div class="m-1 col-4 nearest-data">
+    <app-nearest [tour]="tour"/>
+  </div>
 </div>
-
-<ng-template #temp>
-  <div class="load-data">Загрузка...</div>
-</ng-template>

@@ -26,7 +26,23 @@ export class ToursService {
         })
       );
   }
-
+  /**
+   * Получает список туров возле локации.
+   * @returns Observable<ITour[]> - Массив туров.
+   */
+  public getToursByLocationId(locationId:string): Observable<ITour[]> {
+    const url: string = `${API.tours}/nearestTours?locationId=${locationId}`;
+    console.log(url);
+    return this.httpClient
+      .get<ITour[]>(url)
+      .pipe(
+        tap((response) => {
+        }),
+        catchError((error: HttpErrorResponse) => {
+          throw error;
+        })
+      );
+  }
   /**
    * Получает детали тура по Ид.
    * @returns Observable<ITour | null> - Массив туров.

@@ -5,6 +5,7 @@ import {ITour} from '../../models/tour/tour';
 import {NgIf} from '@angular/common';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
+import {NearestToursComponent} from './nearest/nearest-tours.component';
 
 @Component({
   selector: 'app-tour-item',
@@ -14,7 +15,8 @@ import {Card} from 'primeng/card';
     Card,
     RouterLink,
     Button,
-    NgIf
+    NgIf,
+    NearestToursComponent
   ],
   styleUrls: ['./tour-item.component.css']
 })
@@ -27,7 +29,6 @@ export class TourItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     const tourId = this.route.snapshot.paramMap.get('tourId');
     this.toursService.getTour(tourId).subscribe(
       (data) => {

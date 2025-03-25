@@ -7,6 +7,7 @@ export interface ITour{
   img?: string;
   date?: Date;
   type?: string;
+  locationId: string;
 }
 
 export class TourRequest implements ITour{
@@ -18,4 +19,5 @@ export class TourRequest implements ITour{
   img?: string;
   date?: Date;
   type?: string;
+  locationId: string;
 }

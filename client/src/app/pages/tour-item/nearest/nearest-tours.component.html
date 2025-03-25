@@ -1,0 +1,22 @@
+<p-galleria
+    [value]="nearestTours()"
+    [circular]="true"
+    [showThumbnails]="true"
+    [showIndicators]="true"
+    [numVisible]="5"
+    [responsiveOptions]="responsiveOptions"
+    [autoPlay]="true"
+    [transitionInterval]="3000"
+    class="custom-gallery"
+  >
+    <ng-template pTemplate="item" let-item>
+      <div class="gallery-item">
+        <img [src]="'/imgs/'+item.img" alt="{{ item.name }}" class="gallery-img" />
+        <div class="gallery-info">
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.description }}</p>
+          <strong>{{ item.price }}</strong>
+        </div>
+      </div>
+    </ng-template>
+  </p-galleria>
