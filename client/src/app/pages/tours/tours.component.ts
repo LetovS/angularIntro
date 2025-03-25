@@ -44,7 +44,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   labelBuy: string = $localize`:@@buy:Buy`;
 
   ngOnInit(): void {
-
         this.toursService.getTours().subscribe(
         (data) => {
           this.tours = data;
