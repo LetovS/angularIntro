@@ -5,11 +5,24 @@ import {LayoutComponent} from './layout/layout.component';
 import {ToursComponent} from './pages/tours/tours.component';
 import {TourItemComponent} from './pages/tour-item/tour-item.component';
 import {authGuard} from './shared/guards/auth/auth.guard';
-import {NotFoundGuard} from './shared/guards/NotFound/not-found.guard';
+import {SettingsComponent} from './pages/settings/settings.component';
+import {ChangePasswordComponent} from './pages/settings/change-password/change-password.component';
+import {StatisticsComponent} from './pages/settings/statistics/statistics.component';
 
 export const routes: Routes = [
-  {path: 'auth', component: AuthComponent},
-  {path: 'not-found', component: NotFoundComponent },
+  {path: 'auth', component: AuthComponent}, //
+  {path: 'not-found', component: NotFoundComponent },,
+  {
+    path: 'settings',
+    component: LayoutComponent,
+    children: [
+      {
+        path: '', component: SettingsComponent
+      },
+      { path: 'change-password', component: ChangePasswordComponent },
+      { path: 'statistics', component: StatisticsComponent }
+    ]
+  },
   {
     path: 'tours',
     canActivate: [authGuard],

@@ -1,1 +1,17 @@
-<p>settings works!</p>
+<p-button
+  label="Back"
+  styleClass="p-button-link"
+  routerLink="/tours"
+/>
+<div class="settings-menu">
+  @for (item of menuItems; track item.path) {
+    <p-button
+      [label]="item.label"
+      styleClass="p-button-link"
+      [routerLink]="item.path"
+    ></p-button>
+    <br>
+  }
+</div>
+
+<!--<router-outlet></router-outlet>-->
