@@ -117,5 +117,4 @@ export function initData(): ITour[] {
       locationId: 'loc1',
     },
   ];
-  
 }

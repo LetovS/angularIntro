@@ -23,10 +23,12 @@ export class ToursService {
     return tour;
   }
 
-  async getToursByLocationId(locationId: string): Promise<ITour []>{
+  async getToursByLocationId(locationId: string): Promise<ITour[]> {
     await Promise.resolve();
-    const result: ITour [] = toursStorage.filter((t) => t.locationId === locationId) as ITour [];
-    console.log(`Found ${JSON.stringify(result)}`)
+    const result: ITour[] = toursStorage.filter(
+      (t) => t.locationId === locationId,
+    );
+    console.log(`Found ${JSON.stringify(result)}`);
     return result;
   }
 
