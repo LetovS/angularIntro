@@ -31,14 +31,18 @@ export class AuthController {
   @ApiOperation({ summary: 'Refresh access token using refresh token' })
   @ApiResponse({ status: 200, description: 'Token refreshed successfully' })
   @ApiResponse({ status: 401, description: 'Invalid refresh token' })
-  async refresh(@Body() refreshTokenDto: RefreshTokenDto): Promise<IAuthTokens> {
+  async refresh(
+    @Body() refreshTokenDto: RefreshTokenDto,
+  ): Promise<IAuthTokens> {
     return this.authService.refreshTokens(refreshTokenDto.refreshToken);
   }
 
   @Post('logout')
   @ApiOperation({ summary: 'Invalidate refresh token' })
   @ApiResponse({ status: 200, description: 'Logout successful' })
-  async logout(@Body() refreshTokenDto: RefreshTokenDto): Promise<{ message: string }> {
+  async logout(
+    @Body() refreshTokenDto: RefreshTokenDto,
+  ): Promise<{ message: string }> {
     await this.authService.invalidateRefreshToken(refreshTokenDto.refreshToken);
     return { message: 'Logout successful' };
   }

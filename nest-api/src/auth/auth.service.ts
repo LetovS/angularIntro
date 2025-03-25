@@ -20,7 +20,7 @@ export class AuthService {
 
   async validateUser(login: string, password: string): Promise<IUser | null> {
     const user = await this.usersService.getUserByLogin(login);
-    
+
     // В реальном приложении используйте bcrypt для сравнения хешей
     if (user && user.password === password) {
       return user;
@@ -29,9 +29,9 @@ export class AuthService {
   }
 
   async login(user: IUser): Promise<IAuthTokens> {
-    const payload: TokenPayload = { 
-      sub: user.id, 
-      login: user.login 
+    const payload: TokenPayload = {
+      sub: user.id,
+      login: user.login,
     };
 
     const accessToken = this.generateAccessToken(payload);
@@ -43,7 +43,7 @@ export class AuthService {
     return {
       accessToken,
       refreshToken,
-      expiresIn: jwtConstants.accessTokenExpiresIn
+      expiresIn: jwtConstants.accessTokenExpiresIn,
     };
   }
 
@@ -55,17 +55,17 @@ export class AuthService {
 
       // Проверяем, что токен есть в белом списке
       const isValid = await this.usersService.validateRefreshToken(
-        payload.sub, 
-        refreshToken
+        payload.sub,
+        refreshToken,
       );
 
       if (!isValid) {
         throw new UnauthorizedException('Invalid refresh token');
       }
 
-      const newPayload: TokenPayload = { 
-        sub: payload.sub, 
-        login: payload.login 
+      const newPayload: TokenPayload = {
+        sub: payload.sub,
+        login: payload.login,
       };
 
       const accessToken = this.generateAccessToken(newPayload);
@@ -73,15 +73,15 @@ export class AuthService {
 
       // Обновляем refresh token в хранилище
       await this.usersService.replaceRefreshToken(
-        payload.sub, 
-        refreshToken, 
-        newRefreshToken
+        payload.sub,
+        refreshToken,
+        newRefreshToken,
       );
 
       return {
         accessToken,
         refreshToken: newRefreshToken,
-        expiresIn: jwtConstants.accessTokenExpiresIn
+        expiresIn: jwtConstants.accessTokenExpiresIn,
       };
     } catch (e) {
       throw new UnauthorizedException('Invalid refresh token');
@@ -93,7 +93,7 @@ export class AuthService {
       const payload = this.jwtService.verify(refreshToken, {
         secret: jwtConstants.refreshTokenSecret,
       });
-      
+
       await this.usersService.removeRefreshToken(payload.sub, refreshToken);
     } catch (e) {
       // Токен уже невалиден, ничего не делаем

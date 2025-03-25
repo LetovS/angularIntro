@@ -42,7 +42,7 @@ export class UsersService {
 
   public async addUser(userData: CreateUserDto): Promise<true | string> {
     await Promise.resolve();
-    
+
     if (await this.getUserByLogin(userData.login)) {
       return 'User already exists';
     }
@@ -53,7 +53,7 @@ export class UsersService {
       password: userData.password,
       nickname: userData.nickname,
       email: userData.email,
-      refreshTokens: []
+      refreshTokens: [],
     };
 
     userStorage.push(newUser);
@@ -86,14 +86,18 @@ export class UsersService {
       user.refreshTokens.push(token);
     }
   }
-  
+
   async validateRefreshToken(userId: string, token: string): Promise<boolean> {
     await Promise.resolve();
     const user = await this.getUserById(userId);
     return !!user?.refreshTokens?.includes(token);
   }
-  
-  async replaceRefreshToken(userId: string, oldToken: string, newToken: string): Promise<void> {
+
+  async replaceRefreshToken(
+    userId: string,
+    oldToken: string,
+    newToken: string,
+  ): Promise<void> {
     await Promise.resolve();
     const user = await this.getUserById(userId);
     if (user?.refreshTokens) {
@@ -103,12 +107,12 @@ export class UsersService {
       }
     }
   }
-  
+
   async removeRefreshToken(userId: string, token: string): Promise<void> {
     await Promise.resolve();
     const user = await this.getUserById(userId);
     if (user?.refreshTokens) {
-      user.refreshTokens = user.refreshTokens.filter(t => t !== token);
+      user.refreshTokens = user.refreshTokens.filter((t) => t !== token);
     }
   }
 
