@@ -1,8 +1,13 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import {OrderItemComponent} from './order-item/order-item.component';
 import {NgForOf, NgIf} from '@angular/common';
-import {IOrder} from '../../models/orders/order';
 import {CartService} from '../../services/cart/cart.service';
+import {NotificationsService} from '../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-orders',
@@ -16,24 +21,19 @@ import {CartService} from '../../services/cart/cart.service';
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent implements OnInit, OnDestroy {
-  orders: IOrder[] = [];
+  orders = inject(CartService).getOrdersReadOnly();
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService,
+              private notifyService: NotificationsService) {
   }
 
   ngOnDestroy(): void {
       console.log('Method not implemented.');
   }
   ngOnInit(): void {
-    this.orders = this.cartService.getOrders();
-  }
-
-  //TODO move to service IOrdersService
-  addOrder(newOrder: IOrder) {
-    this.orders.push(newOrder);
   }
 
   removeOrder(orderId: string) {
-    this.orders = this.orders.filter(order => order.id !== orderId);
+    this.cartService.removeOrder(orderId);
   }
 }

@@ -7,9 +7,9 @@
 
   <div class="orders-list">
     <app-order-item
-      *ngFor="let order of orders"
+      *ngFor="let order of orders()"
       [order]="order"
-      (delete)="removeOrder($event)">
+      (delete)="removeOrder(order.id)">
     </app-order-item>
   </div>
 </div>

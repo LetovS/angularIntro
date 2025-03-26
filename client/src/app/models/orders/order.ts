@@ -1,7 +1,7 @@
 export interface IOrder {
   items: IOrderItem[];
   status: boolean;
-  total: number;
+  total: string;
   date: Date;
   customerName: string;
   id: string
@@ -20,7 +20,7 @@ export function initTestData(): IOrder[] {
       id: "ORD-001",
       customerName: "Иванов Алексей",
       date: new Date("2023-05-15"),
-      total: 2450,
+      total: '2450',
       status: true,
       items: [
         {
@@ -39,7 +39,7 @@ export function initTestData(): IOrder[] {
       id: "ORD-002",
       customerName: "Петрова Мария",
       date: new Date("2023-06-22"),
-      total: 3780,
+      total: '3780',
       status: false,
       items: [
         {
@@ -58,7 +58,7 @@ export function initTestData(): IOrder[] {
       id: "ORD-003",
       customerName: "Сидоров Дмитрий",
       date: new Date("2023-07-10"),
-      total: 5430,
+      total: '5430',
       status: true,
       items: [
         {
@@ -77,7 +77,7 @@ export function initTestData(): IOrder[] {
       id: "ORD-004",
       customerName: "Кузнецова Анна",
       date: new Date("2023-08-05"),
-      total: 620,
+      total: '620',
       status: true,
       items: [
         {
@@ -96,7 +96,7 @@ export function initTestData(): IOrder[] {
       id: "ORD-005",
       customerName: "Васильев Олег",
       date: new Date("2023-09-18"),
-      total: 8900,
+      total: '8900',
       status: false,
       items: [
         {
