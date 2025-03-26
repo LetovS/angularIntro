@@ -9,6 +9,7 @@ import {ButtonModule} from 'primeng/button';
 import {IUser} from '../../models/User/iuser';
 import {MenuItem} from 'primeng/api';
 import {Tooltip} from 'primeng/tooltip';
+import {CartService} from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -26,12 +27,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   cartTitle: string = $localize`:@@cart:Cart`;
   cartToolTip: string = $localize`:@@moveToOrders:Move to orders`;
   logoutLabel: string = $localize`:@@logout:Logout`;
+  cartItemsCount: any = 0;
 
   constructor(private userService: UserService,
-              private toursService: ToursService,
+              private cartService: CartService,
               private router: Router) {
   }
-  cartItemsCount: number = 5;
+
     ngOnDestroy(): void {
 
     }
@@ -41,6 +43,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       setInterval(() => {
           this.dateTime = new Date();
         }, 1000)
+      this.cartItemsCount = this.cartService.cartCountSignal;
     }
 
     logOut(): void {

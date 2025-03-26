@@ -30,7 +30,12 @@
         styleClass="custom-p-button"
       >
       </p-button>
-      <span class="cart-badge swing-animation" *ngIf="cartItemsCount > 0">{{ cartItemsCount }}</span>
+      <span
+        class="cart-badge swing-animation"
+        *ngIf="cartItemsCount() > 0"
+      >
+        {{ cartItemsCount() }}
+      </span>
     </div>
     <div class="date">
       <div>

@@ -12,6 +12,7 @@ import {InputGroupAddon} from 'primeng/inputgroupaddon';
 import {InputText} from 'primeng/inputtext';
 import {SearchTourPipe} from '../../pipies/searchPipe/search-tour.pipe';
 import {FormsModule} from '@angular/forms';
+import {CartService} from '../../services/cart/cart.service';
 
 @Component({
   selector: 'app-tours',
@@ -34,7 +35,8 @@ import {FormsModule} from '@angular/forms';
 export class ToursComponent implements OnInit, OnDestroy {
   constructor(private toursService: ToursService,
               private router: Router,
-              private route: ActivatedRoute) {}
+              private route: ActivatedRoute,
+              private cartService: CartService,) {}
 
   tours: ITour [];
   toursStore: ITour [];
@@ -81,8 +83,9 @@ export class ToursComponent implements OnInit, OnDestroy {
     this.isModalOpen = false;
   }
 
-  buyTour() {
-    alert('Тур куплен!');
+  buyTour(tour: ITour) {
+    this.cartService.addOrder(tour);
+    //this.router.navigate([`tours`], {relativeTo: this.route});
     this.closeModal();
   }
 
