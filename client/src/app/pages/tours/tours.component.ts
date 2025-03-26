@@ -1,8 +1,8 @@
-import {Component, NgModule, OnDestroy, OnInit} from '@angular/core';
+import {Component, NgModule, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
 import {CardModule} from 'primeng/card';
-import {Button} from 'primeng/button';
+import {Button, ButtonDirective} from 'primeng/button';
 import {ModalComponent} from '../../common/modal/modal.component';
 import {CommonModule } from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -13,6 +13,7 @@ import {InputText} from 'primeng/inputtext';
 import {SearchTourPipe} from '../../pipies/searchPipe/search-tour.pipe';
 import {FormsModule} from '@angular/forms';
 import {CartService} from '../../services/cart/cart.service';
+import {NotificationsService} from '../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-tours',
@@ -26,7 +27,8 @@ import {CartService} from '../../services/cart/cart.service';
     InputGroupAddon,
     InputText,
     SearchTourPipe,
-    FormsModule
+    FormsModule,
+    ButtonDirective
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -34,9 +36,11 @@ import {CartService} from '../../services/cart/cart.service';
 })
 export class ToursComponent implements OnInit, OnDestroy {
   constructor(private toursService: ToursService,
-              private router: Router,
+              protected router: Router,
               private route: ActivatedRoute,
-              private cartService: CartService,) {}
+              private cartService: CartService,
+              private notificationService: NotificationsService,
+              private viewContainerRef: ViewContainerRef) {}
 
   tours: ITour [];
   toursStore: ITour [];
@@ -82,10 +86,12 @@ export class ToursComponent implements OnInit, OnDestroy {
   closeModal() {
     this.isModalOpen = false;
   }
+  @ViewChild('detailsTemplate') detailsTemplate!: TemplateRef<any>;
 
   buyTour(tour: ITour) {
     this.cartService.addOrder(tour);
-    //this.router.navigate([`tours`], {relativeTo: this.route});
+    //this.router.navigate([`/auth`]);
+    //this.notificationService.showToastWithTemplate(this.detailsTemplate, this.viewContainerRef)
     this.closeModal();
   }
 
@@ -94,4 +100,5 @@ export class ToursComponent implements OnInit, OnDestroy {
     const targetValue = target.value;
     this.tours = this.toursService.searchTours(this.toursStore, targetValue);
   }
+
 }
