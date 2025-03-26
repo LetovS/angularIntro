@@ -69,8 +69,19 @@
   font-size: 12px;
   font-weight: bold;
   z-index: 1;
+  transform-origin: center center;
 }
 
 .custom-p-button {
   position: relative;
+}
+
+.swing-animation {
+  animation: swing 2s infinite ease-in-out;
+}
+
+@keyframes swing {
+  0% { transform: rotate(-45deg); }
+  50% { transform: rotate(45deg); }
+  100% { transform: rotate(-45deg); }
 }
