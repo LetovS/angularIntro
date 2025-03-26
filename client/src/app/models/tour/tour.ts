@@ -3,7 +3,7 @@ export interface ITour{
   name: string;
   description: string;
   tourOperator: string;
-  price: number;
+  price: string;
   img?: string;
   date?: Date;
   type?: string;
@@ -15,7 +15,7 @@ export class TourRequest implements ITour{
   name: string;
   description: string;
   tourOperator: string;
-  price: number;
+  price: string;
   img?: string;
   date?: Date;
   type?: string;
