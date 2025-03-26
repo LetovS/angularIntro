@@ -44,7 +44,33 @@
   width: 100px;
 }
 
-.cart:hover{
+.cart-container:hover{
   transform: scale(1.07);
   background: #007bff;
+}
+
+.cart-container {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #28a745;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 1;
+}
+
+.custom-p-button {
+  position: relative;
 }

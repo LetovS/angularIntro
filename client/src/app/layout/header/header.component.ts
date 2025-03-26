@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {DatePipe} from '@angular/common';
+import {DatePipe, NgIf} from '@angular/common';
 import {UserService} from '../../services/User/user.service';
 import {ToursService} from '../../services/tours/tours.service';
 import {initMenuItems} from '../../models/menuItems/menuItems';
@@ -12,7 +12,7 @@ import {Tooltip} from 'primeng/tooltip';
 
 @Component({
   selector: 'app-header',
-  imports: [DatePipe, MenubarModule, ButtonModule, Tooltip],
+  imports: [DatePipe, MenubarModule, ButtonModule, Tooltip, NgIf],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private toursService: ToursService,
               private router: Router) {
   }
-
+  cartItemsCount: number = 5;
     ngOnDestroy(): void {
 
     }
