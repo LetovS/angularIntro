@@ -45,17 +45,14 @@ export class NearestToursComponent implements OnInit, OnChanges {
     {
       breakpoint: '1024px',
       numVisible: 3,
-      showThumbnails: true,
     },
     {
       breakpoint: '768px',
       numVisible: 2,
-      showThumbnails: true,
     },
     {
       breakpoint: '560px',
       numVisible: 1,
-      showThumbnails: true,
     },
   ];
 }
