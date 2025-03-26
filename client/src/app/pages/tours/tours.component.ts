@@ -39,8 +39,7 @@ export class ToursComponent implements OnInit, OnDestroy {
               protected router: Router,
               private route: ActivatedRoute,
               private cartService: CartService,
-              private notificationService: NotificationsService,
-              private viewContainerRef: ViewContainerRef) {}
+              private notificationService: NotificationsService) {}
 
   tours: ITour [];
   toursStore: ITour [];
@@ -86,12 +85,11 @@ export class ToursComponent implements OnInit, OnDestroy {
   closeModal() {
     this.isModalOpen = false;
   }
-  @ViewChild('detailsTemplate') detailsTemplate!: TemplateRef<any>;
 
   buyTour(tour: ITour) {
     this.cartService.addOrder(tour);
     //this.router.navigate([`/auth`]);
-    //this.notificationService.showToastWithTemplate(this.detailsTemplate, this.viewContainerRef)
+    this.notificationService.showToastWithTemplate(tour)
     this.closeModal();
   }
 
@@ -100,5 +98,4 @@ export class ToursComponent implements OnInit, OnDestroy {
     const targetValue = target.value;
     this.tours = this.toursService.searchTours(this.toursStore, targetValue);
   }
-
 }

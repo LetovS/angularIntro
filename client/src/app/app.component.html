@@ -1,4 +1,21 @@
 <div class="h-screen">
   <router-outlet />
   <p-toast/>
+  <p-toast position="bottom-right" key="order-add">
+    <ng-template let-message pTemplate="message">
+      <div class="toast-content">
+        <h4>Тур "{{ message.data.name }}" добавлен в корзину!</h4>
+        <p>Цена: {{ message.data.price }} ₽</p>
+        <button
+          pButton
+          label="Перейти в корзину"
+          (click)="router.navigate(['/orders', {
+                queryParams: { fromToast: true },
+                state: { clearToast: 'order-add' }
+             },
+          {relativeTo: route}])">
+        </button>
+      </div>
+    </ng-template>
+  </p-toast>
 </div>

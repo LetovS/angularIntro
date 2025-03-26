@@ -63,16 +63,3 @@
     </p-card>
   </div>
 </ng-template>
-
-<ng-template #detailsTemplate>
-  <div class="toast-content">
-    <h4>Тур "{{ selectedTour?.name }}" добавлен в корзину!</h4>
-    <p>Цена: {{ selectedTour?.price }} ₽</p>
-    <button
-      pButton
-      label="Перейти в корзину"
-      (click)="router.navigate(['/cart'])">
-    </button>
-  </div>
-</ng-template>
-

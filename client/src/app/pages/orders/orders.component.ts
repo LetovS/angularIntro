@@ -8,6 +8,7 @@ import {OrderItemComponent} from './order-item/order-item.component';
 import {NgForOf, NgIf} from '@angular/common';
 import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-orders',
@@ -24,13 +25,26 @@ export class OrdersComponent implements OnInit, OnDestroy {
   orders = inject(CartService).getOrdersReadOnly();
 
   constructor(private cartService: CartService,
-              private notifyService: NotificationsService) {
+              private notifyService: NotificationsService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnDestroy(): void {
       console.log('Method not implemented.');
   }
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['fromToast']) {
+        this.notifyService.clear('order-add');
+
+        // Очищаем параметр из URL
+        this.router.navigate([], {
+          queryParams: { fromToast: null },
+          queryParamsHandling: 'merge'
+        });
+      }
+    });
   }
 
   removeOrder(orderId: string) {

@@ -1,6 +1,7 @@
-import {Injectable, TemplateRef, ViewContainerRef} from '@angular/core';
+import {Injectable} from '@angular/core';
 import { MessageService } from 'primeng/api';
-import {CustomToastComponent} from '../../common/customtoast/customtoast.component';
+import {IOrder} from '../../models/orders/order';
+import {ITour} from '../../models/tour/tour';
 
 @Injectable({
   providedIn: 'root',
@@ -17,16 +18,19 @@ export class NotificationsService {
       detail: message,
       life: lifeTime });
   }
-  showToastWithTemplate(template: TemplateRef<any>, viewContainerRef: ViewContainerRef) {
-    const componentRef = viewContainerRef.createComponent(CustomToastComponent);
-    componentRef.instance.template = template;
-
+  showToastWithTemplate(tour: ITour) {
     this.messageService.add({
-      severity: 'success',
+      key: 'order-add',
+      severity: 'info',
       summary: 'Тур добавлен в корзину',
       detail: 'Детали ниже',
       sticky: true,
-      content: componentRef.location.nativeElement,
-    } as any);
+      life: 6000,
+      data: {name: tour.name, price: tour.price}
+    });
+  }
+
+  clear(orderAdd: string) {
+    this.messageService.clear(orderAdd)
   }
 }
