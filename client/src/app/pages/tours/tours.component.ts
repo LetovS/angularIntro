@@ -4,7 +4,7 @@ import {ITour} from '../../models/tour/tour';
 import {CardModule} from 'primeng/card';
 import {Button, ButtonDirective} from 'primeng/button';
 import {ModalComponent} from '../../common/modal/modal.component';
-import {CommonModule } from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Tooltip} from 'primeng/tooltip';
 import {InputGroup} from 'primeng/inputgroup';

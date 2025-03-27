@@ -7,6 +7,7 @@ import {SearchTourPipe} from '../../../pipies/searchPipe/search-tour.pipe';
 import {Carousel} from 'primeng/carousel';
 import {PrimeTemplate} from 'primeng/api';
 import {GalleriaModule} from 'primeng/galleria';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-nearest',
@@ -16,7 +17,8 @@ import {GalleriaModule} from 'primeng/galleria';
     SearchTourPipe,
     Carousel,
     PrimeTemplate,
-    GalleriaModule
+    GalleriaModule,
+    NgOptimizedImage
   ],
   templateUrl: './nearest-tours.component.html',
   standalone: true,

@@ -14,7 +14,7 @@
   >
     <ng-template pTemplate="item" let-item>
       <div class="gallery-item">
-        <img [src]="'/imgs/'+item.img" alt="{{ item.name }}" class="gallery-img" />
+        <img [ngSrc]="'/imgs/'+item.img" priority width="350" height="250" alt="{{ item.name }}" class="gallery-img" />
         <div class="gallery-info">
           <h3>{{ item.name }}</h3>
           <p>{{ item.description }}</p>

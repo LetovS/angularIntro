@@ -58,7 +58,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.logoutIcon = val ? 'pi pi-sign-out' : 'pi pi-user'
     }
 
-  // Метод для перехода на страницу заказов
   navigateToOrders(): void {
     this.router.navigate(['/orders']);
   }
