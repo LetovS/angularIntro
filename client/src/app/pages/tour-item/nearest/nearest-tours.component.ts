@@ -1,4 +1,4 @@
-import {Component, Input, model, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, model, OnChanges, OnInit, Output, signal, SimpleChanges} from '@angular/core';
 import {ITour} from '../../../models/tour/tour';
 import {ToursService} from '../../../services/tours/tours.service';
 import {Button} from 'primeng/button';
@@ -25,7 +25,7 @@ import {GalleriaModule} from 'primeng/galleria';
 export class NearestToursComponent implements OnInit, OnChanges {
   constructor(private toursService: ToursService) {
   }
-  nearestTours = model<ITour[]>([]);
+  nearestTours = signal<ITour[]>([]);
   ngOnChanges(changes: SimpleChanges): void {
     const tour = changes['tour']?.currentValue;
     if (tour?.locationId) {
@@ -40,7 +40,6 @@ export class NearestToursComponent implements OnInit, OnChanges {
   }
 
   @Input({required: true}) tour: ITour | null = null;
-
   responsiveOptions = [
     {
       breakpoint: '1024px',
@@ -55,5 +54,12 @@ export class NearestToursComponent implements OnInit, OnChanges {
       numVisible: 1,
     },
   ];
+
+  @Output() selectedTourChangedId = new EventEmitter<ITour>();
+
+  tourChanged(index: number) {
+    const tour = this.nearestTours()[index];
+    this.selectedTourChangedId.emit(tour);
+  }
 }
 

@@ -1,8 +1,8 @@
 .custom-gallery {
   width: 100%;
   height: 50%;
-  max-width: 1200px; /* Ограничиваем ширину галереи */
-  margin: 0 auto; /* Центрируем галерею */
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .gallery-item {
@@ -15,10 +15,10 @@
 
 .gallery-img {
   width: 100%;
-  max-height: 400px; /* Фиксированная высота изображения */
-  object-fit: cover; /* Обрезать изображение, сохраняя пропорции */
-  border-radius: 12px; /* Скругленные углы */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень */
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .gallery-info {
@@ -37,5 +37,20 @@
 
 .gallery-info strong {
   font-size: 1.2rem;
-  color: #2a9d8f; /* Акцент на цене */
+  color: #2a9d8f;
 }
+
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  & .tour-header{
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+}
+
+

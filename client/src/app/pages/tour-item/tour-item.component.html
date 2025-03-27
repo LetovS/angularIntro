@@ -4,13 +4,12 @@
   routerLink="/tours"
 />
 
-<div class="flex justify-content-around">
-  <div class="m-1 col-4 tour-card">
+<div class="flex flex-1 tour-item-wrap">
     @if(tour){
       <p-card
         header="{{tour.name}}"
         subheader="{{tour.price}}"
-        styleClass="tour-p-card">
+        styleClass="p-card-shadow col-10 overflow-hidden tour-item-card">
         <ng-template #header class="images-size">
           <img src="/imgs/{{tour.img}}" alt="card" class="w-full">
         </ng-template>
@@ -19,8 +18,7 @@
     } @else {
       <div class="load-data">Загрузка...</div>
     }
-  </div>
-  <div class="m-1 col-4 nearest-data">
-    <app-nearest [tour]="tour"/>
+  <div class="m-1 col-6 nearest-tours">
+    <app-nearest [tour]="tour" (selectedTourChangedId)="changeCurrentTour($event)"/>
   </div>
 </div>

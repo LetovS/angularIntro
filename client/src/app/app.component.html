@@ -9,11 +9,7 @@
         <button
           pButton
           label="Перейти в корзину"
-          (click)="router.navigate(['/orders', {
-                queryParams: { fromToast: true },
-                state: { clearToast: 'order-add' }
-             },
-          {relativeTo: route}])">
+          (click)="router.navigate(['/orders'])">
         </button>
       </div>
     </ng-template>

@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
-import {NgIf} from '@angular/common';
+import {Location, NgIf} from '@angular/common';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {NearestToursComponent} from './nearest/nearest-tours.component';
@@ -25,7 +25,8 @@ export class TourItemComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private toursService: ToursService
+    private toursService: ToursService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -35,5 +36,10 @@ export class TourItemComponent implements OnInit {
         this.tour = data;
       }
     );
+  }
+
+  changeCurrentTour(tour: ITour) {
+    this.tour = tour;
+    this.location.replaceState('tours/tour/' + tour.id);
   }
 }

@@ -9,13 +9,15 @@ import {NgForOf, NgIf} from '@angular/common';
 import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import {StyleClass} from 'primeng/styleclass';
 
 @Component({
   selector: 'app-orders',
   imports: [
     OrderItemComponent,
     NgIf,
-    NgForOf
+    NgForOf,
+    StyleClass
   ],
   templateUrl: './orders.component.html',
   standalone: true,
@@ -34,17 +36,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
       console.log('Method not implemented.');
   }
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      if (params['fromToast']) {
-        this.notifyService.clear('order-add');
-
-        // Очищаем параметр из URL
-        this.router.navigate([], {
-          queryParams: { fromToast: null },
-          queryParamsHandling: 'merge'
-        });
-      }
-    });
+    this.notifyService.clear('order-add');
   }
 
   removeOrder(orderId: string) {

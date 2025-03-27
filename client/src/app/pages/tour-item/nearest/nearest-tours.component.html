@@ -1,13 +1,16 @@
-<p-galleria
+<div class="container" >
+  <p class="tour-header">Близлежайшие туры</p>
+  <p-galleria
     [value]="nearestTours()"
     [circular]="true"
     [showThumbnails]="false"
     [showIndicators]="true"
     [numVisible]="5"
     [responsiveOptions]="responsiveOptions"
-    [autoPlay]="true"
+    [autoPlay]="false"
     [transitionInterval]="3000"
     class="custom-gallery"
+    (activeIndexChange)="tourChanged($event)"
   >
     <ng-template pTemplate="item" let-item>
       <div class="gallery-item">
@@ -20,3 +23,5 @@
       </div>
     </ng-template>
   </p-galleria>
+
+</div>

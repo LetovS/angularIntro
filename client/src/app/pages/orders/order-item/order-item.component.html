@@ -11,7 +11,7 @@
     <p><strong>Status:</strong> {{order.status ? 'Оплачен' : 'Ожидает оплаты'}}</p>
   </div>
 
-  <div class="order-items" *ngIf="order.items.length > 0">
+  <div class="order-items m-2 p-2" *ngIf="order.items.length > 0">
     <h4>Продукты:</h4>
     <ul>
       <li *ngFor="let item of order.items">

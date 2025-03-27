@@ -18,7 +18,7 @@ export class ToursService {
   }
 
   async getTour(tourId: string): Promise<ITour | null> {
-    await new Promise((resolve) => setTimeout(resolve, 4000));
+    //await new Promise((resolve) => setTimeout(resolve, 1000));
     const tour = toursStorage.find((t) => t.id === tourId) || null;
     return tour;
   }
