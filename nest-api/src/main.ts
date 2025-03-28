@@ -13,6 +13,7 @@ async function bootstrap() {
     .addTag('users')
     .addTag('tours')
     .addTag('Auth')
+    .addTag('payment')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

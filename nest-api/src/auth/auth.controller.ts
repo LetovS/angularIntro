@@ -9,7 +9,10 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  @ApiOperation({ summary: 'Authenticate user and return JWT token' })
+  @ApiOperation({
+    summary: 'Authenticate user and return JWT token',
+    operationId: 'login',
+  })
   @ApiResponse({ status: 200, description: 'Authentication successful' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async login(@Body() createUserDto: CreateUserDto): Promise<IAuth | null> {

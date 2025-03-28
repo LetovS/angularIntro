@@ -28,9 +28,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
-  @ApiOperation({ summary: 'Add a new user' }) // Описание операции
-  @ApiBody({ type: CreateUserDto }) // Указание типа тела запроса
-  @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
+  @ApiOperation({
+    summary: 'Add a new user',
+    operationId: 'register',
+  })
+  @ApiBody({ type: CreateUserDto })
+  @ApiResponse({ status: 200, description: 'User added successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async addUser(@Body() user: IUser): Promise<true | string> {
     console.log(user);
@@ -38,9 +41,12 @@ export class UsersController {
   }
 
   @Post('change-password')
-  @ApiOperation({ summary: "Change user's password" }) // Описание операции
+  @ApiOperation({
+    summary: "Change user's password",
+    operationId: 'change-password',
+  })
   @ApiBody({ type: ChangePasswordDto }) // Указание типа тела запроса
-  @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
+  @ApiResponse({ status: 200, description: 'User added successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async changeUsrPassword(
     @Body() changePasswordDto: IChangePassword,
@@ -55,7 +61,10 @@ export class UsersController {
   }
 
   @Get('exists')
-  @ApiOperation({ summary: 'Check if user exists' })
+  @ApiOperation({
+    summary: 'Check if user exists',
+    operationId: 'exists',
+  })
   @ApiResponse({ status: 200, description: 'User exists' })
   @ApiResponse({ status: 404, description: 'User not found' })
   async isUserExist(@Query('login') login: string): Promise<boolean> {
@@ -64,21 +73,30 @@ export class UsersController {
   }
 
   @Get('users-count')
-  @ApiOperation({ summary: 'Count of number users' })
+  @ApiOperation({
+    summary: 'Count of number users',
+    operationId: 'users-count',
+  })
   @ApiResponse({ status: 200, description: 'Count' })
   async getUsersCount(): Promise<number> {
     return await this.usersService.getUsersCount();
   }
 
   @Get('users-list')
-  @ApiOperation({ summary: 'Users' })
+  @ApiOperation({
+    summary: 'Users',
+    operationId: 'getUsersList',
+  })
   @ApiResponse({ status: 200, description: 'list' })
   async getUsers(): Promise<IUser[]> {
     return await this.usersService.getUsers();
   }
 
   @Get('user/:userId')
-  @ApiOperation({ summary: 'Get user by id' })
+  @ApiOperation({
+    summary: 'Get user by id',
+    operationId: 'getUserById',
+  })
   @ApiParam({
     name: 'userId',
     type: String,

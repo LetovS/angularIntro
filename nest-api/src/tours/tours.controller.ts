@@ -24,14 +24,20 @@ export class ToursController {
   constructor(private readonly toursService: ToursService) {}
 
   @Get('tours')
-  @ApiOperation({ summary: "Recived tour's list" })
+  @ApiOperation({
+    summary: "Recived tour's list",
+    operationId: 'getTours',
+  })
   @ApiResponse({ status: 200, description: 'All tours' })
   async getTours(): Promise<TourDto[] | null> {
     return await this.toursService.getTours();
   }
 
   @Get('nearestTours')
-  @ApiOperation({ summary: 'Get tours nearest to a location' })
+  @ApiOperation({
+    summary: 'Get tours nearest to a location',
+    operationId: 'getToursByLocationId',
+  })
   @ApiQuery({
     name: 'locationId',
     type: String,
@@ -48,7 +54,10 @@ export class ToursController {
   }
 
   @Get('tour/:tourId')
-  @ApiOperation({ summary: 'Recived tour by Id' })
+  @ApiOperation({
+    summary: 'Recived tour by Id',
+    operationId: 'getTourById',
+  })
   @ApiParam({
     name: 'tourId',
     type: String,
@@ -66,7 +75,10 @@ export class ToursController {
   }
 
   @Post('add-tour')
-  @ApiOperation({ summary: 'Add tour' })
+  @ApiOperation({
+    summary: 'Add tour',
+    operationId: 'addTour',
+  })
   @ApiBody({ type: TourDto })
   @ApiResponse({ status: 201, description: 'seccusful' })
   @ApiResponse({ status: 409, description: 'That tour already exists' })
@@ -75,7 +87,10 @@ export class ToursController {
   }
 
   @Post('init-test-data')
-  @ApiOperation({ summary: 'Init data for demo' })
+  @ApiOperation({
+    summary: 'Init data for demo',
+    operationId: 'initTestData',
+  })
   @ApiResponse({ status: 200, description: 'seccusful' })
   @ApiResponse({ status: 500, description: 'Something went wrong' })
   async initData(): Promise<void> {
@@ -83,7 +98,10 @@ export class ToursController {
   }
 
   @Delete('remove-tour/:tourId')
-  @ApiOperation({ summary: 'Remove tour' })
+  @ApiOperation({
+    summary: 'Remove tour',
+    operationId: 'removeTourById',
+  })
   @ApiParam({
     name: 'tourId',
     type: String,

@@ -1,10 +1,16 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+@ApiTags('payment')
 @Controller('payment')
 export class PaymentController {
   // Получение доступных способов оплаты
   @Get('methods')
-  getPaymentMethods() {
+  @ApiOperation({
+    summary: 'Recived available payment methods',
+    operationId: 'methods',
+  })
+  async getPaymentMethods() {
+    await Promise.resolve();
     return {
       methods: [
         { id: 'card', name: 'Credit Card', icon: 'credit_card' },
@@ -16,7 +22,12 @@ export class PaymentController {
 
   // Обработка платежа
   @Post('process')
-  processPayment(@Body() paymentData: any) {
+  @ApiOperation({
+    summary: 'Proccessing paiment',
+    operationId: 'process',
+  })
+  async processPayment(@Body() paymentData: any) {
+    await Promise.resolve();
     // В реальном приложении здесь была бы интеграция с платежной системой
     console.log('Processing payment:', paymentData);
 
@@ -30,7 +41,13 @@ export class PaymentController {
 
   // Получение HTML формы для оплаты (демо)
   @Post('form')
-  getPaymentForm(@Body() data: { method: string }) {
+  @ApiOperation({
+    summary: 'Recived paiment form',
+    operationId: 'form',
+  })
+  @ApiBody({ type: PaymentMethodRequest })
+  async getPaymentForm(@Body() data: { method: string }) {
+    await Promise.resolve();
     let formHtml = '';
 
     switch (data.method) {
@@ -70,4 +87,8 @@ export class PaymentController {
 
     return { form: formHtml };
   }
+}
+
+export class PaymentMethodRequest {
+  method: string;
 }
