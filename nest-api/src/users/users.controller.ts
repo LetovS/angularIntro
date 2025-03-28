@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query, Param } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Param, BadRequestException } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -6,7 +6,7 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
-import { UsersService, IUser, CreateUserDto } from './users.service';
+import { UsersService, IUser, CreateUserDto, ChangePasswordDto, IChangePassword } from './users.service';
 
 @ApiTags('users') // Группировка эндпоинтов по тегу
 @Controller('users')
@@ -21,6 +21,21 @@ export class UsersController {
   async addUser(@Body() user: IUser): Promise<true | string> {
     console.log(user);
     return await this.usersService.addUser(user);
+  }
+
+  @Post('change-password')
+  @ApiOperation({ summary: 'Change user\'s password' }) // Описание операции
+  @ApiBody({ type: ChangePasswordDto }) // Указание типа тела запроса
+  @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
+  @ApiResponse({ status: 400, description: 'Bad request' })
+  async changeUsrPassword(@Body() changePasswordDto: IChangePassword): Promise<boolean | BadRequestException> {
+    console.log('Меняем пароль ' + changePasswordDto);
+    const result  = await this.usersService.changeUserPassword(changePasswordDto);
+    if(result)
+      return true;
+    else{
+      throw new BadRequestException('Incorrect old password.');
+    }
   }
 
   @Get('exists')

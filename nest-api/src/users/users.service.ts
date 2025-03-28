@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,10 +22,27 @@ export class CreateUserDto {
   email: string;
 }
 
+export class ChangePasswordDto implements IChangePassword {
+
+  @ApiProperty({ description: 'Login user' })
+  login: string;
+  @ApiProperty({ description: 'Previous user password' })
+  oldPassword: string;
+  @ApiProperty({ description: 'New user password'})
+  newPassword: string;
+}
+
+export interface IChangePassword{
+  login: string;
+  oldPassword: string;
+  newPassword: string;
+}
+
 const userStorage: IUser[] = [];
 
 @Injectable()
 export class UsersService {
+  
   private currentUser: IUser | null = null;
 
   public async getUserByLogin(login: string): Promise<IUser | null> {
@@ -69,5 +86,27 @@ export class UsersService {
     const user: IUser | null = userStorage.find((u) => u.id === userId) || null;
     if (user) return user;
     return null;
+  }
+
+  async changeUserPassword(changePasswordDto: IChangePassword): Promise<boolean> {
+    await Promise.resolve();
+    console.log('Ищем пользвоателя')
+    const user = userStorage.find(u => u.login === changePasswordDto.login) || null;
+    if(user){
+      console.log('Пользователь найден');
+      const isValidPassword = user.password === changePasswordDto.oldPassword;
+      if (isValidPassword) {
+        console.log('Пароль изменён');
+        user.password = changePasswordDto.newPassword;
+        console.log(JSON.stringify(user));
+        return true;
+      }      
+      console.log('Старый пароль неверный.');
+      return false;
+    }
+    else{
+      console.log('Пользователь не найден.');
+      throw new BadRequestException('User not found');
+    }
   }
 }
