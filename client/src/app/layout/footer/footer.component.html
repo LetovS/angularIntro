@@ -1,13 +1,10 @@
 <div class="footer-content">
   <div class="footer-content__content">
-    <div class="footer-content__header"><p>Подпишитесь на нас</p></div>
+    <div class="footer-content__header"><div>Подпишитесь на нас</div></div>
     <div class="socials">
-      <a href="" class="footer-content__item fab fa-vk"></a>
-      <a href="" class="footer-content__item fab fa-facebook-f"></a>
-      <a href="" class="footer-content__item fab fa-instagram"></a>
-      <a href="" class="footer-content__item fab fa-youtube"></a>
-      <a href="" class="footer-content__item fab fa-telegram"></a>
-      <a href="" class="footer-content__item fab fa-twitter"></a>
+      @for(item of socials; track $index){
+        <a href="{{item.url}}" target="_blank" class="footer-content__item {{item.icon}}"></a>
+      }
     </div>
   </div>
 </div>
