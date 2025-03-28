@@ -3,6 +3,11 @@
   styleClass="p-button-link"
   routerLink="/tours"
 />
+<p-button
+  label="Open"
+  styleClass="p-button-link"
+  (onClick)="openModal()"
+/>
 <div class="settings-menu">
   @for (item of menuItems; track item.path) {
     <p-button
@@ -14,4 +19,53 @@
   }
 </div>
 
-<!--<router-outlet></router-outlet>-->
+<app-modal [isOpen]="isModalOpen" [content]="modalContent" (closeModal)="closeModal()"></app-modal>
+
+<ng-template #modalContent>
+  <p-button
+    label="Back"
+    styleClass="p-button-link"
+    routerLink="/settings"
+  />
+  <div class="change-password-form">
+    <h3>Смена пароля</h3>
+
+    <form>
+      <div class="p-field">
+        <label for="oldPassword">Старый пароль</label>
+        <input
+          id="oldPassword"
+          type="password"
+          pInputText
+          formControlName="oldPassword"
+        >
+      </div>
+
+      <div class="p-field">
+        <label for="newPassword">Новый пароль</label>
+        <input
+          id="newPassword"
+          type="password"
+          pInputText
+          formControlName="newPassword"
+        >
+      </div>
+
+      <div class="p-field">
+        <label for="confirmPassword">Подтвердите пароль</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          pInputText
+          formControlName="confirmPassword"
+        >
+      </div>
+
+      <p-button
+        type="submit"
+        label="Изменить пароль"
+      ></p-button>
+    </form>
+  </div>
+
+</ng-template>
