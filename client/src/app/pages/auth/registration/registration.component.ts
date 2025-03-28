@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
-import {UserService} from '../../../services/User/user.service';
+import {UserService} from '../../../services/user/user.service';
 import {Router} from '@angular/router';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
 

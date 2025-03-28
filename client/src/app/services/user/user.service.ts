@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import {IUser,IUserRegistration, IUserError} from '../../models/User/iuser';
+import {IChangePassword, IUser, IUserRegistration} from '../../models/User/iuser';
 import {HttpClient} from '@angular/common/http';
 import {API} from '../../shared/api';
 import {catchError, Observable, of, tap, throwError} from 'rxjs';
+import {NotificationsService} from '../notifications/notifications.service';
 
 
 export interface IAuth {
@@ -14,7 +15,7 @@ export interface IAuth {
 })
 export class UserService {
   private currentUser: IUser | null = null;
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private notifyService: NotificationsService) { }
 
   public addUser(user : IUserRegistration, isRememberMe?: boolean) : Observable<any>{
     return this.httpClient
@@ -51,5 +52,23 @@ export class UserService {
 
   public setUser(user: IUser): void{
     this.currentUser = user;
+  }
+
+  public changePassword(data: IChangePassword): Observable<boolean> {
+    const request = JSON.stringify(data);
+    console.log(request);
+    console.log(API.changePassword)
+    return this.httpClient
+      .post<boolean>(API.changePassword, data)
+      .pipe(
+        tap((response) => {
+          if (response){
+            sessionStorage.removeItem('user');
+            this.notifyService.initToast('success', 'Пароль успешно изменён', 'Данные обновлены', 2000)
+          }
+        }),
+        catchError((error) => {
+          throw error;
+        }));
   }
 }

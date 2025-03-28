@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DatePipe, NgIf} from '@angular/common';
-import {UserService} from '../../services/User/user.service';
+import {UserService} from '../../services/user/user.service';
 import {ToursService} from '../../services/tours/tours.service';
 import {initMenuItems} from '../../models/menuItems/menuItems';
 import {Router} from '@angular/router';

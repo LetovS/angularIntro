@@ -3,7 +3,8 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {RouterLink} from '@angular/router';
 import {Button} from 'primeng/button';
 import {InputText} from 'primeng/inputtext';
-import {IUser} from '../../../models/User/iuser';
+import {IChangePassword, IUser} from '../../../models/User/iuser';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
   selector: 'app-change-password',
@@ -20,7 +21,7 @@ import {IUser} from '../../../models/User/iuser';
 export class ChangePasswordComponent implements OnInit {
   passwordForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private userService: UserService,) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -44,10 +45,24 @@ export class ChangePasswordComponent implements OnInit {
       console.log('Форма отправлена', this.passwordForm.value);
       //TODO метод на сервере по смене пароля
       const user = JSON.parse(sessionStorage.getItem('user')) as IUser;
-      /*
-      * шлем логин/пас и новый пароль
-      * */
-      console.log(user);
+
+      const changePasswordRequest: IChangePassword = {
+        login: user.login,
+        oldPassword: user.password,
+        newPassword: this.passwordForm.get('newPassword')?.value
+      }
+      console.log(changePasswordRequest);
+
+      this.userService.changePassword(changePasswordRequest).subscribe((data) => {
+        if(data)
+          sessionStorage.setItem('user', JSON.stringify({
+            login:changePasswordRequest.login,
+            password: changePasswordRequest.newPassword
+          }));
+        else{
+          alert('Something went wrong!')
+        }
+      })
     }
   }
 }

@@ -6,5 +6,6 @@ export const API= {
   auth: `${baseUrl}`+ '/' + `${environment.authController}` + '/login',
   registration: `${baseUrl}`+ '/' + `${environment.usersController}` + '/register',
   tours: `${baseUrl}`+ '/' + `${environment.toursController}`,
-  config: '/config/config.json'
+  config: '/config/config.json',
+  changePassword: `${baseUrl}`+ '/' + `${environment.usersController}`+ '/change-password'
 }
