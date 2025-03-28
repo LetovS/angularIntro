@@ -33,7 +33,7 @@ export class ToursService {
   }
 
   async addTour(newTour: ITour): Promise<number | string> {
-    console.log(`Search tour by name: ${newTour.name}`);  
+    console.log(`Search tour by name: ${newTour.name}`);
     await Promise.resolve();
     const exist = toursStorage.find((t) => t.name === newTour.name) || null;
     if (exist) {

@@ -23,16 +23,15 @@ export class CreateUserDto {
 }
 
 export class ChangePasswordDto implements IChangePassword {
-
   @ApiProperty({ description: 'Login user' })
   login: string;
   @ApiProperty({ description: 'Previous user password' })
   oldPassword: string;
-  @ApiProperty({ description: 'New user password'})
+  @ApiProperty({ description: 'New user password' })
   newPassword: string;
 }
 
-export interface IChangePassword{
+export interface IChangePassword {
   login: string;
   oldPassword: string;
   newPassword: string;
@@ -42,7 +41,6 @@ const userStorage: IUser[] = [];
 
 @Injectable()
 export class UsersService {
-  
   private currentUser: IUser | null = null;
 
   public async getUserByLogin(login: string): Promise<IUser | null> {
@@ -88,11 +86,14 @@ export class UsersService {
     return null;
   }
 
-  async changeUserPassword(changePasswordDto: IChangePassword): Promise<boolean> {
+  async changeUserPassword(
+    changePasswordDto: IChangePassword,
+  ): Promise<boolean> {
     await Promise.resolve();
-    console.log('Ищем пользвоателя')
-    const user = userStorage.find(u => u.login === changePasswordDto.login) || null;
-    if(user){
+    console.log('Ищем пользвоателя');
+    const user =
+      userStorage.find((u) => u.login === changePasswordDto.login) || null;
+    if (user) {
       console.log('Пользователь найден');
       const isValidPassword = user.password === changePasswordDto.oldPassword;
       if (isValidPassword) {
@@ -100,11 +101,10 @@ export class UsersService {
         user.password = changePasswordDto.newPassword;
         console.log(JSON.stringify(user));
         return true;
-      }      
+      }
       console.log('Старый пароль неверный.');
       return false;
-    }
-    else{
+    } else {
       console.log('Пользователь не найден.');
       throw new BadRequestException('User not found');
     }
