@@ -4,13 +4,46 @@
   </div>
   <div class="layout-header__right-block">
     <div class="user-info">
-
+      <div class="item">
+        <button (click)="setLanguage('en')" [class.active]="currentLang === 'en'" title="English">
+          <svg width="100%" height="100%" viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="16" fill="#B22234"/>
+            <rect width="24" height="1" y="1" fill="#FFFFFF"/>
+            <rect width="24" height="1" y="3" fill="#FFFFFF"/>
+            <rect width="24" height="1" y="5" fill="#FFFFFF"/>
+            <rect width="24" height="1" y="7" fill="#FFFFFF"/>
+            <rect width="24" height="1" y="9" fill="#FFFFFF"/>
+            <rect width="24" height="1" y="11" fill="#FFFFFF"/>
+            <rect width="24" height="1" y="13" fill="#FFFFFF"/>
+            <rect width="10" height="7" fill="#3C3B6E"/>
+            <rect width="2" height="1" x="10" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="14" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="18" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="10" y="2" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="14" y="2" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="18" y="2" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="12" y="1" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="16" y="1" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="12" y="3" fill="#FFFFFF"/>
+            <rect width="2" height="1" x="16" y="3" fill="#FFFFFF"/>
+          </svg>
+        </button>
+      </div>
+      <div class="item">
+        <button (click)="setLanguage('ru')" [class.active]="currentLang === 'ru'" title="Русский">
+          <svg width="100%" height="100%" viewBox="0 0 20 15" xmlns="http://www.w3.org/2000/svg">
+            <rect width="20" height="5" y="0" fill="#fff"/>
+            <rect width="20" height="5" y="5" fill="#0039A6"/>
+            <rect width="20" height="5" y="10" fill="#D52B1E"/>
+          </svg>
+        </button>
+      </div>
     </div>
     <div class="logout">
       <p-button
         [icon]="logoutIcon"
         label="{{user?.login}}"
-        [pTooltip]="logoutLabel"
+        pTooltip="{{'logout' | translate }}"
         (mouseenter)="hoverLogoutBtn(true)"
         (mouseleave)="hoverLogoutBtn(false)"
         (onClick)="logOut()"
@@ -22,8 +55,8 @@
     <div class="cart cart-container">
       <p-button
         [icon]="cartLogo"
-        [label]="cartTitle"
-        [pTooltip]="cartToolTip"
+        label="{{'cart' | translate }}"
+        pTooltip="{{ 'moveToOrders' | translate}}"
         tooltipPosition="bottom"
         (onClick)="navigateToOrders()"
         severity="secondary"

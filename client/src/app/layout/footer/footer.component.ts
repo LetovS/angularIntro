@@ -1,9 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {ISocial, socialLinks} from '../../models/menuItems/menuItems';
+import {TranslatePipe} from '../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [
+    TranslatePipe
+  ],
   standalone: true,
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'

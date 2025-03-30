@@ -1,9 +1,9 @@
 <div class="footer-content">
   <div class="footer-content__content">
     <div class="footer-content__header">
-      Подпишитесь на нас
+      {{'followUs' | translate}}
     </div>
-    <div class="socials">
+    <div class="socials" id="socialId">
       @for(item of socials; track $index){
         <a href="{{item.url}}" target="_blank" class="footer-content__item {{item.icon}}"></a>
       }

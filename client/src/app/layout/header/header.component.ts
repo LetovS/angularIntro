@@ -10,10 +10,12 @@ import {IUser} from '../../models/User/iuser';
 import {MenuItem} from 'primeng/api';
 import {Tooltip} from 'primeng/tooltip';
 import {CartService} from '../../services/cart/cart.service';
+import {TranslatePipe} from '../../pipies/translate.pipe';
+import {LocalizationService} from '../../services/localization.service';
 
 @Component({
   selector: 'app-header',
-  imports: [DatePipe, MenubarModule, ButtonModule, Tooltip, NgIf],
+  imports: [DatePipe, MenubarModule, ButtonModule, Tooltip, NgIf, TranslatePipe],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
@@ -24,14 +26,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: IUser;
   logoutIcon = 'pi pi-user'
   cartLogo: string = 'pi pi-shopping-cart';
-  cartTitle: string = $localize`:@@cart:Cart`;
-  cartToolTip: string = $localize`:@@moveToOrders:Move to orders`;
-  logoutLabel: string = $localize`:@@logout:Logout`;
   cartItemsCount: any = 0;
+  currentLang: string;
 
   constructor(private userService: UserService,
               private cartService: CartService,
-              private router: Router) {
+              private router: Router,
+              private localization: LocalizationService) {
   }
 
     ngOnDestroy(): void {
@@ -60,5 +61,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   navigateToOrders(): void {
     this.router.navigate(['/orders']);
+  }
+
+  setLanguage(lang: 'en' | 'ru') {
+    console.log(`Set language: ${lang}`);
+    this.localization.setLanguage(lang)
   }
 }

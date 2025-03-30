@@ -38,6 +38,36 @@
 .user-info{
   border: 1px solid #ccc;
   border-radius: .5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  & .item {
+    position: relative; // Необходимо для позиционирования ::after
+
+    button {
+      position: relative;
+      z-index: 1; // Чтобы кнопка была выше псевдоэлемента
+      transition: all 0.2s ease;
+
+      &.active {
+        transform: translateY(2px); // Смещение вниз
+
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.1);
+          border-radius: .5rem;
+          box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+          z-index: -1;
+        }
+      }
+    }
+  }
 }
 
 .custom-p-button{
@@ -84,4 +114,24 @@
   0% { transform: rotate(-45deg); }
   50% { transform: rotate(45deg); }
   100% { transform: rotate(-45deg); }
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  margin: 0 3px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+button:hover {
+  opacity: 1;
+}
+button.active {
+  opacity: 1;
+  border-bottom: 2px solid #333;
+}
+svg {
+  vertical-align: middle;
 }
