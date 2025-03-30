@@ -1,20 +1,12 @@
 import {MenuItem} from 'primeng/api';
+import {LocalizationService} from '../../services/localization.service';
 
-export function initMenuItems(): MenuItem [] {
-  return [
-    {
-      label: $localize`:@@tickets:Tickets`,
-      routerLink: ['/tours'],
-    },
-    {
-      label: $localize`:@@settings:Settings`,
-      routerLink: ['/settings'],
-    },
-    {
-      label: $localize`:@@orders:Orders`,
-      routerLink: ['/orders'],
-    },
-  ]
+
+export function initMenuItems(service: LocalizationService): MenuItem [] {
+  return ['tours', 'settings', 'orders'].map(key => ({
+    label: service.translate(key),
+    routerLink: [`/${key}`],
+  }));
 }
 
 export interface ISocial{

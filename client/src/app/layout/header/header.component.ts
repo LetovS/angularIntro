@@ -12,6 +12,7 @@ import {Tooltip} from 'primeng/tooltip';
 import {CartService} from '../../services/cart/cart.service';
 import {TranslatePipe} from '../../pipies/translate.pipe';
 import {LocalizationService} from '../../services/localization.service';
+import {Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -28,11 +29,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   cartLogo: string = 'pi pi-shopping-cart';
   cartItemsCount: any = 0;
   currentLang: string;
-
+  private destroy$ = new Subject<void>();
   constructor(private userService: UserService,
               private cartService: CartService,
               private router: Router,
-              private localization: LocalizationService) {
+              private localization: LocalizationService,
+              private localizationService: LocalizationService) {
   }
 
     ngOnDestroy(): void {
@@ -40,7 +42,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     ngOnInit(): void {
       this.user = this.userService.getUser();
-      this.menuItems = initMenuItems();
+      this.updateMenuItems();
+
+      this.localizationService.currentLang$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => this.updateMenuItems());
+
       setInterval(() => {
           this.dateTime = new Date();
         }, 1000)
@@ -66,5 +73,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   setLanguage(lang: 'en' | 'ru') {
     console.log(`Set language: ${lang}`);
     this.localization.setLanguage(lang)
+  }
+  private updateMenuItems(): void {
+    this.menuItems = initMenuItems(this.localizationService);
   }
 }

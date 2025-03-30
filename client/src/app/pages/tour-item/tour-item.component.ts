@@ -6,6 +6,7 @@ import {Location, NgIf} from '@angular/common';
 import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {NearestToursComponent} from './nearest/nearest-tours.component';
+import {TranslatePipe} from '../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-tour-item',
@@ -16,7 +17,8 @@ import {NearestToursComponent} from './nearest/nearest-tours.component';
     RouterLink,
     Button,
     NgIf,
-    NearestToursComponent
+    NearestToursComponent,
+    TranslatePipe
   ],
   styleUrls: ['./tour-item.component.css']
 })

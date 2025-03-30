@@ -22,8 +22,8 @@
         </ng-template>
         <p>{{item.description}}</p>
         <div class="flex gap-4 mt-1 mt-3">
-          <p-button [label]="labelDetail"
-                    [pTooltip]="toolTipDetail"
+          <p-button label="{{'detail' | translate}}"
+                    pTooltip="{{ 'showDetail' | translate}}"
                     tooltipPosition="bottom"
                     severity="primary"
                     class="w-full"
@@ -52,7 +52,7 @@
       <p>{{tour.description}}</p>
       <ng-template #footer>
         <div class="flex gap-4 mt-3">
-          <p-button [label]="labelBuy"
+          <p-button label="{{'buy' | translate}}"
                     severity="primary"
                     class="w-full"
                     styleClass="w-full"

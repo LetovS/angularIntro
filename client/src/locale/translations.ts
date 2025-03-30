@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    tickets: "Tickets",
+    tours: "Tickets",
     settings: "Settings",
     orders: "Orders",
     cart: "Cart",
@@ -20,9 +20,13 @@ export const translations = {
     nickname: "Nickname",
     signup: "Sign Up",
     followUs: 'Follow Us',
+    loading:'Loading ...',
+    nearestTours: 'Nearest tours',
+    moveToCart: 'Move to cart',
+    addedToCart: 'added to cart!'
   },
   ru: {
-    tickets: "Билеты",
+    tours: "Билеты",
     settings: "Настройки",
     orders: "Заказы",
     cart: "Корзина",
@@ -41,6 +45,10 @@ export const translations = {
     email: "Электронная почта",
     nickname: "Псевдоним",
     signup: "Войти",
-    followUs: 'Подпишитесь на нас'
+    followUs: 'Подпишитесь на нас',
+    loading:'Загрузка ...',
+    nearestTours: 'Близлежайшие туры',
+    moveToCart: 'Перейти в корзину',
+    addedToCart: 'добавлен в корзину!',
   }
 };

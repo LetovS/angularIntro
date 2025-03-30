@@ -16,7 +16,7 @@
         <p>{{tour.description}}</p>
       </p-card>
     } @else {
-      <div class="load-data">Загрузка...</div>
+      <div class="load-data">{{'loading' | translate}}</div>
     }
   <div class="m-1 col-6 nearest-tours">
     <app-nearest [tour]="tour" (selectedTourChangedId)="changeCurrentTour($event)"/>

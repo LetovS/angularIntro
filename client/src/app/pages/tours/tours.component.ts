@@ -14,6 +14,7 @@ import {SearchTourPipe} from '../../pipies/searchPipe/search-tour.pipe';
 import {FormsModule} from '@angular/forms';
 import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
+import {TranslatePipe} from '../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-tours',
@@ -28,7 +29,8 @@ import {NotificationsService} from '../../services/notifications/notifications.s
     InputText,
     SearchTourPipe,
     FormsModule,
-    ButtonDirective
+    ButtonDirective,
+    TranslatePipe
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -44,8 +46,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   tours: ITour [];
   toursStore: ITour [];
   tour: ITour | null = null;
-  labelDetail: string = $localize`:@@detail:Detail`;
-  toolTipDetail: string = $localize`:@@showDetail:Show tour's detail`;
   labelBuy: string = $localize`:@@buy:Buy`;
 
   ngOnInit(): void {
