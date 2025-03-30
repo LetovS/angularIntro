@@ -5,10 +5,7 @@
   "projects": {
     "intro": {
       "i18n": {
-        "sourceLocale": "en-US",
-        "locales": {
-          "ru": "src/locale/messages.ru.xlf"
-        }
+        "sourceLocale": "ru"
       },
       "projectType": "application",
       "schematics": {
@@ -40,8 +37,7 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -89,9 +85,6 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
-            },
-            "ru": {
-              "localize": ["ru"]
             }
           },
           "defaultConfiguration": "production"
@@ -99,9 +92,6 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
-            "ru": {
-              "buildTarget": "intro:build:ru"
-            },
             "production": {
               "buildTarget": "intro:build:production"
             },
@@ -119,8 +109,7 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing",
-              "@angular/localize/init"
+              "zone.js/testing"
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",

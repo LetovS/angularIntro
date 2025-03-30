@@ -4,7 +4,7 @@ import { LocalizationService } from '../services/localization.service';
 @Pipe({
   name: 'translate',
   standalone: true,
-  pure: false // Чтобы pipe реагировал на изменения языка
+  pure: false
 })
 export class TranslatePipe implements PipeTransform {
   constructor(private localizationService: LocalizationService) {}
