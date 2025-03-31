@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TabsModule } from 'primeng/tabs';
 import { AuthorizationComponent } from './authorization/authorization.component';
 import { RegistrationComponent } from './registration/registration.component';
+import {TranslatePipe} from '../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-auth',
@@ -10,15 +11,13 @@ import { RegistrationComponent } from './registration/registration.component';
   imports: [CommonModule,
     TabsModule,
     AuthorizationComponent,
-    RegistrationComponent
+    RegistrationComponent, TranslatePipe
   ],
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
 export class AuthComponent implements OnInit, OnDestroy{
 
-  labelAuth: string = $localize`:@@auth.authorization:Authorization`
-  labelRegistration: string = $localize`:@@auth.registration:Registration`
 
   ngOnInit() {
     console.log('init')

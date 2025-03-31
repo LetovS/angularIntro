@@ -4,8 +4,8 @@
   <p-toast position="bottom-right" key="order-add">
     <ng-template let-message pTemplate="message">
       <div class="toast-content">
-        <h4>Тур "{{ message.data.name }}" {{'addedToCart' | translate}}</h4>
-        <p>Цена: {{ message.data.price }} ₽</p>
+        <h4>{{'tourNotify' | translate}} "{{ message.data.name }}" {{'addedToCart' | translate}}</h4>
+        <p>{{'price' | translate}}: {{ message.data.price }} ₽</p>
         <button
           pButton
           label="{{'moveToCart' | translate}}"

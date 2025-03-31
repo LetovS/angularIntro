@@ -8,11 +8,12 @@ import {IAuth, UserService} from '../../../services/user/user.service';
 import {IUser} from '../../../models/User/iuser';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
 import {Router} from '@angular/router';
+import {TranslatePipe} from '../../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-authorization',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, Checkbox],
+  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, Checkbox, TranslatePipe],
   templateUrl: './authorization.component.html',
   styleUrls: ['authorization.component.scss']
 })
@@ -26,9 +27,6 @@ export class AuthorizationComponent {
   isStay: boolean = false;
   labelText: string = 'Не выходить?';
   errorMessage: string | null = null;
-  labelLogin: string = $localize`:@@login:Login`
-  labelPassword: string = $localize`:@@password:Password`
-  labelSignUp: string = $localize`:@@signup:Sign Up`
   get isPasswordsMismatch(): boolean {
     return !this.login || !this.password || this.password.length < 6;
   }

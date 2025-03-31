@@ -5,8 +5,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
 import {UserService} from '../../../services/user/user.service';
-import {Router} from '@angular/router';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
+import {TranslatePipe} from '../../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-registration',
@@ -16,7 +16,8 @@ import {NotificationsService} from '../../../services/notifications/notification
     FormsModule,
     InputTextModule,
     ButtonModule,
-    Checkbox
+    Checkbox,
+    TranslatePipe
   ],
   templateUrl: `./registration.component.html`,
   styleUrls: ['registration.component.scss']
@@ -33,13 +34,6 @@ export class RegistrationComponent{
   email: string = '';
   isRemember: boolean = false;
   labelText: string = 'Сохранить';
-
-  labelSignUp: string = $localize`:@@signup:Sign Up`
-  labelNickname: string = $localize`:@@nickname:Nickname`
-  labelLogin: string = $localize`:@@login:Login`
-  labelPassword: string = $localize`:@@password:Password`
-  labelConfPassword: string = $localize`:@@password.confirm:Confirm password`
-  labelEmail: string = $localize`:@@email:Email`
 
   get isPasswordsMismatch(): boolean {
     return !this.password ||

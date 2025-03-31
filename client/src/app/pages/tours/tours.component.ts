@@ -46,7 +46,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   tours: ITour [];
   toursStore: ITour [];
   tour: ITour | null = null;
-  labelBuy: string = $localize`:@@buy:Buy`;
 
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
