@@ -9,6 +9,7 @@
       <p-card
         header="{{tour.name}}"
         subheader="{{tour.price}}"
+        (keyup)="goToTours($event)"
         styleClass="p-card-shadow col-10 overflow-hidden tour-item-card">
         <ng-template #header class="images-size">
           <img src="/imgs/{{tour.img}}" alt="card" class="w-full">

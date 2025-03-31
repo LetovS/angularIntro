@@ -11,9 +11,14 @@
   </p-inputgroup>
 </div>
 
-<div class="tours-container flex flex-wrap justify-content-around align-items-stretch">
+<div
+  appToursListActivities
+  selector=".tour-card"
+  [initFirst]="true"
+  (onEnter)="selectActive($event)"
+  class="tours-container flex flex-wrap justify-content-around align-items-stretch">
   @for (item of tours | searchTour:  searchInput.value : 'name'; track item.id) {
-     <div (click)="goToTour(item)" class="m-2 col-1 tour-card">
+     <div class="m-2 col-3 tour-card align-self-stretch">
        <p-card
         header="{{item.name}}"
         subheader="{{item.price}}">

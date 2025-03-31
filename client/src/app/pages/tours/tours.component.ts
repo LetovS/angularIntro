@@ -15,6 +15,7 @@ import {FormsModule} from '@angular/forms';
 import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
 import {TranslatePipe} from '../../pipies/translate.pipe';
+import {ToursListActivitiesDirective} from '../../shared/directives/tours-list-activities.directive';
 
 @Component({
   selector: 'app-tours',
@@ -30,7 +31,8 @@ import {TranslatePipe} from '../../pipies/translate.pipe';
     SearchTourPipe,
     FormsModule,
     ButtonDirective,
-    TranslatePipe
+    TranslatePipe,
+    ToursListActivitiesDirective
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -95,5 +97,13 @@ export class ToursComponent implements OnInit, OnDestroy {
     const target = ev.target as HTMLInputElement;
     const targetValue = target.value;
     this.tours = this.toursService.searchTours(this.toursStore, targetValue);
+  }
+
+  selectActive(index: number) {
+    console.log(`Index: ${index}`)
+    const item = this.tours.find((tour, i) => i === index);
+    if (item){
+      this.goToTour(this.tours[index]);
+    }
   }
 }

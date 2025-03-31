@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
 import {Location, NgIf} from '@angular/common';
@@ -28,7 +28,8 @@ export class TourItemComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private toursService: ToursService,
-    private location: Location
+    private location: Location,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -43,5 +44,12 @@ export class TourItemComponent implements OnInit {
   changeCurrentTour(tour: ITour) {
     this.tour = tour;
     this.location.replaceState('tours/tour/' + tour.id);
+  }
+
+  goToTours(event: KeyboardEvent) {
+    console.log(event.key);
+    if (event.key === 'Backspace') {
+      this.router.navigate([`tours`], {relativeTo: this.route});
+    }
   }
 }
