@@ -28,11 +28,11 @@
     routerLink="/settings"
   />
   <div class="change-password-form">
-    <h3>Смена пароля</h3>
+    <h3>{{'change.title' | translate}}</h3>
 
     <form>
       <div class="p-field">
-        <label for="oldPassword">Старый пароль</label>
+        <label for="oldPassword">{{'change.oldPsw' | translate}}</label>
         <input
           id="oldPassword"
           type="password"
@@ -40,9 +40,9 @@
           formControlName="oldPassword"
         >
       </div>
-
+s
       <div class="p-field">
-        <label for="newPassword">Новый пароль</label>
+        <label for="newPassword">{{'change.newPsw' | translate}}</label>
         <input
           id="newPassword"
           type="password"
@@ -52,7 +52,7 @@
       </div>
 
       <div class="p-field">
-        <label for="confirmPassword">Подтвердите пароль</label>
+        <label for="confirmPassword">{{'change.confirmPsw' | translate}}</label>
         <input
           id="confirmPassword"
           type="password"
@@ -63,7 +63,7 @@
 
       <p-button
         type="submit"
-        label="Изменить пароль"
+        label="{{'change.btn' | translate}}"
       ></p-button>
     </form>
   </div>
