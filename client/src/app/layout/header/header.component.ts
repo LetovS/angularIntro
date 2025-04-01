@@ -23,6 +23,7 @@ import {Subject, takeUntil} from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   dateTime: Date;
+
   menuItems: MenuItem [];
   user: IUser;
   logoutIcon = 'pi pi-user'
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   cartItemsCount: any = 0;
   currentLang: string;
   private destroy$ = new Subject<void>();
+
   constructor(private userService: UserService,
               private cartService: CartService,
               private router: Router,
@@ -55,7 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
     logOut(): void {
-      console.log('Устанавливаем currentUser - null and remove token')
       this.userService.setUser(null);
       sessionStorage.removeItem('user');
       // удалить данные о пользователе
@@ -71,7 +72,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   setLanguage(lang: 'en' | 'ru') {
-    console.log(`Set language: ${lang}`);
     this.localization.setLanguage(lang)
   }
   private updateMenuItems(): void {

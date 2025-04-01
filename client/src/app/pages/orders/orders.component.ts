@@ -33,7 +33,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      console.log('Method not implemented.');
   }
   ngOnInit(): void {
     this.notifyService.clear('order-add');

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, Observable, of, tap, throwError} from 'rxjs';
+import {catchError, Observable, of, Subject, tap, throwError} from 'rxjs';
 import {ITour,TourRequest} from '../../models/tour/tour';
+import {ITourType} from '../../models/filters/filters';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToursService {
-
+  private tourTypeSubject = new Subject<ITourType>();
+  readonly tourType$ = this.tourTypeSubject.asObservable();
   constructor(private httpClient: HttpClient) { }
 
   /**
@@ -32,7 +34,7 @@ export class ToursService {
    */
   public getToursByLocationId(locationId:string): Observable<ITour[]> {
     const url: string = `${API.tours}/nearestTours?locationId=${locationId}`;
-    console.log(url);
+
     return this.httpClient
       .get<ITour[]>(url)
       .pipe(
@@ -106,5 +108,9 @@ export class ToursService {
     } else {
       return [];
     }
+  }
+
+  initChangeTourType(selectedType: ITourType) {
+    this.tourTypeSubject.next(selectedType);
   }
 }

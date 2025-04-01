@@ -6,7 +6,7 @@ export interface ITour{
   price: string;
   img?: string;
   date?: Date;
-  type?: string;
+  type?: 'single' | 'group' | 'all';
   locationId: string;
 }
 
@@ -18,6 +18,6 @@ export class TourRequest implements ITour{
   price: string;
   img?: string;
   date?: Date;
-  type?: string;
+  type?: 'single' | 'group' | 'all';
   locationId: string;
 }

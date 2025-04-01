@@ -33,7 +33,6 @@ export class AuthorizationComponent {
 
   onLogin() {
     const user: IUser = { login: this.login, password: this.password }; // Используем demo для теста
-    console.log('Sending request with:', user);
 
     this.userService.auth(user).subscribe({
       next: (response: IAuth) => {

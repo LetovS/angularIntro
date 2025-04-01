@@ -16,6 +16,7 @@ import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
 import {TranslatePipe} from '../../pipies/translate.pipe';
 import {ToursListActivitiesDirective} from '../../shared/directives/tours-list-activities.directive';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-tours',
@@ -48,7 +49,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   tours: ITour [];
   toursStore: ITour [];
   tour: ITour | null = null;
-
+  subscription: Subscription;
   ngOnInit(): void {
         this.toursService.getTours().subscribe(
         (data) => {
@@ -58,10 +59,24 @@ export class ToursComponent implements OnInit, OnDestroy {
         () => {
 
         });
-    }
+       this.subscription = this.toursService.tourType$.subscribe((t) => {
+        switch (t.code){
+          case 'all':
+            this.tours = [...this.toursStore]
+            break;
+          case 'single':
+            this.tours = this.toursStore.filter((t) => t.type === 'single')
+            break;
+          case 'group':
+            this.tours = this.toursStore.filter((t) => t.type === 'group')
+            break;
+        }
+      })
+      }
 
   ngOnDestroy(): void {
     this.tours = [];
+    this.subscription.unsubscribe();
   }
 
   goToTour(item: ITour) {
@@ -71,7 +86,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   isModalOpen: boolean = false;
 
   openDetail(tour: ITour){
-    console.log(`Ищем тур по ${tour.id}`)
     this.toursService.getTour(tour.id).subscribe(
       (data) => {
         this.tour = data;
@@ -100,7 +114,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
 
   selectActive(index: number) {
-    console.log(`Index: ${index}`)
     const item = this.tours.find((tour, i) => i === index);
     if (item){
       this.goToTour(this.tours[index]);

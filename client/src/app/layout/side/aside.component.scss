@@ -1,6 +1,12 @@
-:host{
+.container{
   height: 100%;
-  width: 15%;
-  display: block;
-  background-color: #1d9e8f;
+  width: 300px;
+  display: flex;
+  background-color: #aca3a3;
+  flex-direction: column;
 }
+
+.w-100{
+  width: 100%;
+}
+

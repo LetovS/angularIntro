@@ -42,7 +42,6 @@ export class ChangePasswordComponent implements OnInit {
 
   onSubmit(): void {
     if (this.passwordForm.valid) {
-      console.log('Форма отправлена', this.passwordForm.value);
       //TODO метод на сервере по смене пароля
       const user = JSON.parse(sessionStorage.getItem('user')) as IUser;
 
@@ -51,7 +50,6 @@ export class ChangePasswordComponent implements OnInit {
         oldPassword: user.password,
         newPassword: this.passwordForm.get('newPassword')?.value
       }
-      console.log(changePasswordRequest);
 
       this.userService.changePassword(changePasswordRequest).subscribe((data) => {
         if(data)

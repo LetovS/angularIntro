@@ -8,7 +8,6 @@ import {ITour} from '../../models/tour/tour';
 export class SearchTourPipe implements PipeTransform {
 
   transform(value: any [], searchValue: string, prop: string): any []  {
-    console.log(`pipe - ${searchValue}`)
     if (!searchValue) {
       return  value;
     }

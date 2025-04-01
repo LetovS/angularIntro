@@ -32,7 +32,6 @@ export class UserService {
   public auth(user: IUser): Observable<IAuth> {
     return this.httpClient.post<IAuth | null>(API.auth, user).pipe(
       tap((response) => {
-        console.log('Response received:', response); //TODO использовать токен
         this.setUser(user);
       }),
       catchError((error) => {

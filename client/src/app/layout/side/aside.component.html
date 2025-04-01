@@ -1,1 +1,15 @@
-<p>aside works!</p>
+<div class="flex container">
+  <div class="m-2 bg-black-alpha-10 p-2">Фильтры:</div>
+  <p-fieldset legend="Тип тура" class="m-2">
+    <p-select
+      [options]="toursType"
+      [(ngModel)]="selectedType"
+      (onChange)="changeTourType($event)"
+      optionLabel="name"
+      placeholder="Тип тура"
+      class="w-100" />
+  </p-fieldset>
+  <p-fieldset legend="Дата тура" class="m-2">
+    <p-datepicker [(ngModel)]="selectedDate" [showButtonBar]="true"></p-datepicker>
+  </p-fieldset>
+</div>

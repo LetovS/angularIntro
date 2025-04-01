@@ -20,8 +20,8 @@ export class LayoutComponent implements OnInit, OnDestroy{
 
   showAside: boolean = false;
   subscription: Subscription;
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-  }
+  constructor(private router: Router,
+              private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.showAside = this.recursFindChildData(this.activatedRoute.snapshot, 'showAside');
@@ -41,11 +41,10 @@ export class LayoutComponent implements OnInit, OnDestroy{
   }
 
   recursFindChildData(children: ActivatedRouteSnapshot, prop:string): boolean{
-  console.log('children', children)
-  if(!children.data[prop] && children.firstChild){
-      return this.recursFindChildData(children.firstChild, prop);
-    } else{
-      return  !!children.data[prop];
+    if(!children.data[prop] && children.firstChild){
+        return this.recursFindChildData(children.firstChild, prop);
+      } else{
+        return  !!children.data[prop];
+      }
     }
-  }
 }

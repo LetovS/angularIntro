@@ -46,12 +46,10 @@ export class RegistrationComponent{
       alert('Пароли не совпадают');
       return;
     }
-    console.log('Регистрация:', this.login, this.password, this.email);
   }
 
   async onAuth(ev: Event){
-    console.log(ev);
-    let result = this.userService
+    this.userService
       .addUser({
           nickname: this.nickname,
           login: this.login,
@@ -74,6 +72,6 @@ export class RegistrationComponent{
     return !this.login || this.login.length < 3;
   }
   input (ev: Event){
-    console.log(ev);
+
   }
 }

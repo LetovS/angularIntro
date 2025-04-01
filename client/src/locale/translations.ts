@@ -33,6 +33,26 @@ export const translations = {
       confirmPsw: 'Confirm password',
       btn: 'Change password'
     },
+    primeng: {
+      dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+      monthNames: [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ],
+      monthNamesShort: [
+        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      ],
+      today: "Today",
+      weekHeader: "Wk",
+      firstDayOfWeek: 0,
+      dateFormat: "mm/dd/yy",
+      accept: "Accept",
+      reject: "Cancel",
+      clear: 'Clear'
+    }
   },
   ru: {
     tours: 'Билеты',
@@ -68,5 +88,25 @@ export const translations = {
       confirmPsw: 'Подтвердите пароль',
       btn: 'Изменить пароль'
     },
+    primeng: {
+      dayNames: ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+      dayNamesShort: ["Вск", "Пнд", "Втр", "Срд", "Чтв", "Птн", "Сбт"],
+      dayNamesMin: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
+      monthNames: [
+        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+      ],
+      monthNamesShort: [
+        "Янв", "Фев", "Мар", "Апр", "Май", "Июн",
+        "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"
+      ],
+      today: "Сегодня",
+      weekHeader: "Неделя",
+      firstDayOfWeek: 1, // Понедельник как первый день недели
+      dateFormat: "dd.mm.yy",
+      accept: "Принять",
+      reject: "Отмена",
+      clear: 'Очистить'
+    }
   }
-};
+}

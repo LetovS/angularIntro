@@ -40,9 +40,7 @@
 
     ngAfterViewChecked(): void {
           const isItemsLoaded = this.el.nativeElement.querySelectorAll(this.selector);
-          //console.log('***');
           if(this.initFirst && isItemsLoaded?.length && !this.isLoaded) {
-            console.log('set')
             this.isLoaded = true;
             this.changeIndex(0);
             this.setupMouseMoveHandlers();
@@ -120,9 +118,7 @@
 
 
       if(this.index < 0){
-        console.log(this.index);
         this.index = items.length - 1;
-        console.log(this.index);
       }
       if(this.index > items.length - 1){
         this.index = 0;
@@ -137,7 +133,6 @@
 
     initKeyUp(event: KeyboardEvent) {
       event.preventDefault();
-      console.log(event.key);
       if(event.key === 'ArrowRight'){
         this.changeIndex(1);
       } else if (event.key === 'ArrowLeft'){
@@ -156,7 +151,6 @@
     onMouseClick(event: MouseEvent) {
       event.preventDefault();
       if (event.button !== 0) return;
-      console.log(event.button);
       this.openTourDetail();
     }
   }

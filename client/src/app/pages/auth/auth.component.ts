@@ -20,9 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy{
 
 
   ngOnInit() {
-    console.log('init')
   }
   ngOnDestroy() {
-    console.log('destroy')
   }
 }
