@@ -9,29 +9,36 @@
       <p-button icon="pi pi-search" severity="secondary" variant="text"/>
     </p-inputgroup-addon>
   </p-inputgroup>
-  <p class="tour-header">{{'nearestTours' | translate}}</p>
-  <p-galleria
-    [value]="renderTours()"
-    [circular]="true"
-    [showThumbnails]="false"
-    [showIndicators]="true"
-    [numVisible]="5"
-    [responsiveOptions]="responsiveOptions"
-    [autoPlay]="false"
-    [transitionInterval]="3000"
-    class="custom-gallery"
-    (activeIndexChange)="tourChanged($event)"
-  >
-    <ng-template pTemplate="item" let-item>
-      <div class="gallery-item">
-        <img [ngSrc]="'/imgs/'+item.img" priority width="350" height="250" alt="{{ item.name }}" class="gallery-img" />
-        <div class="gallery-info">
-          <h3>{{ item.name }}</h3>
-          <p>{{ item.description }}</p>
-          <strong>{{ item.price }}</strong>
+  <div>
+    @if (renderTours().length > 0)
+    {
+      <p class="tour-header">{{'nearestTours' | translate}}</p>
+    <p-galleria
+      [value]="renderTours()"
+      [circular]="true"
+      [showThumbnails]="false"
+      [showIndicators]="true"
+      [numVisible]="5"
+      [responsiveOptions]="responsiveOptions"
+      [autoPlay]="false"
+      [transitionInterval]="3000"
+      class="custom-gallery"
+      (activeIndexChange)="tourChanged($event)"
+    >
+      <ng-template pTemplate="item" let-item>
+        <div class="gallery-item">
+          <img [ngSrc]="'/imgs/'+item.img" priority width="350" height="250" alt="{{ item.name }}" class="gallery-img" />
+          <div class="gallery-info">
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+            <strong>{{ item.price }}</strong>
+          </div>
         </div>
-      </div>
-    </ng-template>
-  </p-galleria>
+      </ng-template>
+    </p-galleria>
+    } @else {
+      <div>No data</div>
+    }
+  </div>
 
 </div>

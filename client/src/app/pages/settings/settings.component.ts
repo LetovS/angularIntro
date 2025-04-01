@@ -18,16 +18,9 @@ import {TranslatePipe} from '../../pipies/translate.pipe';
   styleUrl: './settings.component.scss'
 })
 export class SettingsComponent {
-  isModalOpen: boolean = false;
   menuItems = [
     { label: 'Смена пароля', path: 'change-password' },
     { label: 'Статистика', path: 'statistics' }
   ];
 
-  closeModal() {
-    this.isModalOpen = false;
-  }
-  openModal() {
-    this.isModalOpen = true;
-  }
 }

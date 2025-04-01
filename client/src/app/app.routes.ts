@@ -27,7 +27,8 @@ export const routes: Routes = [
         path: '', component: SettingsComponent
       },
       { path: 'change-password', component: ChangePasswordComponent },
-      { path: 'statistics', component: StatisticsComponent }
+      { path: 'statistics', component: StatisticsComponent,
+        data: {showAside: true} }
     ]
   },
   {
@@ -36,13 +37,13 @@ export const routes: Routes = [
     component: LayoutComponent,
     children: [
     {
-      path: '', component: ToursComponent
+      path: '', component: ToursComponent, data: {showAside: true},
     },
     {
       path: 'tour', redirectTo: '', pathMatch: 'full'
     },
     {
-      path: 'tour/:tourId', component: TourItemComponent
+      path: 'tour/:tourId', component: TourItemComponent,
     }
   ]},
   {

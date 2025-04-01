@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   model,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   Output,
   signal,
@@ -24,7 +24,7 @@ import {TranslatePipe} from '../../../pipies/translate.pipe';
 import {InputGroup, InputGroupModule} from 'primeng/inputgroup';
 import {InputGroupAddon, InputGroupAddonModule} from 'primeng/inputgroupaddon';
 import {InputText, InputTextModule} from 'primeng/inputtext';
-import {fromEvent} from 'rxjs';
+import {fromEvent, Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-nearest',
@@ -49,28 +49,28 @@ import {fromEvent} from 'rxjs';
   standalone: true,
   styleUrl: './nearest-tours.component.scss'
 })
-export class NearestToursComponent implements OnInit, OnChanges, AfterViewInit {
+export class NearestToursComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   @Input({required: true}) tour: ITour | null = null;
   @Output() selectedTourChangedId = new EventEmitter<ITour>();
   @ViewChild('searchInput') searchInput: ElementRef;
 
   renderTours = model<ITour []>([]);
   nearToursStore = model<ITour[]>([]);
-
+  subscription: Subscription;
   constructor(private toursService: ToursService) {
   }
 
   ngAfterViewInit(): void {
-    this.renderTours.set(this.nearToursStore());
-    fromEvent<InputEvent>(this.searchInput.nativeElement, 'input').subscribe((ev) => {
-      const inputTargetValue = (ev.target as HTMLInputElement).value;
-      if (inputTargetValue === '') {
-        this.renderTours.set(this.nearToursStore());
-      } else{
-        const newTours = this.toursService.searchTours(this.nearToursStore(), inputTargetValue);
-        this.renderTours.set(newTours);
-      }
-    });
+    this.subscription = fromEvent<InputEvent>(this.searchInput.nativeElement, 'input')
+      .subscribe((ev) => {
+        const inputTargetValue = (ev.target as HTMLInputElement).value;
+        if (inputTargetValue === '') {
+          this.renderTours.set(this.nearToursStore());
+        } else{
+          const newTours = this.toursService.searchTours(this.nearToursStore(), inputTargetValue);
+          this.renderTours.set(newTours);
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -84,6 +84,10 @@ export class NearestToursComponent implements OnInit, OnChanges, AfterViewInit {
     }
   }
   ngOnInit(): void {
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   responsiveOptions = [

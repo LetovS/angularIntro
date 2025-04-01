@@ -54,7 +54,6 @@ export class TourItemComponent implements OnInit, OnDestroy {
   }
 
   goToTours(event: KeyboardEvent) {
-    console.log(event.key);
     if (event.key === 'Backspace') {
       this.router.navigate([`tours`], {relativeTo: this.route});
     }
