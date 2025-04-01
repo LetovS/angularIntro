@@ -10,7 +10,8 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€2,192',
       img: 'pic0.jpg',
-      type: 'multi',
+      type: 'single',
+      date: new Date(2025, 2, 5),
       locationId: 'loc1',
     },
     {
@@ -20,8 +21,8 @@ export function initData(): ITour[] {
       tourOperator: 'Emerald Waterways',
       price: '€3,579',
       img: 'pic1.jpg',
-      type: 'multi',
-      date: new Date(2025, 12, 25),
+      type: 'group',
+      date: new Date(2025, 2, 6),
       locationId: 'loc2',
     },
     {
@@ -32,7 +33,8 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€1,100',
       img: 'pic2.jpg',
-      date: new Date(2025, 12, 25),
+      date: new Date(2025, 2, 4),
+      type: 'single',
       locationId: 'loc3',
     },
     {
@@ -43,6 +45,8 @@ export function initData(): ITour[] {
       tourOperator: 'Emerald Waterways',
       price: '€825',
       img: 'pic3.jpg',
+      date: new Date(2025, 2, 7),
+      type: 'group',
       locationId: 'loc4',
     },
     {
@@ -53,7 +57,8 @@ export function initData(): ITour[] {
       tourOperator: 'Bali Bucket List Tours',
       price: '€761',
       img: 'pic4.jpg',
-      type: 'multi',
+      type: 'group',
+      date: new Date(2025, 2, 5),
       locationId: 'loc5',
     },
     {
@@ -64,6 +69,8 @@ export function initData(): ITour[] {
       tourOperator: 'BH Lanka Tours',
       price: '€1200',
       img: 'pic5.jpg',
+      date: new Date(2025, 2, 6),
+      type: 'single',
       locationId: 'loc6',
     },
     {
@@ -74,6 +81,8 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€950',
       img: 'pic6.jpg',
+      date: new Date(2025, 2, 4),
+      type: 'group',
       locationId: 'loc2',
     },
     {
@@ -85,6 +94,7 @@ export function initData(): ITour[] {
       price: '€1200',
       img: 'pic7.jpg',
       type: 'single',
+      date: new Date(2025, 2, 7),
       locationId: 'loc1',
     },
     {
@@ -95,6 +105,8 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€680',
       img: 'pic8.jpg',
+      date: new Date(2025, 2, 5),
+      type: 'single',
       locationId: 'loc1',
     },
     {
@@ -105,6 +117,8 @@ export function initData(): ITour[] {
       tourOperator: 'Emerald Waterways',
       price: '€1,279',
       img: 'pic9.jpg',
+      date: new Date(2025, 2, 6),
+      type: 'group',
       locationId: 'loc3',
     },
     {
@@ -114,6 +128,8 @@ export function initData(): ITour[] {
       tourOperator: 'LocalAdventures',
       price: '€1,192',
       img: 'pic10.jpg',
+      date: new Date(2025, 2, 4),
+      type: 'single',
       locationId: 'loc1',
     },
   ];
