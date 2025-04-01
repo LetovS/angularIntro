@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, ComponentRef, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
@@ -7,6 +7,7 @@ import {Button} from 'primeng/button';
 import {Card} from 'primeng/card';
 import {NearestToursComponent} from './nearest/nearest-tours.component';
 import {TranslatePipe} from '../../pipies/translate.pipe';
+import {BackspaceDirective} from '../../shared/directives/backspace.directive';
 
 @Component({
   selector: 'app-tour-item',
@@ -18,12 +19,14 @@ import {TranslatePipe} from '../../pipies/translate.pipe';
     Button,
     NgIf,
     NearestToursComponent,
-    TranslatePipe
+    TranslatePipe,
+    BackspaceDirective
   ],
   styleUrls: ['./tour-item.component.css']
 })
-export class TourItemComponent implements OnInit {
+export class TourItemComponent implements OnInit, OnDestroy {
   tour: ITour | null = null;
+  private keydownListener: boolean;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +34,10 @@ export class TourItemComponent implements OnInit {
     private location: Location,
     private router: Router,
   ) {}
+
+  ngOnDestroy(): void {
+
+    }
 
   ngOnInit(): void {
     const tourId = this.route.snapshot.paramMap.get('tourId');

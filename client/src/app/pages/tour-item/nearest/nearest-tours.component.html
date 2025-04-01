@@ -1,7 +1,17 @@
 <div class="container" >
+  <p-inputgroup>
+    <input
+      #searchInput
+      pInputText
+      placeholder="Поиск тура"
+    />
+    <p-inputgroup-addon>
+      <p-button icon="pi pi-search" severity="secondary" variant="text"/>
+    </p-inputgroup-addon>
+  </p-inputgroup>
   <p class="tour-header">{{'nearestTours' | translate}}</p>
   <p-galleria
-    [value]="nearestTours()"
+    [value]="renderTours()"
     [circular]="true"
     [showThumbnails]="false"
     [showIndicators]="true"

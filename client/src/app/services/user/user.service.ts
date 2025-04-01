@@ -55,9 +55,6 @@ export class UserService {
   }
 
   public changePassword(data: IChangePassword): Observable<boolean> {
-    const request = JSON.stringify(data);
-    console.log(request);
-    console.log(API.changePassword)
     return this.httpClient
       .post<boolean>(API.changePassword, data)
       .pipe(
