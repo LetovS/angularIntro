@@ -1,10 +1,11 @@
-<p-button
-  label="Back"
-  styleClass="p-button-link"
-  routerLink="/tours"
-/>
+<div appBackspace [redirectRoute]="'/tours'">
+  <p-button
+    label="Back"
+    styleClass="p-button-link"
+    routerLink="/tours"
+  />
 
-<div class="flex flex-1 tour-item-wrap">
+  <div class="flex flex-1 tour-item-wrap">
     @if(tour){
       <p-card
         header="{{tour.name}}"
@@ -19,7 +20,9 @@
     } @else {
       <div class="load-data">{{'loading' | translate}}</div>
     }
-  <div class="m-1 col-6 nearest-tours">
-    <app-nearest [tour]="tour" (selectedTourChangedId)="changeCurrentTour($event)"/>
+    <div class="m-1 col-6 nearest-tours">
+      <app-nearest [tour]="tour" (selectedTourChangedId)="changeCurrentTour($event)"/>
+    </div>
   </div>
 </div>
+
