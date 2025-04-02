@@ -72,10 +72,10 @@
     </div>
     <div class="date">
       <div>
-        {{dateTime | date: 'HH:mm:ss'}}
+        {{dateTime | date: 'HH:mm:ss' : undefined : currentLang}}
       </div>
       <div class="p-0 m-0">
-        {{dateTime | date: 'EEEE'}}
+        {{dateTime | date: 'EEEE' : undefined : currentLang}}
       </div>
     </div>
   </div>

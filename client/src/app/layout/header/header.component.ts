@@ -39,16 +39,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
               private localizationService: LocalizationService) {
   }
 
-    ngOnDestroy(): void {
-
-    }
-    ngOnInit(): void {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+  ngOnInit(): void {
       this.user = this.userService.getUser();
       this.updateMenuItems();
 
       this.localizationService.currentLang$
         .pipe(takeUntil(this.destroy$))
-        .subscribe(() => this.updateMenuItems());
+        .subscribe(lang => {
+          this.currentLang = lang;
+          this.updateMenuItems();
+        });
 
       setInterval(() => {
           this.dateTime = new Date();
@@ -56,14 +60,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.cartItemsCount = this.cartService.cartCountSignal;
     }
 
-    logOut(): void {
+  logOut(): void {
       this.userService.setUser(null);
       sessionStorage.removeItem('user');
       // удалить данные о пользователе
       this.router.navigate(['/auth']);
     }
 
-    hoverLogoutBtn(val: boolean): void{
+  hoverLogoutBtn(val: boolean): void{
       this.logoutIcon = val ? 'pi pi-sign-out' : 'pi pi-user'
     }
 

@@ -16,7 +16,7 @@ import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
 import {TranslatePipe} from '../../pipies/translate.pipe';
 import {ToursListActivitiesDirective} from '../../shared/directives/tours-list-activities.directive';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription, takeUntil} from 'rxjs';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {isValid} from 'date-fns';
 
@@ -44,6 +44,7 @@ import {isValid} from 'date-fns';
 export class ToursComponent implements OnInit, OnDestroy {
   private currentDate: number | null = null;
   private currentTourType: ITourType | null = null;
+  private destroy$ = new Subject<void>();
 
   constructor(private toursService: ToursService,
               protected router: Router,
@@ -54,7 +55,6 @@ export class ToursComponent implements OnInit, OnDestroy {
   tours: ITour [];
   toursStore: ITour [];
   tour: ITour | null = null;
-  subscription: Subscription;
 
   ngOnInit(): void {
       this.toursService.getTours().subscribe(
@@ -66,7 +66,9 @@ export class ToursComponent implements OnInit, OnDestroy {
 
       });
 
-   this.subscription = this.toursService.tourType$.subscribe((t) => {
+   this.toursService.tourType$
+     .pipe(takeUntil(this.destroy$))
+     .subscribe((t) => {
      if (this.isIDateFilter(t)) {
        if (t.date && isValid(new Date(t.date))){
          this.currentDate = new Date(t.date).setHours(0, 0, 0, 0);
@@ -110,7 +112,8 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.tours = [];
-    this.subscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   goToTour(item: ITour) {

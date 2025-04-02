@@ -1,7 +1,7 @@
-import {Inject, Injectable, LOCALE_ID, OnInit} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { translations } from '../../locale/translations';
-import {PrimeNG} from 'primeng/config';
+import { PrimeNG } from 'primeng/config';
 
 @Injectable({
   providedIn: 'root'
