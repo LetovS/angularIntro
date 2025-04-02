@@ -38,4 +38,12 @@ export class AsideComponent implements OnInit {
   changeTourDate(event: SelectChangeEvent) {
     console.log(event.value);
   }
+
+  changeDate(event: Date) {
+    this.tourService.filterToursByDate({date: event});
+  }
+
+  clearFilter() {
+    this.tourService.filterToursByDate({date: null});
+  }
 }

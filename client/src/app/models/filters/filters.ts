@@ -13,3 +13,8 @@ export function getToursType(): ITourType [] {
     {name: 'Все', code: 'all'}
   ];
 }
+
+
+export interface IDateFilter{
+  date?: Date;
+}

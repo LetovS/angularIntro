@@ -3,13 +3,13 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
 import {catchError, Observable, of, Subject, tap, throwError} from 'rxjs';
 import {ITour,TourRequest} from '../../models/tour/tour';
-import {ITourType} from '../../models/filters/filters';
+import {IDateFilter, ITourType} from '../../models/filters/filters';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToursService {
-  private tourTypeSubject = new Subject<ITourType>();
+  private tourTypeSubject = new Subject<ITourType | IDateFilter>();
   readonly tourType$ = this.tourTypeSubject.asObservable();
   constructor(private httpClient: HttpClient) { }
 
@@ -112,5 +112,9 @@ export class ToursService {
 
   initChangeTourType(selectedType: ITourType) {
     this.tourTypeSubject.next(selectedType);
+  }
+
+  filterToursByDate(event: IDateFilter) {
+    this.tourTypeSubject.next(event);
   }
 }

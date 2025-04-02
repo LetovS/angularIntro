@@ -10,6 +10,13 @@
       class="w-100" />
   </p-fieldset>
   <p-fieldset legend="Дата тура" class="m-2">
-    <p-datepicker [(ngModel)]="selectedDate" [showButtonBar]="true"></p-datepicker>
+    <p-datepicker
+      [showIcon]="true"
+      (onSelect)="changeDate($event)"
+      (onClearClick)="clearFilter()"
+      [(ngModel)]="selectedDate"
+      [showButtonBar]="true"
+      dateFormat="dd-mm-yy"
+    ></p-datepicker>
   </p-fieldset>
 </div>

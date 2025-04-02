@@ -17,6 +17,8 @@ import {NotificationsService} from '../../services/notifications/notifications.s
 import {TranslatePipe} from '../../pipies/translate.pipe';
 import {ToursListActivitiesDirective} from '../../shared/directives/tours-list-activities.directive';
 import {Subscription} from 'rxjs';
+import {IDateFilter, ITourType} from '../../models/filters/filters';
+import {isValid} from 'date-fns';
 
 @Component({
   selector: 'app-tours',
@@ -40,6 +42,9 @@ import {Subscription} from 'rxjs';
   styleUrl: './tours.component.scss'
 })
 export class ToursComponent implements OnInit, OnDestroy {
+  private currentDate: number | null = null;
+  private currentTourType: ITourType | null = null;
+
   constructor(private toursService: ToursService,
               protected router: Router,
               private route: ActivatedRoute,
@@ -50,30 +55,59 @@ export class ToursComponent implements OnInit, OnDestroy {
   toursStore: ITour [];
   tour: ITour | null = null;
   subscription: Subscription;
+
   ngOnInit(): void {
-        this.toursService.getTours().subscribe(
-        (data) => {
-          this.tours = data;
-          this.toursStore = [...data];
-        },
-        () => {
+      this.toursService.getTours().subscribe(
+      (data) => {
+        this.tours = data;
+        this.toursStore = [...data];
+      },
+      () => {
 
-        });
-       this.subscription = this.toursService.tourType$.subscribe((t) => {
-        switch (t.code){
-          case 'all':
-            this.tours = [...this.toursStore]
-            break;
-          case 'single':
-            this.tours = this.toursStore.filter((t) => t.type === 'single')
-            break;
-          case 'group':
-            this.tours = this.toursStore.filter((t) => t.type === 'group')
-            break;
-        }
-      })
-      }
+      });
 
+   this.subscription = this.toursService.tourType$.subscribe((t) => {
+     if (this.isIDateFilter(t)) {
+       if (t.date && isValid(new Date(t.date))){
+         this.currentDate = new Date(t.date).setHours(0, 0, 0, 0);
+       }
+       else{
+         console.log('Фильтр по дате выкл')
+         this.currentDate = null;
+       }
+     } else if (this.isITourType(t)) {
+       this.currentTourType = t;
+     }
+     this.applyCombinedFilters();
+    })
+  }
+
+  private applyCombinedFilters() {
+    this.tours = [...this.toursStore];
+    if (this.currentDate){
+      console.log('Фильтрую по дате')
+      this.tours = this.tours.filter((tour) => {
+        return new Date(tour.date).setHours(0,0,0,0,) === this.currentDate;
+      });
+    }
+
+    if (this.currentTourType){
+      console.log('Фильтрую по типу', this.currentTourType.name)
+      this.tours = this.tours.filter((tour) => {
+        return this.currentTourType.code === 'all' || tour.type === this.currentTourType.code;
+      });
+    }
+  }
+
+  isITourType(obj: any): obj is ITourType {
+    return obj && typeof obj === 'object' &&
+      'name' in obj && 'code' in obj;
+  }
+
+  isIDateFilter(obj: any): obj is IDateFilter {
+    return obj && typeof obj === 'object' &&
+      'date' in obj;
+  }
   ngOnDestroy(): void {
     this.tours = [];
     this.subscription.unsubscribe();
