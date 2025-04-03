@@ -13,7 +13,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 @Module({
   imports: [
     UsersModule,
-    //MongooseModule.forRoot('mongodb://localhost:27017/tours'),
+    MongooseModule.forRoot('mongodb://localhost:27017/tours'),
     JwtModule.register({
       secret: 'supper-pupper-secret_key-1987$',
       signOptions: { expiresIn: '1h' },
