@@ -1,10 +1,10 @@
-import {Component, NgModule, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ToursService} from '../../services/tours/tours.service';
 import {ITour} from '../../models/tour/tour';
 import {CardModule} from 'primeng/card';
 import {Button, ButtonDirective} from 'primeng/button';
 import {ModalComponent} from '../../common/modal/modal.component';
-import {CommonModule, NgOptimizedImage} from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Tooltip} from 'primeng/tooltip';
 import {InputGroup} from 'primeng/inputgroup';
@@ -16,9 +16,10 @@ import {CartService} from '../../services/cart/cart.service';
 import {NotificationsService} from '../../services/notifications/notifications.service';
 import {TranslatePipe} from '../../pipies/translate.pipe';
 import {ToursListActivitiesDirective} from '../../shared/directives/tours-list-activities.directive';
-import {Subject, Subscription, takeUntil} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {isValid} from 'date-fns';
+import {LocalizationService} from '../../services/localization.service';
 
 @Component({
   selector: 'app-tours',
@@ -45,12 +46,13 @@ export class ToursComponent implements OnInit, OnDestroy {
   private currentDate: number | null = null;
   private currentTourType: ITourType | null = null;
   private destroy$ = new Subject<void>();
-
+  currentLang: string;
   constructor(private toursService: ToursService,
               protected router: Router,
               private route: ActivatedRoute,
               private cartService: CartService,
-              private notificationService: NotificationsService) {}
+              private notificationService: NotificationsService,
+              private localizationService: LocalizationService) {}
 
   tours: ITour [];
   toursStore: ITour [];
@@ -65,7 +67,11 @@ export class ToursComponent implements OnInit, OnDestroy {
       () => {
 
       });
-
+    this.localizationService.currentLang$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(lang => {
+        this.currentLang = lang;
+      });
    this.toursService.tourType$
      .pipe(takeUntil(this.destroy$))
      .subscribe((t) => {
