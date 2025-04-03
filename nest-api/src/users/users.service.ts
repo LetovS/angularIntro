@@ -1,5 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { Model } from 'mongoose';
+import { User, UserDocument } from 'src/schemas/user.schema';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface IUser {
@@ -43,6 +46,10 @@ const userStorage: IUser[] = [];
 export class UsersService {
   private currentUser: IUser | null = null;
 
+  constructor(@InjectModel(User.name) private userRepository: Model<UserDocument>){
+    console.log('userService run')
+  }
+
   public async getUserByLogin(login: string): Promise<IUser | null> {
     await Promise.resolve();
     console.log('Search starting ...');
@@ -60,6 +67,8 @@ export class UsersService {
     user.id = uuidv4();
     console.log('Adding new user...');
     userStorage.push(user);
+    const id = await this.userRepository.create(user);
+    console.log('Id ', id)
     return true;
   }
 
@@ -75,8 +84,9 @@ export class UsersService {
   }
 
   public async getUsers(): Promise<IUser[]> {
-    await Promise.resolve();
-    return userStorage;
+    const users = await this.userRepository.find().exec();
+    console.log('users ', users);
+    return users as IUser [];
   }
 
   public async getUser(userId: string) {

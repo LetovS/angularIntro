@@ -16,7 +16,7 @@ import { PaymentModule } from './payment/payment.module';
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/tours'),
+    MongooseModule.forRoot('mongodb://localhost:27017/nest'),
     JwtModule.register({
       global: true,
       secret: 'supper-pupper-secret_key-1987$',
