@@ -8,13 +8,15 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersService } from './users/users.service';
 import { ToursController } from './tours/tours.controller';
 import { ToursService } from './tours/tours.service';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     UsersModule,
+    //MongooseModule.forRoot('mongodb://localhost:27017/tours'),
     JwtModule.register({
-      secret: 'supper-pupper-secret_key-1987$', // Замените на ваш секретный ключ
-      signOptions: { expiresIn: '1h' }, // Время жизни токена
+      secret: 'supper-pupper-secret_key-1987$',
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AppController, AuthController, ToursController],
