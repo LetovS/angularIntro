@@ -20,20 +20,25 @@ export class AuthService {
 
     console.log(`Пользователь ${JSON.stringify(user)}`);
 
-    if (user && user.password === password) {
+    if (user && await user.checkPassword(password)) {
       console.log(`Проверка пароля ддя ${user.password} и ${password}`);
-      return user;
+      return {
+        login: user.login,
+        id: user._id.toString()
+      }
     }
     return null;
   }
 
   async login(user: IUser): Promise<IAuth> {
-    await Promise.resolve();
     const payload = { login: user.login };
 
-    const token: string = this.jwtService.sign(payload);
+    const token: string = await this.jwtService.sign(payload);
+
     console.log(`Полученный токен - ${token}`);
+
     const response: IAuth = { access_token: token };
+    
     return response;
   }
 }

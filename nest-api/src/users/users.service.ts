@@ -3,12 +3,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/schemas/user.schema';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface IUser {
   id: string;
   login: string;
-  password: string;
+  password?: string;
 }
 
 export class CreateUserDto {
@@ -50,37 +49,35 @@ export class UsersService {
     console.log('userService run')
   }
 
-  public async getUserByLogin(login: string): Promise<IUser | null> {
-    await Promise.resolve();
-    console.log('Search starting ...');
-
-    const result = userStorage.find((u) => u.login === login) || null;
-
-    return result;
+  public async getUserByLogin(login: string): Promise<UserDocument | null> {    
+    const user = await this.userRepository
+      .findOne({login: login})
+      .select('+password');
+    
+    return user ?? null;
   }
 
   public async addUser(user: IUser): Promise<true | string> {
-    await Promise.resolve();
-    if (await this.getUserByLogin(user.login)) {
+    
+    if (await this.isUserExist(user.login)) {
       return 'User already exists';
     }
-    user.id = uuidv4();
-    console.log('Adding new user...');
-    userStorage.push(user);
+
     const id = await this.userRepository.create(user);
-    console.log('Id ', id)
+
     return true;
   }
 
   public async isUserExist(login: string): Promise<boolean> {
-    await Promise.resolve();
-    const user = await this.getUserByLogin(login);
+    const user = await this.userRepository.findOne({login})
+    .lean()
+    .exec()  as unknown as IUser;
+
     return !!user;
   }
 
-  public async getUsersCount(): Promise<number> {
-    await Promise.resolve();
-    return userStorage.length;
+  public async getUsersCount(): Promise<number> {    
+    return await this.userRepository.countDocuments().exec();
   }
 
   public async getUsers(): Promise<IUser[]> {
@@ -89,34 +86,26 @@ export class UsersService {
     return users as IUser [];
   }
 
-  public async getUser(userId: string) {
-    await Promise.resolve();
-    const user: IUser | null = userStorage.find((u) => u.id === userId) || null;
+  public async getUser(userId: string) {    
+    const user = await this.userRepository.findById(userId).lean().exec() as unknown as IUser;
+    console.log('user: ', user)
     if (user) return user;
     return null;
   }
 
-  async changeUserPassword(
-    changePasswordDto: IChangePassword,
-  ): Promise<boolean> {
-    await Promise.resolve();
-    console.log('Ищем пользвоателя');
-    const user =
-      userStorage.find((u) => u.login === changePasswordDto.login) || null;
-    if (user) {
-      console.log('Пользователь найден');
-      const isValidPassword = user.password === changePasswordDto.oldPassword;
-      if (isValidPassword) {
-        console.log('Пароль изменён');
-        user.password = changePasswordDto.newPassword;
-        console.log(JSON.stringify(user));
-        return true;
-      }
-      console.log('Старый пароль неверный.');
-      return false;
-    } else {
-      console.log('Пользователь не найден.');
-      throw new BadRequestException('User not found');
-    }
+  async changeUserPassword(changePasswordDto: IChangePassword): Promise<boolean> {
+    const user = await this.userRepository
+      .findOne({login: changePasswordDto.login})
+      .select('+password');
+
+    if (!user) throw new BadRequestException('Пользователь не найден');
+    
+    const isValid = await user.checkPassword(changePasswordDto.oldPassword);
+    if (!isValid) throw new BadRequestException('Неверный старый пароль');
+    
+    user.password = changePasswordDto.newPassword;
+    const result = await user.save();
+    console.log(result);
+    return true;
   }
 }

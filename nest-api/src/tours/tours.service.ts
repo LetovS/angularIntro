@@ -3,105 +3,86 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { ApiProperty } from '@nestjs/swagger';
-import { v4 as uuidv4 } from 'uuid';
 import { initData } from './mock';
+import { Tour, TourDocument } from 'src/schemas/tour.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { ITour } from './model';
 
 let toursStorage: ITour[] = initData();
 
 @Injectable()
 export class ToursService {
+  constructor(@InjectModel(Tour.name) private toursRepository: Model<TourDocument>){
+  }
+
   async getTours(): Promise<ITour[]> {
-    console.log('recived all tours');
-    await Promise.resolve();
-    return toursStorage;
+    const result = await this.toursRepository.find().lean().exec();
+    return result.map(({ _id, __v, ...tour }) => ({
+      id: _id.toString(),
+      ...tour,
+    }));
   }
 
   async getTour(tourId: string): Promise<ITour | null> {
-    //await new Promise((resolve) => setTimeout(resolve, 1000));
-    const tour = toursStorage.find((t) => t.id === tourId) || null;
-    return tour;
+    const dbTour = await this.toursRepository
+      .findById(tourId)
+      .lean()
+      .exec();
+
+      if (!dbTour) {
+        return null;
+      }
+
+      const { _id, __v, ...tour } = dbTour;
+      return {
+        id: _id.toString(),
+        ...tour,
+      };
   }
 
   async getToursByLocationId(locationId: string): Promise<ITour[]> {
-    await Promise.resolve();
-    const result: ITour[] = toursStorage.filter(
-      (t) => t.locationId === locationId,
-    );
-    console.log(`Found ${JSON.stringify(result)}`);
-    return result;
+    const result = await this.toursRepository.find({locationId: locationId}).lean().exec();
+    return result.map(({ _id, __v, ...tour }) => ({
+      id: _id.toString(),
+      ...tour,
+    }));
   }
 
   async addTour(newTour: ITour): Promise<number | string> {
-    console.log(`Search tour by name: ${newTour.name}`);
-    await Promise.resolve();
-    const exist = toursStorage.find((t) => t.name === newTour.name) || null;
-    if (exist) {
-      console.log('Alredy exists');
+    const tourExists = await this.toursRepository.findOne({name: newTour.name}).exec();
+
+    if (tourExists) {
       throw new ConflictException('That tour already exists');
     }
-    newTour.id = uuidv4();
-    toursStorage.push(newTour);
-    return newTour.id;
+
+    const createdTour = new this.toursRepository(newTour);
+    await createdTour.save();
+    return createdTour.id;
   }
 
   async removeTour(removingTourid: string): Promise<true | string> {
-    console.log(`Search tour by id: ${removingTourid}`);
-    await Promise.resolve();
-    const indexToRemove = toursStorage.findIndex(
-      (user) => user.id === removingTourid,
-    );
+    const tourExists = await this.toursRepository.findById(removingTourid).exec();
 
-    if (indexToRemove !== -1) {
-      toursStorage.splice(indexToRemove, 1);
-      console.log('Removed');
+    if(tourExists){
+      await tourExists.deleteOne();
       return true;
     }
-    console.log(`Tour with id: ${removingTourid} not found`);
+
     throw new NotFoundException(`Tour with id: ${removingTourid} not found`);
   }
 
   async initData(): Promise<void> {
-    await Promise.resolve();
-    if (toursStorage.length !== 0) {
-      return;
-    }
-
+    const items = await this.toursRepository.countDocuments().exec();
+    if(items > 0 ) return;
+    console.log('init');
     toursStorage = initData();
+    const toursWithoutIdAndCleanPrice = toursStorage.map(({ id, ...rest }) => {                
+      return {
+        ...rest
+      };
+    });
+    const result = await this.toursRepository.insertMany(toursWithoutIdAndCleanPrice);
+    console.log(result);
   }
-}
-
-export class TourDto implements ITour {
-  @ApiProperty({ description: 'id', example: 'null' })
-  id: string;
-  @ApiProperty({ description: 'Tour name', example: 'test' })
-  name: string;
-  @ApiProperty({ description: "Tour's description", example: 'test' })
-  description: string;
-  @ApiProperty({ description: "Tour's operator", example: 'test' })
-  tourOperator: string;
-  @ApiProperty({ description: "Tour's price", example: 1000 })
-  price: string;
-  @ApiProperty({ description: "Url's image", example: '' })
-  img?: string;
-  @ApiProperty({
-    description: "Tour's date start",
-    example: new Date(2025, 4, 25),
-  })
-  date?: Date;
-  @ApiProperty({ description: "Tour's type", example: 'single' })
-  type?: string;
-  locationId?: string;
-}
-
-export interface ITour {
-  id: string;
-  name: string;
-  description: string;
-  tourOperator: string;
-  price: string;
-  img?: string;
-  date?: Date;
-  type?: string;
-  locationId?: string;
 }

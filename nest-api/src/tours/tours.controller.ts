@@ -16,7 +16,8 @@ import {
   ApiParam,
   ApiQuery,
 } from '@nestjs/swagger';
-import { ToursService, TourDto, ITour } from './tours.service';
+import { ToursService } from './tours.service';
+import { ITour, TourDto } from './model';
 
 @ApiTags('tours')
 @Controller('tours')

@@ -1,9 +1,32 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
-export type UserDocument = HydratedDocument<User>;
+export type UserDocument = HydratedDocument<User, UserMethods>;
 
-@Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
+export interface UserMethods {
+  checkPassword(candidatePassword: string): Promise<boolean>;
+}
+
+@Schema({ 
+  timestamps: true, 
+  toJSON: { 
+    virtuals: true,
+    transform: function (doc, ret) {
+      delete ret.password;
+      delete ret.__v;
+      return ret;
+    }
+  }, 
+  toObject: { 
+    virtuals: true,
+    transform: function (doc, ret) {
+      delete ret.password;
+      delete ret.__v;
+      return ret;
+    }
+  } 
+})
 export class User {
   @Prop({
     required: true,
@@ -15,10 +38,10 @@ export class User {
   })
   login: string;
 
-  @Prop({ 
+  @Prop({
     required: true,
     minlength: 6,
-    select: false // Исключаем из выборок по умолчанию
+    select: false,
   })
   password: string;
 
@@ -34,8 +57,7 @@ export class User {
     required: true,
     unique: true,
     trim: true,
-    lowercase: true
-    //match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    lowercase: true,
   })
   email: string;
 
@@ -43,8 +65,24 @@ export class User {
   role: string;
 }
 
+// Создаем схему
 export const UserSchema = SchemaFactory.createForClass(User);
 
-// Индексы для быстрого поиска
+// Добавляем индексы
 UserSchema.index({ email: 1 }, { unique: true });
 UserSchema.index({ login: 1 }, { unique: true });
+
+// Добавляем хук для автоматического хеширования пароля перед сохранением
+UserSchema.pre<UserDocument>('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+// Добавляем метод проверки пароля
+UserSchema.methods.checkPassword = async function (
+  candidatePassword: string
+): Promise<boolean> {
+  if (!this.password) return false; // Защита от ошибок
+  return bcrypt.compare(candidatePassword, this.password);
+};

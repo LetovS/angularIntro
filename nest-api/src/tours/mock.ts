@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ITour } from './tours.service';
+import { ITour } from './model';
 
 export function initData(): ITour[] {
   return [

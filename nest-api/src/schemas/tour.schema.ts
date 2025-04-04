@@ -1,10 +1,32 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, now } from 'mongoose';
+import { Double, HydratedDocument, now } from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 export type TourDocument = HydratedDocument<Tour>;
 
-@Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
+@Schema({
+  timestamps: true,
+  toJSON: {
+    virtuals: true,
+    transform: function (doc, ret) {
+      ret.id = ret._id.toString();
+      delete ret._id;
+      delete ret.__v;
+      return ret;
+    }
+  },
+  toObject: {
+    virtuals: true,
+    transform: function (doc, ret) {
+      ret.id = ret._id.toString();
+      delete ret._id;
+      delete ret.__v;
+      return ret;
+    }
+  }
+ })
 export class Tour {
+  
   @Prop({ required: true, trim: true, minlength: 3, maxlength: 100 })
   name: string;
 
@@ -14,8 +36,8 @@ export class Tour {
   @Prop({ required: true, trim: true })
   tourOperator: string;
 
-  @Prop({ required: true, min: 0 })
-  price: number;
+  @Prop({ required: true, trim: true })
+  price: string;
 
   @Prop({ default: null })
   img: string;
