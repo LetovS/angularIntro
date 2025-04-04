@@ -11,8 +11,12 @@ export const ErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       let errorMessage = '';
 
+      if (error.status === 0) {
+        errorMessage = 'Ошибка CORS: Сервер не разрешил запрос с этого домена';
+        notificationsService.initToast('error', errorMessage, 'CORS-Ошибка');
+        return throwError(() => errorMessage);
+      }
       if (error instanceof HttpErrorResponse) {
-        // Обработка ошибок HTTP
         switch (error.status) {
           case  201:
             errorMessage = 'Такой пользователь уже существует';
