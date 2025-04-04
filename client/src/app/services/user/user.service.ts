@@ -35,7 +35,6 @@ export class UserService {
         this.setUser(user);
       }),
       catchError((error) => {
-        alert(error)
         return  throwError(() => error);
       })
     );
