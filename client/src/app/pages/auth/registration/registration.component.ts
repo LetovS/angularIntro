@@ -29,11 +29,10 @@ export class RegistrationComponent{
 
   nickname: string;
   login: string = '';
-  password: string = '';
+  protected password: string = '';
   confirmPassword: string = '';
   email: string = '';
   isRemember: boolean = false;
-  labelText: string = 'Сохранить';
 
   get isPasswordsMismatch(): boolean {
     return !this.password ||

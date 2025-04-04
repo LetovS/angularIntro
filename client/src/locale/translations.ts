@@ -52,7 +52,8 @@ export const translations = {
       accept: "Accept",
       reject: "Cancel",
       clear: 'Clear'
-    }
+    },
+    btnSave: 'Save'
   },
   ru: {
     tours: 'Билеты',
@@ -102,11 +103,12 @@ export const translations = {
       ],
       today: "Сегодня",
       weekHeader: "Неделя",
-      firstDayOfWeek: 1, // Понедельник как первый день недели
+      firstDayOfWeek: 1,
       dateFormat: "dd.mm.yy",
       accept: "Принять",
       reject: "Отмена",
       clear: 'Очистить'
-    }
+    },
+    btnSave: 'Сохранить'
   }
 }
