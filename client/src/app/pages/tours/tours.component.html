@@ -23,7 +23,7 @@
         header="{{item.name}}"
         subheader="{{item.price}}">
         <ng-template #header>
-          <img src="/imgs/{{item.img}}" alt="card" class="w-full">
+          <img src="/imgs/{{item.img}}" alt="card" class="tour-image">
         </ng-template>
          <p>{{ item.date | date:'dd-MM-yyyy' : undefined : currentLang }}</p>
         <p>{{item.description}}</p>
