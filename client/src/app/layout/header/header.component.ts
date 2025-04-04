@@ -47,12 +47,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.user = this.userService.getUser();
       this.updateMenuItems();
 
-      this.localizationService.currentLang$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(lang => {
-          this.currentLang = lang;
-          this.updateMenuItems();
-        });
+        this.localizationService.currentLang$
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(lang => {
+            this.currentLang = lang;
+            this.updateMenuItems();
+          });
 
       setInterval(() => {
           this.dateTime = new Date();
