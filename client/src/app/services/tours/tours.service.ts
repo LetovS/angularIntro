@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, Observable, of, Subject, tap, throwError} from 'rxjs';
+import {catchError, forkJoin, map, Observable, of, Subject, tap, throwError} from 'rxjs';
 import {ITour,TourRequest} from '../../models/tour/tour';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
+import {ICountry} from '../../models/country/country';
 
 @Injectable({
   providedIn: 'root'
@@ -18,15 +19,34 @@ export class ToursService {
    * @returns Observable<ITour[]> - Массив туров.
    */
   public getTours(): Observable<ITour[]> {
-    return this.httpClient
-      .get<ITour[]>(API.tours + '/tours') // Указываем тип ответа <ITour[]>
-      .pipe(
-        tap((response) => {
-        }),
-        catchError((error: HttpErrorResponse) => {
-          throw error;
+    const countries = this.httpClient.get<ICountry []>(API.countries);
+    const tours =  this.httpClient
+      .get<ITour[]>(API.tours + '/tours');
+
+    return forkJoin<[ICountry [], ITour []]>([countries, tours]).pipe(
+      map((data) => {
+        let toursWithCountries = [] as ITour [];
+        const toursArr = data[1];
+        const countriesMap = new Map();
+
+        data[0].forEach(c => {
+          countriesMap.set(c.iso_code2, c)
         })
-      );
+
+        if(Array.isArray(toursArr)){
+          console.log('///toursArr', toursArr);
+          toursWithCountries = toursArr.map((tour) =>{
+            return {
+              ...tour,
+              country: countriesMap.get(tour.code) || null
+            }
+          })
+          console.log(toursWithCountries);
+          return toursWithCountries;
+        }
+        return null;
+      })
+    )
   }
   /**
    * Получает список туров возле локации.
