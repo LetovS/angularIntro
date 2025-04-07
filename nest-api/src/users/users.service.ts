@@ -62,7 +62,7 @@ export class UsersService {
     if (await this.isUserExist(user.login)) {
       return 'User already exists';
     }
-
+    console.log('creating user', user);
     const id = await this.userRepository.create(user);
 
     return true;
@@ -70,9 +70,9 @@ export class UsersService {
 
   public async isUserExist(login: string): Promise<boolean> {
     const user = await this.userRepository.findOne({login})
-    .lean()
-    .exec()  as unknown as IUser;
-
+      .lean()
+      .exec();
+    console.log('find user', user)
     return !!user;
   }
 

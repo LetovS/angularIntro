@@ -83,6 +83,6 @@ UserSchema.pre<UserDocument>('save', async function (next) {
 UserSchema.methods.checkPassword = async function (
   candidatePassword: string
 ): Promise<boolean> {
-  if (!this.password) return false; // Защита от ошибок
+  if (!this.password) return false;
   return bcrypt.compare(candidatePassword, this.password);
 };

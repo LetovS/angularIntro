@@ -7,25 +7,27 @@ export interface IAuth {
 }
 
 @Injectable()
-export class AuthService {
+export class AuthService{
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(login: string, password: string): Promise<IUser | null> {
-    await Promise.resolve();
+  async validate(login: string, password: string): Promise<IUser | null> {
 
     const user = await this.usersService.getUserByLogin(login);
 
     console.log(`Пользователь ${JSON.stringify(user)}`);
 
-    if (user && await user.checkPassword(password)) {
-      console.log(`Проверка пароля ддя ${user.password} и ${password}`);
-      return {
-        login: user.login,
-        id: user._id.toString()
-      }
+    if (user) {
+      console.log('', password, user.password)
+      const isAuth = await user.checkPassword(password);
+      if(isAuth){
+        return {
+          login: user.login,
+          id: user._id.toString()
+        }
+      }      
     }
     return null;
   }
