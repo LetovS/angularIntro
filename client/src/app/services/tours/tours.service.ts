@@ -20,6 +20,7 @@ export class ToursService {
    */
   public getTours(): Observable<ITour[]> {
     const countries = this.httpClient.get<ICountry []>(API.countries);
+
     const tours =  this.httpClient
       .get<ITour[]>(API.tours + '/tours');
 
@@ -28,7 +29,7 @@ export class ToursService {
         let toursWithCountries = [] as ITour [];
         const toursArr = data[1];
         const countriesMap = new Map();
-
+        console.log(data[0]);
         data[0].forEach(c => {
           countriesMap.set(c.iso_code2, c)
         })

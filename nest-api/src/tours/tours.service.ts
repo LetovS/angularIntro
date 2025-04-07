@@ -13,8 +13,9 @@ let toursStorage: ITour[] = initData();
 
 @Injectable()
 export class ToursService {
-  constructor(@InjectModel(Tour.name) private toursRepository: Model<TourDocument>){
-  }
+  constructor(
+    @InjectModel(Tour.name) private toursRepository: Model<TourDocument>,
+  ) {}
 
   async getTours(): Promise<ITour[]> {
     const result = await this.toursRepository.find().lean().exec();
@@ -25,24 +26,24 @@ export class ToursService {
   }
 
   async getTour(tourId: string): Promise<ITour | null> {
-    const dbTour = await this.toursRepository
-      .findById(tourId)
-      .lean()
-      .exec();
+    const dbTour = await this.toursRepository.findById(tourId).lean().exec();
 
-      if (!dbTour) {
-        return null;
-      }
+    if (!dbTour) {
+      return null;
+    }
 
-      const { _id, __v, ...tour } = dbTour;
-      return {
-        id: _id.toString(),
-        ...tour,
-      };
+    const { _id, __v, ...tour } = dbTour;
+    return {
+      id: _id.toString(),
+      ...tour,
+    };
   }
 
   async getToursByLocationId(locationId: string): Promise<ITour[]> {
-    const result = await this.toursRepository.find({locationId: locationId}).lean().exec();
+    const result = await this.toursRepository
+      .find({ locationId: locationId })
+      .lean()
+      .exec();
     return result.map(({ _id, __v, ...tour }) => ({
       id: _id.toString(),
       ...tour,
@@ -50,7 +51,9 @@ export class ToursService {
   }
 
   async addTour(newTour: ITour): Promise<number | string> {
-    const tourExists = await this.toursRepository.findOne({name: newTour.name}).exec();
+    const tourExists = await this.toursRepository
+      .findOne({ name: newTour.name })
+      .exec();
 
     if (tourExists) {
       throw new ConflictException('That tour already exists');
@@ -62,9 +65,11 @@ export class ToursService {
   }
 
   async removeTour(removingTourid: string): Promise<true | string> {
-    const tourExists = await this.toursRepository.findById(removingTourid).exec();
+    const tourExists = await this.toursRepository
+      .findById(removingTourid)
+      .exec();
 
-    if(tourExists){
+    if (tourExists) {
       await tourExists.deleteOne();
       return true;
     }
@@ -74,15 +79,17 @@ export class ToursService {
 
   async initData(): Promise<void> {
     const items = await this.toursRepository.countDocuments().exec();
-    if(items > 0 ) return;
+    if (items > 0) return;
     console.log('init');
     toursStorage = initData();
-    const toursWithoutIdAndCleanPrice = toursStorage.map(({ id, ...rest }) => {                
+    const toursWithoutIdAndCleanPrice = toursStorage.map(({ id, ...rest }) => {
       return {
-        ...rest
+        ...rest,
       };
     });
-    const result = await this.toursRepository.insertMany(toursWithoutIdAndCleanPrice);
+    const result = await this.toursRepository.insertMany(
+      toursWithoutIdAndCleanPrice,
+    );
     console.log(result);
   }
 }

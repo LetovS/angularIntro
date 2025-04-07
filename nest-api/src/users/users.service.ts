@@ -45,20 +45,21 @@ const userStorage: IUser[] = [];
 export class UsersService {
   private currentUser: IUser | null = null;
 
-  constructor(@InjectModel(User.name) private userRepository: Model<UserDocument>){
-    console.log('userService run')
+  constructor(
+    @InjectModel(User.name) private userRepository: Model<UserDocument>,
+  ) {
+    console.log('userService run');
   }
 
-  public async getUserByLogin(login: string): Promise<UserDocument | null> {    
+  public async getUserByLogin(login: string): Promise<UserDocument | null> {
     const user = await this.userRepository
-      .findOne({login: login})
+      .findOne({ login: login })
       .select('+password');
-    
+
     return user ?? null;
   }
 
   public async addUser(user: IUser): Promise<true | string> {
-    
     if (await this.isUserExist(user.login)) {
       return 'User already exists';
     }
@@ -69,40 +70,43 @@ export class UsersService {
   }
 
   public async isUserExist(login: string): Promise<boolean> {
-    const user = await this.userRepository.findOne({login})
-      .lean()
-      .exec();
-    console.log('find user', user)
+    const user = await this.userRepository.findOne({ login }).lean().exec();
+    console.log('find user', user);
     return !!user;
   }
 
-  public async getUsersCount(): Promise<number> {    
+  public async getUsersCount(): Promise<number> {
     return await this.userRepository.countDocuments().exec();
   }
 
   public async getUsers(): Promise<IUser[]> {
     const users = await this.userRepository.find().exec();
     console.log('users ', users);
-    return users as IUser [];
+    return users as IUser[];
   }
 
-  public async getUser(userId: string) {    
-    const user = await this.userRepository.findById(userId).lean().exec() as unknown as IUser;
-    console.log('user: ', user)
+  public async getUser(userId: string) {
+    const user = (await this.userRepository
+      .findById(userId)
+      .lean()
+      .exec()) as unknown as IUser;
+    console.log('user: ', user);
     if (user) return user;
     return null;
   }
 
-  async changeUserPassword(changePasswordDto: IChangePassword): Promise<boolean> {
+  async changeUserPassword(
+    changePasswordDto: IChangePassword,
+  ): Promise<boolean> {
     const user = await this.userRepository
-      .findOne({login: changePasswordDto.login})
+      .findOne({ login: changePasswordDto.login })
       .select('+password');
 
     if (!user) throw new BadRequestException('Пользователь не найден');
-    
+
     const isValid = await user.checkPassword(changePasswordDto.oldPassword);
     if (!isValid) throw new BadRequestException('Неверный старый пароль');
-    
+
     user.password = changePasswordDto.newPassword;
     const result = await user.save();
     console.log(result);

@@ -5,8 +5,10 @@ import { Tour, TourSchema } from 'src/schemas/tour.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-    imports: [MongooseModule.forFeature([{name: Tour.name, schema: TourSchema}])],
-    providers: [ToursService],
-    controllers: [ToursController]
+  imports: [
+    MongooseModule.forFeature([{ name: Tour.name, schema: TourSchema }]),
+  ],
+  providers: [ToursService],
+  controllers: [ToursController],
 })
 export class ToursModule {}

@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Double, HydratedDocument, now } from 'mongoose';
-import { v4 as uuidv4 } from 'uuid';
+import { HydratedDocument, now } from 'mongoose';
 
 export type TourDocument = HydratedDocument<Tour>;
 
@@ -13,7 +12,7 @@ export type TourDocument = HydratedDocument<Tour>;
       delete ret._id;
       delete ret.__v;
       return ret;
-    }
+    },
   },
   toObject: {
     virtuals: true,
@@ -22,11 +21,10 @@ export type TourDocument = HydratedDocument<Tour>;
       delete ret._id;
       delete ret.__v;
       return ret;
-    }
-  }
- })
+    },
+  },
+})
 export class Tour {
-  
   @Prop({ required: true, trim: true, minlength: 3, maxlength: 100 })
   name: string;
 
@@ -51,11 +49,10 @@ export class Tour {
   @Prop({ default: null })
   locationId: string;
 
-  @Prop({default: null})
+  @Prop({ default: null })
   code: string;
 }
 
 export const TourSchema = SchemaFactory.createForClass(Tour);
-
 
 TourSchema.index({ name: 'text', description: 'text' });

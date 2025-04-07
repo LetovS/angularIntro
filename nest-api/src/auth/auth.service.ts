@@ -7,27 +7,26 @@ export interface IAuth {
 }
 
 @Injectable()
-export class AuthService{
+export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
 
   async validate(login: string, password: string): Promise<IUser | null> {
-
     const user = await this.usersService.getUserByLogin(login);
 
     console.log(`Пользователь ${JSON.stringify(user)}`);
 
     if (user) {
-      console.log('', password, user.password)
+      console.log('', password, user.password);
       const isAuth = await user.checkPassword(password);
-      if(isAuth){
+      if (isAuth) {
         return {
           login: user.login,
-          id: user._id.toString()
-        }
-      }      
+          id: user._id.toString(),
+        };
+      }
     }
     return null;
   }
@@ -40,7 +39,7 @@ export class AuthService{
     console.log(`Полученный токен - ${token}`);
 
     const response: IAuth = { access_token: token };
-    
+
     return response;
   }
 }

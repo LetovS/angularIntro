@@ -7,8 +7,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ToursModule } from './tours/tours.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
-import { CountriesController } from './countries/countries.controller';
-import { CountriesService } from './countries/countries.service';
 import { CountriesModule } from './countries/countries.module';
 
 @Module({
@@ -24,7 +22,7 @@ import { CountriesModule } from './countries/countries.module';
     AuthModule,
     PaymentModule,
     CountriesModule,
-    CountriesModule
+    CountriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

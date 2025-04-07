@@ -8,24 +8,24 @@ export interface UserMethods {
   checkPassword(candidatePassword: string): Promise<boolean>;
 }
 
-@Schema({ 
-  timestamps: true, 
-  toJSON: { 
+@Schema({
+  timestamps: true,
+  toJSON: {
     virtuals: true,
     transform: function (doc, ret) {
       delete ret.password;
       delete ret.__v;
       return ret;
-    }
-  }, 
-  toObject: { 
+    },
+  },
+  toObject: {
     virtuals: true,
     transform: function (doc, ret) {
       delete ret.password;
       delete ret.__v;
       return ret;
-    }
-  } 
+    },
+  },
 })
 export class User {
   @Prop({
@@ -34,7 +34,7 @@ export class User {
     trim: true,
     minlength: 3,
     maxlength: 30,
-    match: /^[a-zA-Z0-9_]+$/
+    match: /^[a-zA-Z0-9_]+$/,
   })
   login: string;
 
@@ -45,15 +45,15 @@ export class User {
   })
   password: string;
 
-  @Prop({ 
+  @Prop({
     required: true,
     trim: true,
     minlength: 2,
-    maxlength: 50
+    maxlength: 50,
   })
   nickname: string;
 
-  @Prop({ 
+  @Prop({
     required: true,
     unique: true,
     trim: true,
@@ -81,7 +81,7 @@ UserSchema.pre<UserDocument>('save', async function (next) {
 
 // Добавляем метод проверки пароля
 UserSchema.methods.checkPassword = async function (
-  candidatePassword: string
+  candidatePassword: string,
 ): Promise<boolean> {
   if (!this.password) return false;
   return bcrypt.compare(candidatePassword, this.password);

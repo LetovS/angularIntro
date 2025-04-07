@@ -13,7 +13,7 @@ export function initData(): ITour[] {
       type: 'single',
       date: new Date(2025, 3, 5),
       locationId: 'loc1',
-      code: 'MX'
+      code: 'MX',
     },
     {
       id: uuidv4(),
@@ -25,7 +25,7 @@ export function initData(): ITour[] {
       type: 'group',
       date: new Date(2025, 3, 6),
       locationId: 'loc2',
-      code: 'IT'
+      code: 'IT',
     },
     {
       id: uuidv4(),
@@ -38,7 +38,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 4),
       type: 'single',
       locationId: 'loc3',
-      code: 'PH'
+      code: 'PH',
     },
     {
       id: uuidv4(),
@@ -51,7 +51,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 7),
       type: 'group',
       locationId: 'loc4',
-      code: 'PH'
+      code: 'PH',
     },
     {
       id: uuidv4(),
@@ -64,7 +64,7 @@ export function initData(): ITour[] {
       type: 'group',
       date: new Date(2025, 3, 5),
       locationId: 'loc5',
-      code: 'RU'
+      code: 'RU',
     },
     {
       id: uuidv4(),
@@ -77,7 +77,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 6),
       type: 'single',
       locationId: 'loc6',
-      code: 'RU'
+      code: 'RU',
     },
     {
       id: uuidv4(),
@@ -90,7 +90,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 4),
       type: 'group',
       locationId: 'loc2',
-      code: 'US'
+      code: 'US',
     },
     {
       id: uuidv4(),
@@ -103,7 +103,7 @@ export function initData(): ITour[] {
       type: 'single',
       date: new Date(2025, 3, 7),
       locationId: 'loc1',
-      code: 'GH'
+      code: 'GH',
     },
     {
       id: uuidv4(),
@@ -116,7 +116,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 5),
       type: 'single',
       locationId: 'loc1',
-      code: 'LK'
+      code: 'LK',
     },
     {
       id: uuidv4(),
@@ -129,7 +129,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 6),
       type: 'group',
       locationId: 'loc3',
-      code: 'LK'
+      code: 'LK',
     },
     {
       id: uuidv4(),
@@ -141,7 +141,7 @@ export function initData(): ITour[] {
       date: new Date(2025, 3, 4),
       type: 'single',
       locationId: 'loc1',
-      code: 'JP'
+      code: 'JP',
     },
   ];
 }

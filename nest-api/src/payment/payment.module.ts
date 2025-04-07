@@ -3,7 +3,7 @@ import { PaymentService } from './payment.service';
 import { PaymentController } from './payment.controller';
 
 @Module({
-    providers: [PaymentService],
-    controllers: [PaymentController]
+  providers: [PaymentService],
+  controllers: [PaymentController],
 })
 export class PaymentModule {}

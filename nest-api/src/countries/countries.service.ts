@@ -6,27 +6,29 @@ import { initCountriesInDB } from './mock';
 
 @Injectable()
 export class CountriesService {
-    async getCountries(): Promise<ICountry[] | null> {
-        return await this.countriesRepository.find().lean().exec();        
-    }
-    
-    constructor(@InjectModel(Country.name) private countriesRepository: Model<CountryDocument>){
-      }
-    
-    async initData(): Promise<void | PromiseLike<void>> {
-        const items = await this.countriesRepository.countDocuments().exec();
-        if(items > 0 ) return;
-        const countries = initCountriesInDB();
-        const result = await this.countriesRepository.insertMany(countries);
-    }
+  async getCountries(): Promise<ICountry[] | null> {
+    const res = await this.countriesRepository.find().lean().exec();
+    console.log(res);
+    return res;
+  }
 
+  constructor(
+    @InjectModel(Country.name)
+    private countriesRepository: Model<CountryDocument>,
+  ) {}
+
+  async initData(): Promise<void | PromiseLike<void>> {
+    const items = await this.countriesRepository.countDocuments().exec();
+    if (items > 0) return;
+    const countries = initCountriesInDB();
+    await this.countriesRepository.insertMany(countries);
+  }
 }
-    
 
-export interface ICountry{
-    id?: string,
-    flag_url: string,
-    iso_code2: string,
-    iso_code3: string,
-    name_ru: string
+export interface ICountry {
+  id?: string;
+  flag_url: string;
+  iso_code2: string;
+  iso_code3: string;
+  name_ru: string;
 }
