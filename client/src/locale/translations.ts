@@ -69,7 +69,7 @@ export const translations = {
       authorization: 'Авторизация',
       registration: 'Регистрация'
     },
-    login: 'Логин',
+    login: 'Войти',
     password: 'Пароль',
     passwordConfirm: 'Повторите пароль',
     email: 'Электронная почта',

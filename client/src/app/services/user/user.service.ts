@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {IChangePassword, IUser, IUserRegistration} from '../../models/User/iuser';
+import {IChangePassword, IUser, IUserRegistration, JwtTokenKey, UserStorageKey} from '../../models/User/iuser';
 import {HttpClient} from '@angular/common/http';
 import {API} from '../../shared/api';
 import {catchError, Observable, of, tap, throwError} from 'rxjs';
@@ -44,12 +44,21 @@ export class UserService {
     Возвращает текущего юзера
    */
   public getUser(): IUser{
-    const user = JSON.parse(sessionStorage.getItem('user')) as IUser;
+    const user = JSON.parse(sessionStorage.getItem(UserStorageKey)) as IUser;
     return this.currentUser || user;
   }
 
   public setUser(user: IUser): void{
+    console.log('Was ',this.currentUser)
     this.currentUser = user;
+    console.log('Stay ',this.currentUser)
+    if (user){
+      sessionStorage.setItem(UserStorageKey, JSON.stringify({login: user.login}));
+    } else {
+      sessionStorage.removeItem(UserStorageKey);
+      sessionStorage.removeItem(JwtTokenKey);
+    }
+
   }
 
   public changePassword(data: IChangePassword): Observable<boolean> {
@@ -58,7 +67,7 @@ export class UserService {
       .pipe(
         tap((response) => {
           if (response){
-            sessionStorage.removeItem('user');
+            sessionStorage.removeItem(UserStorageKey);
             this.notifyService.initToast('success', 'Пароль успешно изменён', 'Данные обновлены', 2000)
           }
         }),

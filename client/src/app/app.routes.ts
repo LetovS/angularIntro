@@ -12,15 +12,18 @@ import {OrdersComponent} from './pages/orders/orders.component';
 import {OrderItemComponent} from './pages/orders/order-item/order-item.component';
 
 export const routes: Routes = [
-  {path: 'auth', component: LayoutComponent,
+  {
+    path: 'auth',
+    component: LayoutComponent,
     children: [
       {
         path: '', component: AuthComponent
       }
     ]},
-  {path: 'not-found', component: NotFoundComponent },
+  { path: 'not-found', component: NotFoundComponent },
   {
     path: 'settings',
+    canActivate: [authGuard],
     component: LayoutComponent,
     children: [
       {
