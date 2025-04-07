@@ -8,6 +8,7 @@ export interface ITour{
   date?: Date;
   type?: 'single' | 'group' | 'all';
   locationId: string;
+  code?: string;
 }
 
 export class TourRequest implements ITour{
@@ -20,4 +21,5 @@ export class TourRequest implements ITour{
   date?: Date;
   type?: 'single' | 'group' | 'all';
   locationId: string;
+  code?: string;
 }
