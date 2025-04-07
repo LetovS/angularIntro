@@ -7,12 +7,22 @@ import {Card} from 'primeng/card';
 import {ModalComponent} from '../../common/modal/modal.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputText} from 'primeng/inputtext';
-import {ITour} from '../../models/tour/tour';
 import {TranslatePipe} from '../../pipies/translate.pipe';
 
 @Component({
   selector: 'app-settings',
-  imports: [SettingItemComponent, ChangePasswordComponent, RouterLink, Button, Card, ModalComponent, FormsModule, InputText, ReactiveFormsModule, TranslatePipe],
+  imports: [
+    SettingItemComponent,
+    ChangePasswordComponent,
+    RouterLink,
+    Button,
+    Card,
+    ModalComponent,
+    FormsModule,
+    InputText,
+    ReactiveFormsModule,
+    TranslatePipe
+  ],
   templateUrl: './settings.component.html',
   standalone: true,
   styleUrl: './settings.component.scss'
