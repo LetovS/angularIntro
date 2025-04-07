@@ -2,16 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
-import { AuthService } from './auth/auth.service';
-import { AuthController } from './auth/auth.controller';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from './users/users.service';
-import { ToursController } from './tours/tours.controller';
-import { ToursService } from './tours/tours.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ToursModule } from './tours/tours.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
+import { CountriesController } from './countries/countries.controller';
+import { CountriesService } from './countries/countries.service';
+import { CountriesModule } from './countries/countries.module';
 
 @Module({
   imports: [
@@ -25,6 +23,8 @@ import { PaymentModule } from './payment/payment.module';
     ToursModule,
     AuthModule,
     PaymentModule,
+    CountriesModule,
+    CountriesModule
   ],
   controllers: [AppController],
   providers: [AppService],
