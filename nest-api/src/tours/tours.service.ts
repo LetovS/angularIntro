@@ -86,3 +86,5 @@ export class ToursService {
     console.log(result);
   }
 }
+
+export { ITour };

@@ -43,7 +43,7 @@
       <p-button
         [icon]="logoutIcon"
         label="{{user?.login}}"
-        pTooltip="{{'logout' | translate }}"
+        pTooltip="{{toolTip | translate }}"
         (mouseenter)="hoverLogoutBtn(true)"
         (mouseleave)="hoverLogoutBtn(false)"
         (onClick)="logOut()"

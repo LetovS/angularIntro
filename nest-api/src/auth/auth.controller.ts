@@ -15,12 +15,10 @@ export class AuthController {
   async login(@Body() createUserDto: CreateUserDto): Promise<IAuth | null> {
     console.log(`Request data ${JSON.stringify(createUserDto)}`);
 
-    const user = await this.authService.validateUser(
+    const user = await this.authService.validate(
       createUserDto.login,
       createUserDto.password,
     );
-
-    console.log(`Юзер найден - ${JSON.stringify(user)}`);
 
     if (!user) {
       console.log('Возврааем 401');

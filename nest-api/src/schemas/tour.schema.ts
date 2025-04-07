@@ -50,6 +50,9 @@ export class Tour {
 
   @Prop({ default: null })
   locationId: string;
+
+  @Prop({default: null})
+  code: string;
 }
 
 export const TourSchema = SchemaFactory.createForClass(Tour);

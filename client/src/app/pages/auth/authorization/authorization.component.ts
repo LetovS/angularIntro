@@ -5,7 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import {Checkbox} from 'primeng/checkbox';
 import {IAuth, UserService} from '../../../services/user/user.service';
-import {IUser} from '../../../models/User/iuser';
+import {IUser, JwtTokenKey} from '../../../models/User/iuser';
 import {NotificationsService} from '../../../services/notifications/notifications.service';
 import {Router} from '@angular/router';
 import {TranslatePipe} from '../../../pipies/translate.pipe';
@@ -32,16 +32,16 @@ export class AuthorizationComponent {
   }
 
   onLogin() {
-    const user: IUser = { login: this.login, password: this.password }; // Используем demo для теста
+    const user: IUser = { login: this.login, password: this.password };
 
     this.userService.auth(user).subscribe({
       next: (response: IAuth) => {
         this.notificationService.initToast('success',
           'Authorization successful',
           'Authorization');
-        this.errorMessage = null
-        sessionStorage.setItem('user', JSON.stringify(user));
-        sessionStorage.setItem('token', response.access_token);
+        this.errorMessage = null;
+        this.userService.setUser(user);
+        sessionStorage.setItem(JwtTokenKey, response.access_token);
         this.router.navigate(['/tours'])
       }
     });

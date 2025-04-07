@@ -1,6 +1,6 @@
 export interface IUser {
   login: string;
-  password: string;
+  password?: string;
 }
 
 export interface IUserRegistration {
@@ -20,3 +20,6 @@ export interface IChangePassword{
   oldPassword: string;
   newPassword: string;
 }
+
+export const UserStorageKey = 'current_user';
+export const JwtTokenKey = 'token';

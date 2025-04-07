@@ -6,7 +6,7 @@ import {initMenuItems} from '../../models/menuItems/menuItems';
 import {Router} from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import {ButtonModule} from 'primeng/button';
-import {IUser} from '../../models/User/iuser';
+import {IUser, UserStorageKey} from '../../models/User/iuser';
 import {MenuItem} from 'primeng/api';
 import {Tooltip} from 'primeng/tooltip';
 import {CartService} from '../../services/cart/cart.service';
@@ -47,12 +47,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.user = this.userService.getUser();
       this.updateMenuItems();
 
-        this.localizationService.currentLang$
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(lang => {
-            this.currentLang = lang;
-            this.updateMenuItems();
-          });
+      this.localizationService.currentLang$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(lang => {
+          this.currentLang = lang;
+          this.updateMenuItems();
+        });
 
       setInterval(() => {
           this.dateTime = new Date();
@@ -61,13 +61,20 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
 
   logOut(): void {
+    console.log('logout')
       this.userService.setUser(null);
-      sessionStorage.removeItem('user');
-      // удалить данные о пользователе
       this.router.navigate(['/auth']);
     }
 
+  toolTip: 'login' | 'logout' = 'login';
   hoverLogoutBtn(val: boolean): void{
+    const user = this.userService.getUser();
+    if (user){
+      this.toolTip = 'logout';
+    } else {
+      this.toolTip = !!user ? 'logout' : 'login';
+    }
+
       this.logoutIcon = val ? 'pi pi-sign-out' : 'pi pi-user'
     }
 
