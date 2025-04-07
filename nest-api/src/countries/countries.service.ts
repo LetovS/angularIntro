@@ -14,11 +14,8 @@ export class CountriesService {
       }
     
     async initData(): Promise<void | PromiseLike<void>> {
-        console.log('Starting...');
         const items = await this.countriesRepository.countDocuments().exec();
-        console.log('Getten...', items);
         if(items > 0 ) return;
-        console.log('init');
         const countries = initCountriesInDB();
         const result = await this.countriesRepository.insertMany(countries);
     }
