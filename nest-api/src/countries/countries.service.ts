@@ -6,6 +6,9 @@ import { initCountriesInDB } from './mock';
 
 @Injectable()
 export class CountriesService {
+    async getCountries(): Promise<ICountry[] | null> {
+        return await this.countriesRepository.find().lean().exec();        
+    }
     
     constructor(@InjectModel(Country.name) private countriesRepository: Model<CountryDocument>){
       }

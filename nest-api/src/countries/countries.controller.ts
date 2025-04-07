@@ -1,12 +1,19 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CountriesService } from './countries.service';
+import { CountriesService, ICountry } from './countries.service';
 
 @ApiTags('countries')
 @Controller('countries')
 export class CountriesController {
     
     constructor(private readonly countriesService: CountriesService){}
+
+    @Get('countries')
+    @ApiOperation({ summary: "Recived countries's list" })
+    @ApiResponse({ status: 200, description: 'All tours' })
+    async getCountries(): Promise<ICountry[] | null> {
+        return await this.countriesService.getCountries();
+    }
 
     @Post('init-test-data')
     @ApiOperation({ summary: 'Init data for demo' })

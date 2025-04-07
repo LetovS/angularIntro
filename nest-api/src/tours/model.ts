@@ -21,8 +21,11 @@ export class TourDto implements ITour {
     @ApiProperty({ description: "Tour's type", example: 'single' })
     type?: string;
     locationId?: string;
+    @ApiProperty({ description: "Country", example: 'Russia' })
+    country?: string;
+    @ApiProperty({ description: "Code of country", example: 'RU' })
     code?: string;
-  }
+  } 
   
   export interface ITour {
     id: string;
@@ -34,5 +37,6 @@ export class TourDto implements ITour {
     date?: Date;
     type?: string;
     locationId?: string;
+    country?: string;
     code?: string;
   }
