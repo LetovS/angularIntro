@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUserDto, IUser, UsersService } from '../users/users.service';
+import { IUser, UsersService } from '../users/users.service';
 
 export interface IAuth {
   access_token: string;
@@ -28,23 +28,12 @@ export class AuthService {
         };
       }
     }
-    return null;
+    console.log('Возврааем 401');
+    throw new UnauthorizedException('Invalid credentials');
   }
 
   async login(user: IUser): Promise<IAuth> {
-    const payload = { login: user.login };
-
-    const token: string = await this.jwtService.sign(payload);
-
-    console.log(`Полученный токен - ${token}`);
-
-    const response: IAuth = { access_token: token };
-
-    return response;
-  }
-
-  async loginDemo(createUserDto: CreateUserDto): Promise<IAuth>{
-    console.log(createUserDto);
-    return await this.login({login: createUserDto.login, password: createUserDto.password});
+    const payload = { login: user.login, sub: user.id };
+    return { access_token: this.jwtService.sign(payload) };
   }
 }

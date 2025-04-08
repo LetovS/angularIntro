@@ -7,6 +7,7 @@ import {
   Param,
   NotFoundException,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -15,12 +16,17 @@ import {
   ApiBody,
   ApiParam,
   ApiQuery,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { ToursService } from './tours.service';
 import { ITour, TourDto } from './model';
+import { JwtAuthGuard } from 'src/infrastructure/auth/auth-guards/jwt-auth.guard';
 
 @ApiTags('tours')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard)
 @Controller('tours')
+@UseGuards(JwtAuthGuard)
 export class ToursController {
   constructor(private readonly toursService: ToursService) {}
 

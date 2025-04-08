@@ -8,16 +8,23 @@ import { ToursModule } from './tours/tours.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
 import { CountriesModule } from './countries/countries.module';
+import { jwtKeys } from './static/private/keys';
 import { AuthGuardsService } from './infrastructure/auth/auth-guards/auth-guards.service';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     UsersModule,
     MongooseModule.forRoot('mongodb://localhost:27017/nest'),
-    JwtModule.register({
+    ConfigModule.forRoot(), // Подключаем модуль конфигурации
+    JwtModule.registerAsync({
       global: true,
-      secret: 'supper-pupper-secret_key-1987$',
-      signOptions: { expiresIn: '1h' },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get('JWT_SECRET'),
+        signOptions: { expiresIn: config.get('JWT_EXPIRES_IN') },
+      }),
     }),
     ToursModule,
     AuthModule,

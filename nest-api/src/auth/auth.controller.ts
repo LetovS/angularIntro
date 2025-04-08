@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Res } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService, IAuth } from './auth.service';
 import { CreateUserDto } from '../users/users.service';
 import { AuthGuard } from '@nestjs/passport';
+import { Response } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -14,20 +15,20 @@ export class AuthController {
   @ApiOperation({ summary: 'Authenticate user and return JWT token' })
   @ApiResponse({ status: 200, description: 'Authentication successful' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async login(@Body() createUserDto: CreateUserDto): Promise<IAuth | null> {
-    console.log(`Request data ${JSON.stringify(createUserDto)}`);
+  async login(
+    @Body() createUserDto: CreateUserDto,
+    @Res({ passthrough: true }) res: Response, // ✅ правильный тип
+  ): Promise<IAuth> {
+    const access_token = await this.authService.login(createUserDto);
 
-    // const user = await this.authService.validate(
-    //   createUserDto.login,
-    //   createUserDto.password,
-    // );
+    res.cookie('access_token', access_token.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 86400000,
+      path: '/',
+    });
 
-    // if (!user) {
-    //   console.log('Возврааем 401');
-    //   throw new UnauthorizedException('Invalid credentials');
-    // }
-
-    const response: IAuth = await this.authService.loginDemo(createUserDto);
-    return response;
+    return access_token;
   }
 }
