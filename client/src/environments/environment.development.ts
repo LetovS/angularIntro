@@ -4,5 +4,5 @@ export const environment = {
   usersController: "users",
   authController: "auth",
   toursController: "tours",
-  countriesController: "countries",
+  countriesController: "countries"
 };

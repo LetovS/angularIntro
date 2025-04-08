@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ToursService} from '../../services/tours/tours.service';
-import {ITour} from '../../models/tour/tour';
+import {ILocation, ITour} from '../../models/tour/tour';
 import {CardModule} from 'primeng/card';
 import {Button, ButtonDirective} from 'primeng/button';
 import {ModalComponent} from '../../common/modal/modal.component';
@@ -20,6 +20,8 @@ import {Subject, takeUntil} from 'rxjs';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {isValid} from 'date-fns';
 import {LocalizationService} from '../../services/localization.service';
+import {Dialog} from 'primeng/dialog';
+import {MapComponent} from '../../common/map/map.component';
 
 @Component({
   selector: 'app-tours',
@@ -35,7 +37,10 @@ import {LocalizationService} from '../../services/localization.service';
     SearchTourPipe,
     FormsModule,
     TranslatePipe,
-    ToursListActivitiesDirective
+    ToursListActivitiesDirective,
+    NgOptimizedImage,
+    Dialog,
+    MapComponent
   ],
   standalone: true,
   templateUrl: './tours.component.html',
@@ -162,5 +167,41 @@ export class ToursComponent implements OnInit, OnDestroy {
     if (item){
       this.goToTour(this.tours[index]);
     }
+  }
+  location: ILocation;
+  showModal: boolean = false;
+  getCountryDetail(ev: Event, code: string): void {
+    ev.stopPropagation();
+    this.toursService.getCountryByCode(code).subscribe((data) => {
+      if(Array.isArray(data)){
+        const countryInfo = data[0];
+        console.log('countryInfo ',countryInfo);
+        this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+        console.log('location ',this.location);
+        this.showModal = true;
+      }
+    })
+  }
+
+  removeTour(tourId: string) {
+    console.log('///remove tour', tourId);
+    this.toursService.removeTourById(tourId).subscribe((data) => {
+      if (data){
+        this.notificationService
+          .initToast('success', 'Тур успешно удалён', 'Удаление', 2000);
+        this.toursService.getTours().subscribe(
+          (updatedTours) => {
+            this.tours = updatedTours;
+            this.toursStore = [...updatedTours];
+            this.applyCombinedFilters(); // Если нужно применить фильтры к обновленному списку
+          },
+          (error) => {
+            console.error('Ошибка при обновлении списка туров:', error);
+          });
+      } else{
+        this.notificationService
+          .initToast('error', 'При удалении тура возникли проблемы', 'Удаление', 2000);
+      }
+    })
   }
 }

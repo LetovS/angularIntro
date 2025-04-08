@@ -10,4 +10,6 @@ export const API= {
   changePassword: `${baseUrl}`+ '/' + `${environment.usersController}`+ '/change-password',
   countries: `${baseUrl}`+ '/' + `${environment.countriesController}` + '/countries',
   getUsers: `${baseUrl}`+ '/' + `${environment.usersController}` + '/users-list',
+  countryByCode: 'https://restcountries.com/v3.1/alpha',
+  getWhether:"https://api.open-meteo.com/v1/forecast",
 }

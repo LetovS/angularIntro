@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
 import {catchError, forkJoin, map, Observable, of, Subject, tap, throwError} from 'rxjs';
-import {ITour,TourRequest} from '../../models/tour/tour';
+import {ILocation, ITour, TourRequest} from '../../models/tour/tour';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {ICountry} from '../../models/country/country';
 
@@ -30,20 +30,17 @@ export class ToursService {
         let toursWithCountries = [] as ITour [];
         const toursArr = data[1];
         const countriesMap = new Map();
-        console.log(data[0]);
         data[0].forEach(c => {
           countriesMap.set(c.iso_code2, c)
         })
 
         if(Array.isArray(toursArr)){
-          console.log('///toursArr', toursArr);
           toursWithCountries = toursArr.map((tour) =>{
             return {
               ...tour,
               country: countriesMap.get(tour.code) || null
             }
           })
-          console.log(toursWithCountries);
           return toursWithCountries;
         }
         return null;
@@ -138,5 +135,9 @@ export class ToursService {
 
   filterToursByDate(event: IDateFilter) {
     this.tourTypeSubject.next(event);
+  }
+
+  public getCountryByCode(code: string): Observable<ILocation> {
+    return this.httpClient.get<ILocation>(API.countryByCode, {params: {codes: code}});
   }
 }

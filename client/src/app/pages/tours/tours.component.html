@@ -21,20 +21,26 @@
      <div class="m-2 col-3 tour-card align-self-stretch">
        <p-card
         header="{{item.name}}"
-        subheader="{{item.price}}">
+        subheader="{{item.price }}">
         <ng-template #header>
           <img src="/imgs/{{item.img}}" alt="card">
         </ng-template>
          <p>{{ item.date | date:'dd-MM-yyyy' : undefined : currentLang }}</p>
 <!--          <p>{{item.description}}</p>-->
-         <p class="flex">Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url" class="gray" alt="flag"></p>
-        <div class="flex gap-4 mt-1 mt-3">
+         <p (click)="getCountryDetail($event, item.country?.iso_code2)" class="flex">Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url" class="gray" alt="flag"></p>
+        <div class="flex gap-4 mt-1 mt-1">
           <p-button label="{{'detail' | translate}}"
                     pTooltip="{{ 'showDetail' | translate}}"
                     tooltipPosition="bottom"
                     severity="primary"
                     styleClass="w-full"
                     (click)="openDetail(item); $event.stopPropagation()"
+          />
+          <p-button label="Удалить"
+                    severity="danger"
+                    class="w-full"
+                    styleClass="w-full"
+                    (click)="removeTour(item.id) ; $event.stopPropagation()"
           />
         </div>
       </p-card>
@@ -69,3 +75,12 @@
     </p-card>
   </div>
 </ng-template>
+
+<p-dialog [modal]="true" [(visible)]="showModal" [style]="{ width: '50rem' }">
+  @if (showModal){
+    <app-map [location]="location"/>
+  }
+  <ng-template #footer>
+    <p-button label="Close" [text]="true" severity="secondary" (click)="showModal=false"/>
+  </ng-template>
+</p-dialog>
