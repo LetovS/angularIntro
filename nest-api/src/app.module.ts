@@ -8,6 +8,7 @@ import { ToursModule } from './tours/tours.module';
 import { AuthModule } from './auth/auth.module';
 import { PaymentModule } from './payment/payment.module';
 import { CountriesModule } from './countries/countries.module';
+import { AuthGuardsService } from './infrastructure/auth/auth-guards/auth-guards.service';
 
 @Module({
   imports: [
@@ -25,6 +26,6 @@ import { CountriesModule } from './countries/countries.module';
     CountriesModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthGuardsService],
 })
 export class AppModule {}

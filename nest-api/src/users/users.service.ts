@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/schemas/user.schema';
 
 export interface IUser {
-  id: string;
+  id?: string;
   login: string;
   password?: string;
 }
@@ -42,7 +42,8 @@ export interface IChangePassword {
 const userStorage: IUser[] = [];
 
 @Injectable()
-export class UsersService {
+export class UsersService {  
+
   private currentUser: IUser | null = null;
 
   constructor(
