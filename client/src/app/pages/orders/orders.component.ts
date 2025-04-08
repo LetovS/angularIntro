@@ -16,8 +16,7 @@ import {StyleClass} from 'primeng/styleclass';
   imports: [
     OrderItemComponent,
     NgIf,
-    NgForOf,
-    StyleClass
+    NgForOf
   ],
   templateUrl: './orders.component.html',
   standalone: true,

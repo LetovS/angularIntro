@@ -17,7 +17,6 @@ import {BackspaceDirective} from '../../shared/directives/backspace.directive';
     Card,
     RouterLink,
     Button,
-    NgIf,
     NearestToursComponent,
     TranslatePipe,
     BackspaceDirective

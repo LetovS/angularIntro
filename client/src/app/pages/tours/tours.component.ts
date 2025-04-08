@@ -34,10 +34,8 @@ import {LocalizationService} from '../../services/localization.service';
     InputText,
     SearchTourPipe,
     FormsModule,
-    ButtonDirective,
     TranslatePipe,
-    ToursListActivitiesDirective,
-    NgOptimizedImage
+    ToursListActivitiesDirective
   ],
   standalone: true,
   templateUrl: './tours.component.html',

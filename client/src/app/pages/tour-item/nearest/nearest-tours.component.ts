@@ -30,9 +30,6 @@ import {fromEvent, Subscription} from 'rxjs';
   selector: 'app-nearest',
   imports: [
     Button,
-    Card,
-    SearchTourPipe,
-    Carousel,
     PrimeTemplate,
     GalleriaModule,
     NgOptimizedImage,

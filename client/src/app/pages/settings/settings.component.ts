@@ -12,16 +12,10 @@ import {TranslatePipe} from '../../pipies/translate.pipe';
 @Component({
   selector: 'app-settings',
   imports: [
-    SettingItemComponent,
-    ChangePasswordComponent,
     RouterLink,
     Button,
-    Card,
-    ModalComponent,
     FormsModule,
-    InputText,
-    ReactiveFormsModule,
-    TranslatePipe
+    ReactiveFormsModule
   ],
   templateUrl: './settings.component.html',
   standalone: true,

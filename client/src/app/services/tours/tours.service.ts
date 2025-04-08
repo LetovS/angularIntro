@@ -22,7 +22,8 @@ export class ToursService {
     const countries = this.httpClient.get<ICountry []>(API.countries);
 
     const tours =  this.httpClient
-      .get<ITour[]>(API.tours + '/tours');
+      .get<ITour[]>(API.tours + '/tours',
+        { withCredentials: true } );
 
     return forkJoin<[ICountry [], ITour []]>([countries, tours]).pipe(
       map((data) => {
@@ -72,7 +73,7 @@ export class ToursService {
    */
   public getTour(tourId: string): Observable<ITour | null> {
     return this.httpClient
-      .get<ITour | null>(API.tours + `/tour/${tourId}`) // Указываем тип ответа <ITour[]>
+      .get<ITour | null>(API.tours + `/tour/${tourId}`)
       .pipe(
         tap((response) => {
         }),
@@ -107,7 +108,7 @@ export class ToursService {
   */
   public removeTourById(tourId : string) : Observable<any>{
     return this.httpClient
-      .delete(API.tours+`/remove-tour/${tourId}`)
+      .delete(API.tours+`/remove-tour/${tourId}`, {withCredentials: true})
       .pipe(
         tap((response) => {
 

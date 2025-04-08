@@ -5,7 +5,6 @@ import {API} from '../../shared/api';
 import {catchError, Observable, of, tap, throwError} from 'rxjs';
 import {NotificationsService} from '../notifications/notifications.service';
 
-
 export interface IAuth {
   access_token: string;
 }
