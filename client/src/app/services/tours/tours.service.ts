@@ -30,20 +30,17 @@ export class ToursService {
         let toursWithCountries = [] as ITour [];
         const toursArr = data[1];
         const countriesMap = new Map();
-        console.log(data[0]);
         data[0].forEach(c => {
           countriesMap.set(c.iso_code2, c)
         })
 
         if(Array.isArray(toursArr)){
-          console.log('///toursArr', toursArr);
           toursWithCountries = toursArr.map((tour) =>{
             return {
               ...tour,
               country: countriesMap.get(tour.code) || null
             }
           })
-          console.log(toursWithCountries);
           return toursWithCountries;
         }
         return null;
@@ -138,5 +135,10 @@ export class ToursService {
 
   filterToursByDate(event: IDateFilter) {
     this.tourTypeSubject.next(event);
+  }
+
+  getLocationById(id: string) : Observable<any>{
+    console.log(API.countryByCode);
+    return this.httpClient.get<any>(API.countryByCode, {params: {codes: id}});
   }
 }

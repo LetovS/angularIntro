@@ -26,3 +26,7 @@ export class TourRequest implements ITour{
   code?: string;
 }
 
+export interface ILocation{
+  lat: number;
+  lng: number;
+}

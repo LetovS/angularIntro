@@ -9,4 +9,6 @@ export const API= {
   config: '/config/config.json',
   changePassword: `${baseUrl}`+ '/' + `${environment.usersController}`+ '/change-password',
   countries: `${baseUrl}`+ '/' + `${environment.countriesController}` + '/countries',
+  countryByCode: 'https://restcountries.com/v3.1/alpha',
+  getWhether:"https://api.open-meteo.com/v1/forecast",
 }
