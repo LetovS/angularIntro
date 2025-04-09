@@ -3,13 +3,20 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './infrastructure/midleware/http-exception/http-exception.filter';
 import * as cookieParser from 'cookie-parser';
-import { JwtService } from '@nestjs/jwt';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
 
-  const jwtService = app.get(JwtService);
+  const httpsOptions = {
+    key: readFileSync(join(__dirname, '../ssl/localhost-key.pem')),
+    cert: readFileSync(join(__dirname, '../ssl/localhost.pem')),
+  };
 
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions, // Включаем HTTPS
+  });
+  
   // Настройка Swagger
   const config = new DocumentBuilder()
     .setTitle('NestJS API')
@@ -25,7 +32,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: ['http://localhost:4200', 'https://localhost:4200'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

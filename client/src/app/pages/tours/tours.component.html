@@ -27,7 +27,7 @@
         </ng-template>
          <p>{{ item.date | date:'dd-MM-yyyy' : undefined : currentLang }}</p>
 <!--          <p>{{item.description}}</p>-->
-         <p (click)="getCountryDetail($event, item.country?.iso_code2)" class="flex">Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url" class="gray" alt="flag"></p>
+         <p (click)="showMap($event, item.country?.iso_code2)" class="flex">Страна: {{item.country?.name_ru}} <img [src]="item.country?.flag_url" class="gray" alt="flag"></p>
         <div class="flex gap-4 mt-1 mt-1">
           <p-button label="{{'detail' | translate}}"
                     pTooltip="{{ 'showDetail' | translate}}"
@@ -76,11 +76,40 @@
   </div>
 </ng-template>
 
-<p-dialog [modal]="true" [(visible)]="showModal" [style]="{ width: '50rem' }">
+<p-dialog
+  [modal]="true"
+  [(visible)]="showModal"
+  [style]="{ width: '50rem' }"
+  [closable]="false"
+>
   @if (showModal){
     <app-map [location]="location"/>
   }
-  <ng-template #footer>
-    <p-button label="Close" [text]="true" severity="secondary" (click)="showModal=false"/>
+  <ng-template #header class="flex justify-content-between align-items-center">
+    <div class="w-full flex justify-content-around">
+      <!-- День/Ночь -->
+      <span class="flex align-items-center gap-1">
+      <i class="pi" [ngClass]="{
+        'pi-sun': weather.isDay === 1,
+        'pi-moon': weather.isDay !== 1
+      }"></i>
+        {{ weather.isDay === 1 ? 'Day' : 'Night' }}
+    </span>
+
+      <!-- Дождь -->
+      <span class="flex align-items-center gap-1">
+        <i class="fa" [ngClass]="getWeatherIcon().icon"></i>
+        {{ getWeatherIcon().text }}
+      </span>
+
+      <!-- Температура -->
+      <span class="flex align-items-center gap-1">
+        <i class="pi pi-thermometer"></i>
+        {{ weather.currentWeather }}°C
+      </span>
+    </div>
+    <div>
+      <p-button label="Close" severity="secondary" (click)="showModal = false" />
+    </div>
   </ng-template>
 </p-dialog>

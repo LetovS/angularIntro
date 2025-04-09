@@ -8,8 +8,9 @@ export class JwtAuthGuard implements CanActivate {
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
+    
     const token = this.extractToken(request);
-
+    console.log('token',token);
     if (!token) {
       throw new UnauthorizedException('Токен не найден');
     }

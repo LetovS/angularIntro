@@ -5,6 +5,7 @@ import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
 import * as olProj from 'ol/proj';
 import {ILocation} from '../../models/tour/tour';
+import {ICoords} from '../../models/models';
 
 @Component({
   selector: 'app-map',
@@ -14,7 +15,7 @@ import {ILocation} from '../../models/tour/tour';
 })
 export class MapComponent implements AfterViewInit {
   private map: Map;
-  @Input() location: ILocation = {lat: 0, lng: 0};
+  @Input() location: ICoords = {lat: 0, lng: 0};
   @ViewChild('map') mapDom: ElementRef;
 
   ngAfterViewInit(): void {
@@ -25,7 +26,7 @@ export class MapComponent implements AfterViewInit {
       ],
       view: new View({
         center: olProj.fromLonLat([this.location.lng, this.location.lat]),
-        zoom: 5
+        zoom: 10
       })
     });
   }

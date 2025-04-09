@@ -20,13 +20,12 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response, // ✅ правильный тип
   ): Promise<IAuth> {
     const access_token = await this.authService.login(createUserDto);
-
-    res.cookie('access_token', access_token.access_token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 86400000,
-      path: '/',
+    console.log('///access_token', access_token);
+    res.cookie('access_token', access_token, {
+      httpOnly: true,    // Защита от XSS
+      secure: true,      // Обязательно для HTTPS!
+      sameSite: 'none',  // Разрешить cross-origin
+      domain: 'localhost', // Явно укажите домен
     });
 
     return access_token;

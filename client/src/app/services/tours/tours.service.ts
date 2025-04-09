@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, forkJoin, map, Observable, of, Subject, tap, throwError} from 'rxjs';
+import {catchError, forkJoin, map, Observable, of, Subject, switchMap, tap, throwError} from 'rxjs';
 import {ILocation, ITour, TourRequest} from '../../models/tour/tour';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {ICountry} from '../../models/country/country';
+import {Coords, IAnotherCountryResponse, ICoords, ISwitchViewModel, IWeatherViewModel} from '../../models/models';
+import {MapService} from '../map.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ import {ICountry} from '../../models/country/country';
 export class ToursService {
   private tourTypeSubject = new Subject<ITourType | IDateFilter>();
   readonly tourType$ = this.tourTypeSubject.asObservable();
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private mapService: MapService) { }
 
   /**
    * Получает список туров.
@@ -22,8 +24,7 @@ export class ToursService {
     const countries = this.httpClient.get<ICountry []>(API.countries);
 
     const tours =  this.httpClient
-      .get<ITour[]>(API.tours + '/tours',
-        { withCredentials: true } );
+      .get<ITour[]>(API.tours + '/tours');
 
     return forkJoin<[ICountry [], ITour []]>([countries, tours]).pipe(
       map((data) => {
@@ -136,8 +137,80 @@ export class ToursService {
   filterToursByDate(event: IDateFilter) {
     this.tourTypeSubject.next(event);
   }
+  getLocationById(id: string) : Observable<ISwitchViewModel>{
+    return this.httpClient.get<Coords[]>(API.countryByCode, {params: {codes: id}}).pipe(
+      map((countriesDataArr) => countriesDataArr[0]),
+      switchMap((countriesData) => {
+        console.log('countriesData ',countriesData);
+        const coords = {lat: countriesData.latlng[0], lng: countriesData.latlng[1]};
 
-  public getCountryByCode(code: string): Observable<ILocation> {
-    return this.httpClient.get<ILocation>(API.countryByCode, {params: {codes: code}});
+        return this.mapService.getWeather(coords).pipe(
+          map((response) => {
+
+            const weatherData: IWeatherViewModel = {
+              isDay: response.current.is_day,
+              snowFall: response.current.snowFall,
+              rain: response.current.rain,
+              currentWeather: response.hourly.temperature_2m[13]
+            }
+            console.log('weatherData ',weatherData);
+            return {coords: countriesData, weather: weatherData};
+          })
+        )
+      })
+    );
+  }
+
+  getCountryData(code: string): Observable<any> {
+    return this.httpClient.get<any>( API.anotherByCode + `/${code}`)
+      .pipe(
+        map((data) => {
+          const city:IAnotherCountryResponse = data[0];
+          return city;
+        }),
+        switchMap((city) => {
+          const cityName = city.capital[0];
+          console.log('Get coords for ', cityName)
+          return this.mapService.getAnother(cityName).pipe(
+            map((response) => {
+              if (Array.isArray(response)) {
+                const cits = response[0];
+                const lat = parseFloat(cits.lat);
+                const lng = parseFloat(cits.lon);
+                const cords: ICoords = {lat, lng };
+                return {cords};
+              } else {
+                return {response};
+              }
+            }),
+            switchMap((countriesData) => {
+            console.log('/////countriesData ',countriesData);
+            let coords: ICoords;
+
+            return this.mapService.getWeather({lat: countriesData.cords.lat, lng: countriesData.cords.lat}).pipe(
+              map((response) => {
+
+                const weatherData: IWeatherViewModel = {
+                  isDay: response.current.is_day,
+                  snowFall: response.current.snowFall,
+                  rain: response.current.rain,
+                  currentWeather: response.hourly.temperature_2m[13]
+                }
+                console.log('weatherData ',weatherData);
+                return {coords: countriesData, weather: weatherData};
+              })
+            )
+          })
+          )
+        })
+      );
+  }
+
+  isCoords(obj: any): obj is ICoords {
+    return (
+      typeof obj === 'object' &&
+      typeof obj.lat === 'number' &&
+      typeof obj.lon === 'number'
+    );
   }
 }

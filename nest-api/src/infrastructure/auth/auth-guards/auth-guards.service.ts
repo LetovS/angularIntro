@@ -11,7 +11,7 @@ export class AuthGuardsService extends PassportStrategy(Strategy) {
 
   async validate(login: string, password: string): Promise<IUser> {
     const user = await this.userService.getUserByLogin(login);
-
+    
     if (!user) {
       throw new UnauthorizedException('Пользователь не найден');
     }
