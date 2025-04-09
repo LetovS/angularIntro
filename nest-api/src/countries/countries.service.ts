@@ -8,7 +8,6 @@ import { initCountriesInDB } from './mock';
 export class CountriesService {
   async getCountries(): Promise<ICountry[] | null> {
     const res = await this.countriesRepository.find().lean().exec();
-    console.log(res);
     return res;
   }
 

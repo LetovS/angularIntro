@@ -1,6 +1,10 @@
 export interface IUser {
+  id?: string;
   login: string;
   password?: string;
+  email?: string;
+  role?: string;
+  nickname?: string;
 }
 
 export interface IUserRegistration {

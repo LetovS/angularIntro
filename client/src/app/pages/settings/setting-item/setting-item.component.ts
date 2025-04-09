@@ -15,11 +15,12 @@ import {RouterLink} from '@angular/router';
 })
 export class SettingItemComponent implements OnInit, OnChanges {
   settings = model<{ name:string }[]>([]);
+
   ngOnChanges(changes: SimpleChanges): void {
-      throw new Error('Method not implemented.');
+
   }
   ngOnInit(): void {
-      throw new Error('Method not implemented.');
+
   }
   @Input({required: true}) settingItems: { name:string }[] | null = null;
 }

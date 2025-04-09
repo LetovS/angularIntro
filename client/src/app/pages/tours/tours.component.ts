@@ -66,11 +66,13 @@ export class ToursComponent implements OnInit, OnDestroy {
       () => {
 
       });
+
     this.localizationService.currentLang$
       .pipe(takeUntil(this.destroy$))
       .subscribe(lang => {
         this.currentLang = lang;
       });
+
    this.toursService.tourType$
      .pipe(takeUntil(this.destroy$))
      .subscribe((t) => {

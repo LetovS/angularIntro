@@ -24,7 +24,9 @@ import {TranslatePipe} from '../../pipies/translate.pipe';
 export class SettingsComponent {
   menuItems = [
     { label: 'Смена пароля', path: 'change-password' },
-    { label: 'Статистика', path: 'statistics' }
+    { label: 'Статистика', path: 'statistics' },
+    { label: 'Редактирование туров', path: 'tours-editor' },
+    { label: 'Пользователи', path: 'users' },
   ];
 
 }

@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import {IChangePassword, IUser, IUserRegistration, JwtTokenKey, UserStorageKey} from '../../models/User/iuser';
 import {HttpClient} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, Observable, of, tap, throwError} from 'rxjs';
+import {catchError, Observable, of, Subject, tap, throwError} from 'rxjs';
 import {NotificationsService} from '../notifications/notifications.service';
+import {IDateFilter, ITourType} from '../../models/filters/filters';
 
 export interface IAuth {
   access_token: string;
@@ -14,6 +15,9 @@ export interface IAuth {
 })
 export class UserService {
   private currentUser: IUser | null = null;
+  private usersSubject = new Subject<IUser []>();
+  readonly usersType$ = this.usersSubject.asObservable();
+
   constructor(private httpClient: HttpClient, private notifyService: NotificationsService) { }
 
   public addUser(user : IUserRegistration, isRememberMe?: boolean) : Observable<any>{
@@ -38,6 +42,11 @@ export class UserService {
       })
     );
   }
+
+  public getUsers(): Observable<IUser[]> {
+    return this.httpClient.get<IUser[]>(API.getUsers);
+  }
+
 
   /*
     Возвращает текущего юзера

@@ -1,0 +1,76 @@
+.user-list {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+
+.user-card-wrapper {
+  border: 1px solid #007bff;
+  border-radius: 1.5rem;
+}
+
+.user-card {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  ::ng-deep .p-card-header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  ::ng-deep .p-card-body {
+    padding: 1.5rem;
+  }
+
+  ::ng-deep .p-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+  }
+}
+
+.user-header {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.user-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.user-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 500;
+    color: #495057;
+  }
+
+  .user-value {
+    padding: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+
+  &.editable {
+    .p-inputtext, .p-dropdown {
+      width: 100%;
+    }
+  }
+}
+
+.no-users {
+  text-align: center;
+  padding: 2rem;
+  color: #6c757d;
+  font-size: 1.2rem;
+}

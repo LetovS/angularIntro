@@ -1,0 +1,67 @@
+<div appBackspace [redirectRoute]="'/settings'">
+  <p-button
+    label="Back"
+    styleClass="p-button-link"
+    routerLink="/settings"
+  />
+
+  @if (users?.length > 0) {
+    <div class="user-list">
+      @for (item of users; track item.id) {
+        <div class="user-card-wrapper">
+          <p-card class="p-5">
+            <ng-template #header>
+              <div class="user-header">
+                <div class="user-field">
+                  <label for="login-{{item.id}}">Login</label>
+                  <span id="login-{{item.id}}" class="user-value">{{item.login}}</span>
+                </div>
+                <div class="user-field">
+                  <label for="nickname-{{item.id}}">Nickname</label>
+                  <span id="nickname-{{item.id}}" class="user-value">{{item.nickname}}</span>
+                </div>
+              </div>
+            </ng-template>
+
+            <div class="user-body">
+              <div class="user-field editable">
+                <label for="email-{{item.id}}">Email</label>
+                <input
+                  id="email-{{item.id}}"
+                  type="email"
+                  [(ngModel)]="item.email"
+                  class="p-inputtext"
+                />
+              </div>
+
+              <div class="user-field editable">
+                <label for="role-{{item.id}}">Role</label>
+                <p-dropdown
+                  id="role-{{item.id}}"
+                  [options]="roles"
+                  [(ngModel)]="item.role"
+                  optionLabel="label"
+                  optionValue="value"
+                  [style]="{'width':'100%'}"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <ng-template #footer>
+              <div class="user-footer">
+                <p-button
+                  label="Save"
+                  severity="danger"
+                  (click)="userUpdate(item)"
+                  [disabled]="!isUserModified(item)"
+                />
+              </div>
+            </ng-template>
+          </p-card>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="no-users">Пользователей нет</div>
+  }
+</div>

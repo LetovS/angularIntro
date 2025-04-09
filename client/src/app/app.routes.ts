@@ -10,6 +10,8 @@ import {ChangePasswordComponent} from './pages/settings/change-password/change-p
 import {StatisticsComponent} from './pages/settings/statistics/statistics.component';
 import {OrdersComponent} from './pages/orders/orders.component';
 import {OrderItemComponent} from './pages/orders/order-item/order-item.component';
+import {UsersComponent} from './pages/settings/users/users.component';
+import {ToursEditorComponent} from './pages/settings/tours-editor/tours-editor.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +33,11 @@ export const routes: Routes = [
       },
       { path: 'change-password', component: ChangePasswordComponent },
       { path: 'statistics', component: StatisticsComponent,
+        data: {showAside: true} },
+      { path: 'users', component: UsersComponent,
+        data: {showAside: true} }
+      ,
+      { path: 'tours-editor', component: ToursEditorComponent,
         data: {showAside: true} }
     ]
   },
