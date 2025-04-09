@@ -20,6 +20,15 @@ export class MapService {
       "current": ["is_day", "snowfall", "rain"],
       "forecast_days": 1
     };
-    return this.httpClient.get<IWeatherResponse>(API.getWhether, {params})
+    console.log('sending request ', params)
+    return this.httpClient.get<IWeatherResponse>(API.getWhether, {params: params})
+  }
+
+  getAnother(cityName: string, ){
+    const params = {
+      q: cityName,
+      format: 'json',
+    }
+    return this.httpClient.get(API.getCapital, {params});
   }
 }

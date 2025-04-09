@@ -5,7 +5,13 @@ import {catchError, forkJoin, map, Observable, of, Subject, switchMap, tap, thro
 import {ITour,TourRequest} from '../../models/tour/tour';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {ICountry} from '../../models/country/country';
-import {Coords, ISwitchViewModel, IWeatherViewModel} from '../../models/common';
+import {
+  Coords,
+  IAnotherCountryResponse,
+  IAnotherResponse,
+  ISwitchViewModel,
+  IWeatherViewModel
+} from '../../models/common';
 import {MapService} from '../map.service';
 
 @Injectable({
@@ -143,7 +149,7 @@ export class ToursService {
     return this.httpClient.get<Coords[]>(API.countryByCode, {params: {codes: id}}).pipe(
       map((countriesDataArr) => countriesDataArr[0]),
       switchMap((countriesData) => {
-        console.log(countriesData);
+        console.log('countriesData ',countriesData);
         const coords = {lat: countriesData.latlng[0], lng: countriesData.latlng[1]};
 
         return this.mapService.getWeather(coords).pipe(
@@ -161,5 +167,31 @@ export class ToursService {
         )
       })
     );
+  }
+
+  getCountryData(code: string): Observable<any> {
+    return this.httpClient.get<any>( API.anotherByCode + `/${code}`)
+      .pipe(
+        map((data) => {
+          const city:IAnotherCountryResponse = data[0];
+          return city;
+        }),
+        switchMap((city) => {
+          const cityName = city.capital[0];
+          return this.mapService.getAnother(cityName).pipe(
+            map((response) => {
+              if (Array.isArray(response)) {
+                const cits = response[0];
+                const lat = parseFloat(cits.lat);
+                const lng = parseFloat(cits.lon);
+                const cords: Coords = {latlng: [lat, lng]};
+                return {city, cits, cords};
+              } else {
+                return {city, response};
+              }
+            })
+          )
+        })
+      );
   }
 }

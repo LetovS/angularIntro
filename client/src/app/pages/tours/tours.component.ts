@@ -22,6 +22,7 @@ import {isValid} from 'date-fns';
 import {LocalizationService} from '../../services/localization.service';
 import {Dialog} from 'primeng/dialog';
 import {MapComponent} from '../../common/map/map.component';
+import {IWeatherViewModel} from '../../models/common';
 
 @Component({
   selector: 'app-tours',
@@ -167,16 +168,23 @@ export class ToursComponent implements OnInit, OnDestroy {
   }
   showModal: boolean = false;
   location: ILocation;
+  weather: IWeatherViewModel;
   showMap(ev: MouseEvent, id: string) {
     ev.stopPropagation();
-    console.log(id);
     this.toursService.getLocationById(id).subscribe((data) => {
-      console.log(data);
-      if (Array.isArray(data)){
+      if (data?.coords){
         const countryInfo = data.coords;
         this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+        this.weather = data.weather;
         this.showModal = true;
       }
+      // console.log('///received data ',data)
+      // if (data?.cords){
+      //   const countryInfo = data.cords;
+      //   this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
+      //   this.weather = data.weather;
+      //   this.showModal = true;
+      // }
     });
   }
 
@@ -196,5 +204,13 @@ export class ToursComponent implements OnInit, OnDestroy {
         this.notificationService.initToast('error', 'При удалении тура возникла ошибка', 'Проблема')
       }
     })
+  }
+
+  getWeatherIcon(): { icon: string; text: string } {
+    if (this.weather.rain === 0 && this.weather.snowFall === 0) {
+      return { icon: 'fa-sun', text: 'Ясно' };
+    } else {
+      return { icon: 'fa-cloud', text: 'Осадки' };
+    }
   }
 }

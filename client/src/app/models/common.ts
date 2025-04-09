@@ -29,3 +29,12 @@ export interface IWeatherHourly{
 export type Coords = {
   latlng: [number, number];
 }
+
+export interface IAnotherCountryResponse {
+  capital: string[];
+  latlng: number [];
+}
+
+export interface IAnotherResponse {
+  country: IAnotherCountryResponse [];
+}
