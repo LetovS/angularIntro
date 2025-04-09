@@ -22,6 +22,7 @@
     "@primeng/themes": "^19.0.9",
     "date-fns": "^4.1.0",
     "ol": "^10.5.0",
+    "openmeteo": "^1.2.0",
     "primeflex": "^4.0.0",
     "primeicons": "^7.0.0",
     "primeng": "^19.0.9",

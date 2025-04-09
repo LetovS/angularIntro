@@ -171,11 +171,30 @@ export class ToursComponent implements OnInit, OnDestroy {
     ev.stopPropagation();
     console.log(id);
     this.toursService.getLocationById(id).subscribe((data) => {
+      console.log(data);
       if (Array.isArray(data)){
-        const countryInfo = data[0];
+        const countryInfo = data.coords;
         this.location = {lat: countryInfo.latlng[0], lng: countryInfo.latlng[1]};
         this.showModal = true;
       }
     });
+  }
+
+  removeTour(id: string) {
+    this.toursService.removeTourById(id).subscribe((data) => {
+      if (data && typeof data === 'boolean') {
+        this.notificationService.initToast('success', 'Тур успешно удалён', 'Редактирование');
+        this.toursService.getTours().subscribe(
+          (data) => {
+            this.tours = data;
+            this.toursStore = [...data];
+          },
+          () => {
+
+          });
+      } else{
+        this.notificationService.initToast('error', 'При удалении тура возникла ошибка', 'Проблема')
+      }
+    })
   }
 }

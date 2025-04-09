@@ -42,6 +42,12 @@
                     styleClass="w-full"
                     (click)="openDetail(item); $event.stopPropagation()"
           />
+          <p-button label="Удалить"
+                    severity="danger"
+                    class="w-full"
+                    styleClass="w-full"
+                    (click)="removeTour(item.id); $event.stopPropagation()"
+          />
         </div>
       </p-card>
      </div>

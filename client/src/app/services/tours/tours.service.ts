@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, forkJoin, map, Observable, of, Subject, tap, throwError} from 'rxjs';
+import {catchError, forkJoin, map, Observable, of, Subject, switchMap, tap, throwError} from 'rxjs';
 import {ITour,TourRequest} from '../../models/tour/tour';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {ICountry} from '../../models/country/country';
+import {Coords, ISwitchViewModel, IWeatherViewModel} from '../../models/common';
+import {MapService} from '../map.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ import {ICountry} from '../../models/country/country';
 export class ToursService {
   private tourTypeSubject = new Subject<ITourType | IDateFilter>();
   readonly tourType$ = this.tourTypeSubject.asObservable();
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private mapService: MapService) { }
 
   /**
    * Получает список туров.
@@ -137,8 +139,27 @@ export class ToursService {
     this.tourTypeSubject.next(event);
   }
 
-  getLocationById(id: string) : Observable<any>{
-    console.log(API.countryByCode);
-    return this.httpClient.get<any>(API.countryByCode, {params: {codes: id}});
+  getLocationById(id: string) : Observable<ISwitchViewModel>{
+    return this.httpClient.get<Coords[]>(API.countryByCode, {params: {codes: id}}).pipe(
+      map((countriesDataArr) => countriesDataArr[0]),
+      switchMap((countriesData) => {
+        console.log(countriesData);
+        const coords = {lat: countriesData.latlng[0], lng: countriesData.latlng[1]};
+
+        return this.mapService.getWeather(coords).pipe(
+          map((response) => {
+
+            const weatherData: IWeatherViewModel = {
+              isDay: response.current.is_day,
+              snowFall: response.current.snowFall,
+              rain: response.current.rain,
+              currentWeather: response.hourly.temperature_2m[13]
+            }
+            console.log('weatherData ',weatherData);
+            return {coords: countriesData, weather: weatherData};
+          })
+        )
+      })
+    );
   }
 }
