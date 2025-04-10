@@ -9,8 +9,8 @@ import { join } from 'path';
 async function bootstrap() {
 
   const httpsOptions = {
-    key: readFileSync(join(__dirname, '../ssl/localhost-key.pem')),
-    cert: readFileSync(join(__dirname, '../ssl/localhost.pem')),
+    key: readFileSync(join(__dirname, '../ssl/localhost+2-key.pem')),
+    cert: readFileSync(join(__dirname, '../ssl/localhost+2.pem')),
   };
 
   const app = await NestFactory.create(AppModule, {
