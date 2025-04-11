@@ -1,9 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {AsideComponent} from './side/aside.component';
 import {ActivatedRoute, ActivatedRouteSnapshot, ActivationEnd, Router, RouterModule} from '@angular/router';
 import {filter, map, Subscription} from 'rxjs';
+import {LoaderComponent} from '../common/loader/loader.component';
+import {LoaderService} from '../services/loader.service';
+import {load} from 'ol/Image';
+import {AsyncPipe} from '@angular/common';
 
 @Component({
   selector: 'app-layout',
@@ -11,15 +15,19 @@ import {filter, map, Subscription} from 'rxjs';
     RouterModule,
     HeaderComponent,
     FooterComponent,
-    AsideComponent],
+    AsideComponent,
+    LoaderComponent,
+    AsyncPipe
+  ],
   standalone: true,
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent implements OnInit, OnDestroy{
-
+  loader$ = inject(LoaderService).loader$;
   showAside: boolean = false;
   subscription: Subscription;
+  loaderStatusLayout: boolean;
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute) {}
 
@@ -34,6 +42,7 @@ export class LayoutComponent implements OnInit, OnDestroy{
       .subscribe((data) => {
         this.showAside = this.recursFindChildData(data, 'showAside');
       });
+
   }
 
   ngOnDestroy() {
@@ -47,4 +56,6 @@ export class LayoutComponent implements OnInit, OnDestroy{
         return  !!children.data[prop];
       }
     }
+
+  protected readonly load = load;
 }
