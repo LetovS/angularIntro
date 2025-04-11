@@ -21,7 +21,7 @@ import {BackspaceDirective} from '../../shared/directives/backspace.directive';
     TranslatePipe,
     BackspaceDirective
   ],
-  styleUrls: ['./tour-item.component.css']
+  styleUrls: ['./tour-item.component.scss']
 })
 export class TourItemComponent implements OnInit, OnDestroy {
   tour: ITour | null = null;

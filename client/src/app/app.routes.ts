@@ -13,64 +13,96 @@ import {OrderItemComponent} from './pages/orders/order-item/order-item.component
 import {UsersComponent} from './pages/settings/users/users.component';
 import {ToursEditorComponent} from './pages/settings/tours-editor/tours-editor.component';
 
+/**
+ * Основные маршруты приложения
+ */
 export const routes: Routes = [
+  /**
+   * Авторизация
+   */
   {
     path: 'auth',
     component: LayoutComponent,
     children: [
       {
-        path: '', component: AuthComponent
+        path: '',
+        component: AuthComponent
       }
-    ]},
+    ]
+  },
+  /**
+   * Страница "Не найдено"
+   */
   { path: 'not-found', component: NotFoundComponent },
+
+  /**
+   * Раздел "Настройки"
+   */
   {
     path: 'settings',
     canActivate: [authGuard],
     component: LayoutComponent,
     children: [
       {
-        path: '', component: SettingsComponent
+        path: '',
+        component: SettingsComponent
       },
       { path: 'change-password', component: ChangePasswordComponent },
-      { path: 'statistics', component: StatisticsComponent,
-        data: {showAside: true} },
-      { path: 'users', component: UsersComponent,
-        data: {showAside: true} }
-      ,
-      { path: 'tours-editor', component: ToursEditorComponent,
-        data: {showAside: true} }
+      { path: 'statistics', component: StatisticsComponent, data: { showAside: true } },
+      { path: 'users', component: UsersComponent, data: { showAside: true } },
+      { path: 'tours-editor', component: ToursEditorComponent, data: { showAside: true } }
     ]
   },
+
+  /**
+   * Раздел "Туры"
+   */
   {
     path: 'tours',
     canActivate: [authGuard],
     component: LayoutComponent,
     children: [
-    {
-      path: '', component: ToursComponent, data: {showAside: true},
-    },
-    {
-      path: 'tour', redirectTo: '', pathMatch: 'full'
-    },
-    {
-      path: 'tour/:tourId', component: TourItemComponent,
-    }
-  ]},
+      {
+        path: '',
+        component: ToursComponent,
+        data: { showAside: true }
+      },
+      {
+        path: 'tour',
+        redirectTo: '',
+        pathMatch: 'full'
+      },
+      {
+        path: 'tour/:tourId',
+        component: TourItemComponent
+      }
+    ]
+  },
+
+  /**
+   * Раздел "Заказы"
+   */
   {
     path: 'orders',
     canActivate: [authGuard],
     component: LayoutComponent,
     children: [
       {
-        path: '', component: OrdersComponent
+        path: '',
+        component: OrdersComponent
       },
       {
-        path: 'order', redirectTo: '', pathMatch: 'full'
+        path: 'order',
+        redirectTo: '',
+        pathMatch: 'full'
       },
       {
-        path: 'order/:orderId', component: OrderItemComponent
+        path: 'order/:orderId',
+        component: OrderItemComponent
       }
-    ]},
-  {path: '', redirectTo:'/auth', pathMatch: 'full'},
-  {path: '**', redirectTo:'/not-found', pathMatch: 'full'}
+    ]
+  },
+
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: '**', redirectTo: '/not-found', pathMatch: 'full' }
 ];
