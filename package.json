@@ -2,15 +2,17 @@
   "name": "Angular + NestJS",
   "version": "1.0.0",
   "scripts": {
-  "install:all": "npm install && npm --prefix client install && npm --prefix server install",
-  "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
-  "start:client": "npm --prefix client run start",
-  "start:client:ru": "npm --prefix client run start -- --configuration=ru",
-  "start:server": "npm --prefix nest-api start",
-  "start:ru": "concurrently \"npm run start:server\" \"npm run start:client:ru\""
-},
+    "install:all": "npm install && npm --prefix client install && npm --prefix server install",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+    "start:client": "npm --prefix client run start",
+    "start:client:ru": "npm --prefix client run start -- --configuration=ru",
+    "start:server": "npm --prefix nest-api start",
+    "start:ru": "concurrently \"npm run start:server\" \"npm run start:client:ru\""
+  },
   "devDependencies": {
     "concurrently": "^9.1.2",
+    "typedoc-plugin-markdown": "^4.6.2",
+    "typedoc-theme-hierarchy": "^6.0.0",
     "wait-on": "^7.0.1"
   }
 }

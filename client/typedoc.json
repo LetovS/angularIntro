@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["src/main.ts"],
+  "out": "docs/angular",
+  "tsconfig": "tsconfig.app.json",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "hideGenerator": true,
+  "theme": "default"
+}
