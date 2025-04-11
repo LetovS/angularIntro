@@ -223,7 +223,7 @@ export class ToursComponent implements OnInit, OnDestroy {
   getWeatherIcon(): { icon: string; text: string } {
     if (this.weather.rain === 0 && this.weather.snowFall === 0) {
       return { icon: 'fa-sun', text: 'Ясно' };
-    } else {
+    } else  {
       return { icon: 'fa-cloud', text: 'Осадки' };
     }
   }

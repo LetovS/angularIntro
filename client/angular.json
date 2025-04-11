@@ -60,8 +60,7 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["src/app/styles"]
-            },
-            "localize": true
+            }
           },
           "configurations": {
             "production": {
@@ -97,8 +96,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "ssl": true,
-            "sslKey": "./ssl/localhost+2-key.pem",
-            "sslCert": "./ssl/localhost+2.pem"
+            "sslKey": "./ssl/localhost-key.pem",
+            "sslCert": "./ssl/localhost.pem"
           },
           "configurations": {
             "production": {
@@ -109,9 +108,6 @@
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

@@ -1,7 +1,7 @@
 {
   "entryPoints": ["src/main.ts"],
   "out": "docs/angular",
-  "tsconfig": "tsconfig.app.json",
+  "tsconfig": "tsconfig.json",
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeProtected": true,
