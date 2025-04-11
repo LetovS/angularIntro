@@ -11,6 +11,11 @@ RUN npm run build
 ## Используем образ Nginx для production
 FROM nginx:alpine
 
+RUN mkdir -p /etc/ssl/certs
+
+COPY ./ssl/localhost.pem /etc/ssl/certs/localhost.pem
+COPY ./ssl/localhost-key.pem /etc/ssl/certs/localhost-key.pem
+
 # Копируем билд
 COPY --from=build /app/dist/intro/browser /usr/share/nginx/html
 

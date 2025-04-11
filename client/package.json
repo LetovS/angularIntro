@@ -8,7 +8,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "docs:angular": "typedoc"
+    "docker": "docker build -t ang-client . && docker run -d -p 4200:4200 --name ang-client --rm ang-client"
   },
   "private": true,
   "dependencies": {
