@@ -39,7 +39,6 @@ import {ICoords, IWeatherViewModel} from '../../models/models';
     FormsModule,
     TranslatePipe,
     ToursListActivitiesDirective,
-    NgOptimizedImage,
     Dialog,
     MapComponent
   ],

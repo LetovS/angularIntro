@@ -1,10 +1,10 @@
-import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
+import {HttpErrorResponse, HttpHandlerFn, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { NotificationsService } from '../app/services/notifications/notifications.service';
 import { inject } from '@angular/core';
 
-export const ErrorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
+export const ErrorHandlerInterceptor: HttpInterceptorFn = (req:HttpRequest<unknown>, next: HttpHandlerFn) => {
   const notificationsService = inject(NotificationsService);
 
   return next(req).pipe(
