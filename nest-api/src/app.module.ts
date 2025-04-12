@@ -11,6 +11,10 @@ import { CountriesModule } from './countries/countries.module';
 import { jwtKeys } from './static/private/keys';
 import { AuthGuardsService } from './infrastructure/auth/auth-guards/auth-guards.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { RolesController } from './roles/roles.controller';
+import { PermissionsController } from './permissions/permissions.controller';
+import { PermissionsModule } from './permissions/permissions.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -31,8 +35,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     PaymentModule,
     CountriesModule,
     CountriesModule,
+    PermissionsModule,
+    RolesModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [AppService, AuthGuardsService],
 })
 export class AppModule {}
