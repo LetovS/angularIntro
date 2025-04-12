@@ -17,6 +17,10 @@ export class ToursService {
     @InjectModel(Tour.name) private toursRepository: Model<TourDocument>,
   ) {}
 
+  /**
+   * Получить все туры из базы данных.
+   * @returns Список туров
+   */
   async getTours(): Promise<ITour[]> {
     const result = await this.toursRepository.find().lean().exec();
     return result.map(({ _id, __v, ...tour }) => ({
@@ -25,6 +29,11 @@ export class ToursService {
     }));
   }
 
+  /**
+   * Получить тур по ID.
+   * @param tourId Идентификатор тура
+   * @returns Тур или null, если не найден
+   */
   async getTour(tourId: string): Promise<ITour | null> {
     const dbTour = await this.toursRepository.findById(tourId).lean().exec();
 
@@ -39,6 +48,11 @@ export class ToursService {
     };
   }
 
+  /**
+   * Получить туры, связанные с конкретным местоположением.
+   * @param locationId Идентификатор местоположения
+   * @returns Список туров, связанных с местоположением
+   */
   async getToursByLocationId(locationId: string): Promise<ITour[]> {
     const result = await this.toursRepository
       .find({ locationId: locationId })
@@ -50,6 +64,12 @@ export class ToursService {
     }));
   }
 
+  /**
+   * Добавить новый тур в базу данных.
+   * @param newTour Данные нового тура
+   * @returns ID нового тура
+   * @throws ConflictException Если тур с таким названием уже существует
+   */
   async addTour(newTour: ITour): Promise<number | string> {
     const tourExists = await this.toursRepository
       .findOne({ name: newTour.name })
@@ -64,6 +84,12 @@ export class ToursService {
     return createdTour.id;
   }
 
+  /**
+   * Удалить тур по ID.
+   * @param removingTourid Идентификатор тура для удаления
+   * @returns true, если тур удален успешно
+   * @throws NotFoundException Если тур не найден
+   */
   async removeTour(removingTourid: string): Promise<true | string> {
     const tourExists = await this.toursRepository
       .findById(removingTourid)
@@ -77,6 +103,10 @@ export class ToursService {
     throw new NotFoundException(`Tour with id: ${removingTourid} not found`);
   }
 
+  /**
+   * Инициализация данных в базе, если они еще не были добавлены.
+   * @returns void
+   */
   async initData(): Promise<void> {
     const items = await this.toursRepository.countDocuments().exec();
     if (items > 0) return;

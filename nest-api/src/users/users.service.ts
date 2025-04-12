@@ -1,57 +1,22 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
 import { Model } from 'mongoose';
 import { User, UserDocument } from 'src/schemas/user.schema';
-
-export interface IUser {
-  id?: string;
-  login: string;
-  password?: string;
-}
-
-export class CreateUserDto {
-  @ApiProperty({ description: 'User login', example: 'demo' })
-  login: string;
-
-  @ApiProperty({ description: 'User password', example: '123456' })
-  password: string;
-
-  @ApiProperty({ description: 'User nickname', example: 'test' })
-  nickname: string;
-
-  @ApiProperty({ description: 'User email', example: 'demo@demo.com' })
-  email: string;
-}
-
-export class ChangePasswordDto implements IChangePassword {
-  @ApiProperty({ description: 'Login user' })
-  login: string;
-  @ApiProperty({ description: 'Previous user password' })
-  oldPassword: string;
-  @ApiProperty({ description: 'New user password' })
-  newPassword: string;
-}
-
-export interface IChangePassword {
-  login: string;
-  oldPassword: string;
-  newPassword: string;
-}
-
-const userStorage: IUser[] = [];
+import { IChangePassword, IUser } from './model';
 
 @Injectable()
-export class UsersService {  
-
-  private currentUser: IUser | null = null;
-
+export class UsersService {
   constructor(
     @InjectModel(User.name) private userRepository: Model<UserDocument>,
   ) {
     console.log('userService run');
   }
 
+  /**
+   * Находит пользователя по логину и возвращает его, включая пароль.
+   * @param login Логин пользователя для поиска
+   * @returns Пользователь с паролем или null, если не найден
+   */
   public async getUserByLogin(login: string): Promise<UserDocument | null> {
     const user = await this.userRepository
       .findOne({ login: login })
@@ -60,6 +25,12 @@ export class UsersService {
     return user ?? null;
   }
 
+  /**
+   * Добавляет нового пользователя в базу данных.
+   * Если пользователь с таким логином уже существует, возвращается ошибка.
+   * @param user Данные пользователя для добавления
+   * @returns true, если пользователь успешно добавлен, или строку с ошибкой
+   */
   public async addUser(user: IUser): Promise<true | string> {
     if (await this.isUserExist(user.login)) {
       return 'User already exists';

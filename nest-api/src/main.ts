@@ -5,6 +5,7 @@ import { HttpExceptionFilter } from './infrastructure/midleware/http-exception/h
 import * as cookieParser from 'cookie-parser';
 import { readFileSync } from 'fs';
 import { join } from 'path';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
 
@@ -22,11 +23,11 @@ async function bootstrap() {
     .setTitle('NestJS API')
     .setDescription('API documentation for NestJS application')
     .setVersion('1.0')
-    .addTag('users')
-    .addTag('tours')
+    .addTag('Users')
+    .addTag('Tours')
     .addTag('Auth')
-    .addTag('permissions')
-    .addTag('roles')
+    .addTag('Permissions')
+    .addTag('Roles')
     .addBearerAuth()
     .build();
 
@@ -39,6 +40,13 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   });
+
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true, // удаляет лишние поля
+    forbidNonWhitelisted: true, // выбрасывает ошибку, если есть лишние поля
+    transform: true, // преобразует типы (напр. строку в число)
+  }));
+  
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser());
   await app.listen(3000);

@@ -6,6 +6,7 @@ import {
   Query,
   Param,
   BadRequestException,
+  Put,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -14,22 +15,22 @@ import {
   ApiBody,
   ApiParam,
 } from '@nestjs/swagger';
-import {
-  UsersService,
-  IUser,
-  CreateUserDto,
-  ChangePasswordDto,
-  IChangePassword,
-} from './users.service';
+import { UsersService } from './users.service';
+import { ChangePasswordRequest, CreateUserRequest, IChangePassword, IUser } from './model';
 
-@ApiTags('users') // Группировка эндпоинтов по тегу
+@ApiTags('Users') // Группировка эндпоинтов по тегу
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('register')
+  /**
+   * Добавление нового пользователя.
+   * @param user Данные пользователя, полученные в теле запроса
+   * @returns Статус добавления пользователя
+   */
+  @Post()
   @ApiOperation({ summary: 'Add a new user' }) // Описание операции
-  @ApiBody({ type: CreateUserDto }) // Указание типа тела запроса
+  @ApiBody({ type: CreateUserRequest }) // Указание типа тела запроса
   @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
   @ApiResponse({ status: 400, description: 'Bad request' })
   async addUser(@Body() user: IUser): Promise<true | string> {
@@ -37,9 +38,14 @@ export class UsersController {
     return await this.usersService.addUser(user);
   }
 
-  @Post('change-password')
+  /**
+   * Изменение пароля пользователя.
+   * @param changePasswordDto Данные для изменения пароля
+   * @returns Статус успешности изменения пароля
+   */
+  @Put('change-password')
   @ApiOperation({ summary: "Change user's password" }) // Описание операции
-  @ApiBody({ type: ChangePasswordDto }) // Указание типа тела запроса
+  @ApiBody({ type: ChangePasswordRequest }) // Указание типа тела запроса
   @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
   @ApiResponse({ status: 400, description: 'Bad request' })
   async changeUsrPassword(
@@ -54,6 +60,11 @@ export class UsersController {
     }
   }
 
+  /**
+   * Проверка существования пользователя.
+   * @param login Логин пользователя для поиска
+   * @returns Статус существования пользователя
+   */
   @Get('exists')
   @ApiOperation({ summary: 'Check if user exists' })
   @ApiResponse({ status: 200, description: 'User exists' })
@@ -63,21 +74,34 @@ export class UsersController {
     return await this.usersService.isUserExist(login);
   }
 
-  @Get('users-count')
+  /**
+   * Получение общего количества пользователей.
+   * @returns Количество пользователей
+   */
+  @Get('count')
   @ApiOperation({ summary: 'Count of number users' })
   @ApiResponse({ status: 200, description: 'Count' })
   async getUsersCount(): Promise<number> {
     return await this.usersService.getUsersCount();
   }
 
-  @Get('users-list')
+  /**
+   * Получение списка всех пользователей.
+   * @returns Список пользователей
+   */
+  @Get()
   @ApiOperation({ summary: 'Users' })
   @ApiResponse({ status: 200, description: 'list' })
   async getUsers(): Promise<IUser[]> {
     return await this.usersService.getUsers();
   }
 
-  @Get('user/:userId')
+  /**
+   * Получение пользователя по ID.
+   * @param userId Идентификатор пользователя
+   * @returns Информация о пользователе
+   */
+  @Get(':userId')
   @ApiOperation({ summary: 'Get user by id' })
   @ApiParam({
     name: 'userId',

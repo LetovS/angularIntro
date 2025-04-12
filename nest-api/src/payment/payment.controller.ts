@@ -1,10 +1,14 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('payment')
+@ApiTags('Payment')
 @Controller('payment')
 export class PaymentController {
-  // Получение доступных способов оплаты
+  
+  /**
+   * Получить доступные методы оплаты.
+   * @returns Объект с массивом методов оплаты, где каждый метод включает id, имя и иконку.
+   */
   @Get('methods')
   getPaymentMethods() {
     return {
@@ -16,7 +20,12 @@ export class PaymentController {
     };
   }
 
-  // Обработка платежа
+  /**
+   * Обработать платеж.
+   * В реальном приложении здесь должна быть интеграция с реальной платежной системой.
+   * @param paymentData Данные о платеже, передаваемые в теле запроса.
+   * @returns Демо-ответ с подтверждением успешности платежа, уникальным идентификатором заказа и временной меткой.
+   */
   @Post('process')
   processPayment(@Body() paymentData: any) {
     // В реальном приложении здесь была бы интеграция с платежной системой
@@ -30,7 +39,11 @@ export class PaymentController {
     };
   }
 
-  // Получение HTML формы для оплаты (демо)
+   /**
+   * Получить HTML форму для выбранного метода оплаты.
+   * @param data Данные, содержащие информацию о выбранном методе оплаты.
+   * @returns HTML код формы для выбранного метода оплаты.
+   */
   @Post('form')
   getPaymentForm(@Body() data: { method: string }) {
     let formHtml = '';

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TourDto implements ITour {
+export class CreateTourRequest implements ITour {
   @ApiProperty({ description: 'id', example: 'null' })
   id: string;
   @ApiProperty({ description: 'Tour name', example: 'test' })

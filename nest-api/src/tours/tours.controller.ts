@@ -6,7 +6,6 @@ import {
   Delete,
   Param,
   NotFoundException,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -15,14 +14,13 @@ import {
   ApiResponse,
   ApiBody,
   ApiParam,
-  ApiQuery,
   ApiBearerAuth,
 } from '@nestjs/swagger';
 import { ToursService } from './tours.service';
-import { ITour, TourDto } from './model';
+import { ITour, CreateTourRequest } from './model';
 import { JwtAuthGuard } from 'src/infrastructure/auth/auth-guards/jwt-auth.guard';
 
-@ApiTags('tours')
+@ApiTags('Tours')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('tours')
@@ -30,16 +28,25 @@ import { JwtAuthGuard } from 'src/infrastructure/auth/auth-guards/jwt-auth.guard
 export class ToursController {
   constructor(private readonly toursService: ToursService) {}
 
-  @Get('tours')
+   /**
+   * Получить список всех туров.
+   * @returns Массив туров.
+   */
+  @Get()
   @ApiOperation({ summary: "Recived tour's list" })
   @ApiResponse({ status: 200, description: 'All tours' })
-  async getTours(): Promise<TourDto[] | null> {
+  async getTours(): Promise<CreateTourRequest[] | null> {
     return await this.toursService.getTours();
   }
 
-  @Get('nearestTours')
+  /**
+   * Получить туры, ближайшие к указанному местоположению.
+   * @param locationId Идентификатор местоположения.
+   * @returns Массив туров, ближайших к местоположению.
+   */
+  @Get('nearby/:locationId')
   @ApiOperation({ summary: 'Get tours nearest to a location' })
-  @ApiQuery({
+  @ApiParam({
     name: 'locationId',
     type: String,
     description: "ID of the location's tour",
@@ -48,13 +55,19 @@ export class ToursController {
   @ApiResponse({ status: 404, description: 'Not found' })
   @ApiResponse({ status: 500, description: 'Server error' })
   async getToursByLocationId(
-    @Query('locationId') locationId: string,
+    @Param('locationId') locationId: string,
   ): Promise<ITour[]> {
     console.log(`Searching tours by ${locationId}`);
     return this.toursService.getToursByLocationId(locationId);
   }
 
-  @Get('tour/:tourId')
+  /**
+   * Получить тур по ID.
+   * @param tourId Идентификатор тура.
+   * @returns Тур с указанным ID.
+   * @throws NotFoundException Если тур не найден.
+   */
+  @Get(':tourId')
   @ApiOperation({ summary: 'Recived tour by Id' })
   @ApiParam({
     name: 'tourId',
@@ -64,7 +77,7 @@ export class ToursController {
   @ApiResponse({ status: 200, description: 'Tour' })
   @ApiResponse({ status: 404, description: 'Tour not found' })
   @ApiResponse({ status: 500, description: 'Server error' })
-  async getTourById(@Param('tourId') tourId: string): Promise<TourDto | null> {
+  async getTourById(@Param('tourId') tourId: string): Promise<CreateTourRequest | null> {
     const result = await this.toursService.getTour(tourId);
     if (result) {
       return result;
@@ -72,16 +85,25 @@ export class ToursController {
     throw new NotFoundException('Tour not found');
   }
 
-  @Post('add-tour')
+  /**
+   * Добавить новый тур.
+   * @param tour Данные для добавления нового тура.
+   * @returns ID нового тура или сообщение об ошибке.
+   */
+  @Post()
   @ApiOperation({ summary: 'Add tour' })
-  @ApiBody({ type: TourDto })
+  @ApiBody({ type: CreateTourRequest })
   @ApiResponse({ status: 201, description: 'seccusful' })
   @ApiResponse({ status: 409, description: 'That tour already exists' })
   async addTour(@Body() tour: ITour): Promise<number | string> {
     return this.toursService.addTour(tour);
   }
 
-  @Post('init-test-data')
+  /**
+   * Инициализация тестовых данных для демонстрации.
+   * @returns Успешное выполнение операции.
+   */
+  @Post('test-data/initialize')
   @ApiOperation({ summary: 'Init data for demo' })
   @ApiResponse({ status: 200, description: 'seccusful' })
   @ApiResponse({ status: 500, description: 'Something went wrong' })
@@ -89,7 +111,12 @@ export class ToursController {
     return this.toursService.initData();
   }
 
-  @Delete('remove-tour/:tourId')
+  /**
+   * Удалить тур по ID.
+   * @param tourId Идентификатор тура для удаления.
+   * @returns Сообщение о успешном удалении или ошибке.
+   */
+  @Delete(':tourId')
   @ApiOperation({ summary: 'Remove tour' })
   @ApiParam({
     name: 'tourId',

@@ -1,4 +1,4 @@
-import { ICountry } from './countries.service';
+import { ICountry } from "./model";
 
 export function initCountriesInDB(): ICountry[] {
   return [
