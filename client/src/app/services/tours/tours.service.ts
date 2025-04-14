@@ -24,7 +24,7 @@ export class ToursService {
     const countries = this.httpClient.get<ICountry []>(API.countries);
 
     const tours =  this.httpClient
-      .get<ITour[]>(API.tours + '/tours');
+      .get<ITour[]>(API.tours);
 
     return forkJoin<[ICountry [], ITour []]>([countries, tours]).pipe(
       map((data) => {
@@ -53,7 +53,7 @@ export class ToursService {
    * @returns Observable<ITour[]> - Массив туров.
    */
   public getToursByLocationId(locationId:string): Observable<ITour[]> {
-    const url: string = `${API.tours}/nearestTours?locationId=${locationId}`;
+    const url: string = `${API.tours}/nearby?locationId=${locationId}`;
 
     return this.httpClient
       .get<ITour[]>(url)
@@ -71,7 +71,7 @@ export class ToursService {
    */
   public getTour(tourId: string): Observable<ITour | null> {
     return this.httpClient
-      .get<ITour | null>(API.tours + `/tour/${tourId}`)
+      .get<ITour | null>(API.tours + `/${tourId}`)
       .pipe(
         tap((response) => {
         }),
