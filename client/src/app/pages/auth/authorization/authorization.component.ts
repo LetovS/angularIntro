@@ -40,7 +40,6 @@ export class AuthorizationComponent {
           'Authorization successful',
           'Authorization');
         this.errorMessage = null;
-        this.userService.setUser(user);
         sessionStorage.setItem(JwtTokenKey, response.access_token);
         this.router.navigate(['/tours'])
       }

@@ -106,7 +106,7 @@ export class ToursService {
   */
   public removeTourById(tourId : string) : Observable<any>{
     return this.httpClient
-      .delete(API.tours+`/remove-tour/${tourId}`, {withCredentials: true})
+      .delete(API.tours+`/${tourId}`, {withCredentials: true})
       .pipe(
         tap((response) => {
 

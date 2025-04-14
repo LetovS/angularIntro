@@ -7,6 +7,7 @@
 .user-card-wrapper {
   border: 1px solid #007bff;
   border-radius: 1.5rem;
+  padding: .5rem .9rem;
 }
 
 .user-card {
@@ -14,17 +15,13 @@
   max-width: 600px;
   margin: 0 auto;
 
-  ::ng-deep .p-card-header {
+  & .p-card-header {
     background-color: #f8f9fa;
     padding: 1rem;
     border-bottom: 1px solid #dee2e6;
   }
 
-  ::ng-deep .p-card-body {
-    padding: 1.5rem;
-  }
-
-  ::ng-deep .p-card-footer {
+  & .p-card-footer {
     display: flex;
     justify-content: flex-end;
     padding: 1rem;
@@ -34,7 +31,7 @@
 
 .user-header {
   display: flex;
-  gap: 2rem;
+  margin: .9rem;
   flex-wrap: wrap;
 }
 
@@ -48,7 +45,7 @@
 .user-field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  padding: 0 .5rem;
 
   label {
     font-weight: 500;

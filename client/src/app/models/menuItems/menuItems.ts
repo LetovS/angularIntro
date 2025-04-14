@@ -2,12 +2,21 @@ import {MenuItem} from 'primeng/api';
 import {LocalizationService} from '../../services/localization.service';
 
 
-export function initMenuItems(service: LocalizationService): MenuItem [] {
-  return ['tours', 'settings', 'orders'].map(key => ({
-    label: service.translate(key),
-    routerLink: [`/${key}`],
-  }));
+export function initMenuItems(service: LocalizationService, role: string | null): MenuItem[] {
+  const allItems: { key: string, roles?: string[] }[] = [
+    { key: 'tours' }, // Всегда доступен
+    { key: 'orders', roles: ['admin', 'moderator', 'user'] },
+    { key: 'settings', roles: ['admin', 'moderator'] },
+  ];
+
+  return allItems
+    .filter(item => !item.roles || (role && item.roles.includes(role)))
+    .map(item => ({
+      label: service.translate(item.key),
+      routerLink: [`/${item.key}`],
+    }));
 }
+
 
 export interface ISocial{
   url: string;

@@ -1,4 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export interface IUser {
   id?: string;
@@ -27,6 +28,18 @@ export class ChangePasswordRequest implements IChangePassword {
   oldPassword: string;
   @ApiProperty({ description: 'New user password' })
   newPassword: string;
+}
+
+export class ChangeRoleRequest {
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'User\'s Id' })
+  id: string;
+  
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ description: 'User\'s role' })
+  role: string;
 }
 
 export interface IChangePassword {

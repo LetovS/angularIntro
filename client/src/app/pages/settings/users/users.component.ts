@@ -2,9 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Button} from 'primeng/button';
 import {RouterLink} from '@angular/router';
 import {BackspaceDirective} from '../../../shared/directives/backspace.directive';
-import {Subject, Subscription, takeUntil} from 'rxjs';
+import {Subject, takeUntil} from 'rxjs';
 import {UserService} from '../../../services/user/user.service';
-import {IUser} from '../../../models/User/iuser';
+import {IChangeRoleRequest, IUser} from '../../../models/User/iuser';
 import {Card} from 'primeng/card';
 import { SelectItem } from 'primeng/api';
 import {FormsModule} from '@angular/forms';
@@ -64,14 +64,20 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   userUpdate(user: IUser) {
     // Здесь можно отправить только изменяемые поля
-    const updateData = {
+    const updateData: IChangeRoleRequest = {
       id: user.id,
-      email: user.email,
       role: user.role
     };
 
     // Или отправить весь объект
-    // this.apiService.updateUser(user).subscribe(...);
+    this.usersService.changeRole(updateData)
+      .subscribe((data) => {
+        if(data){
+          console.log('ok', data)
+        } else {
+          console.log('Not ok', data)
+        }
+      });
 
     console.log('Updating user:', updateData);
 

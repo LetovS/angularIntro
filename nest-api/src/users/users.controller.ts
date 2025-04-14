@@ -7,6 +7,7 @@ import {
   Param,
   BadRequestException,
   Put,
+  InternalServerErrorException,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -14,9 +15,10 @@ import {
   ApiResponse,
   ApiBody,
   ApiParam,
+  ApiQuery,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { ChangePasswordRequest, CreateUserRequest, IChangePassword, IUser } from './model';
+import { ChangePasswordRequest, ChangeRoleRequest, CreateUserRequest, IChangePassword, IUser } from './model';
 
 @ApiTags('Users') // Группировка эндпоинтов по тегу
 @Controller('users')
@@ -60,19 +62,28 @@ export class UsersController {
     }
   }
 
-  /**
-   * Проверка существования пользователя.
-   * @param login Логин пользователя для поиска
-   * @returns Статус существования пользователя
+
+   /**
+   * Изменение роли пользователя.
+   * @param changePasswordDto Данные для изменения пароля
+   * @returns Статус успешности изменения пароля
    */
-  @Get('exists')
-  @ApiOperation({ summary: 'Check if user exists' })
-  @ApiResponse({ status: 200, description: 'User exists' })
-  @ApiResponse({ status: 404, description: 'User not found' })
-  async isUserExist(@Query('login') login: string): Promise<boolean> {
-    console.log(login);
-    return await this.usersService.isUserExist(login);
-  }
+   @Put('change-role')
+   @ApiOperation({ summary: "Change user's role" }) // Описание операции
+   @ApiBody({ type: ChangeRoleRequest }) // Указание типа тела запроса
+   @ApiResponse({ status: 200, description: 'User added successfully' }) // Описание ответа
+   @ApiResponse({ status: 400, description: 'Bad request' })
+   async changeUsrRole(@Body() changePasswordDto: ChangeRoleRequest): Promise<boolean> {
+
+     console.log('Меняем роль ' + changePasswordDto);
+
+     const result = await this.usersService.changeUserRole(changePasswordDto);
+
+     if (result) return true;
+     else {
+       throw new InternalServerErrorException('Something went wrong');
+     }
+   }
 
   /**
    * Получение общего количества пользователей.
@@ -112,4 +123,23 @@ export class UsersController {
   async getUserById(@Param('userId') userId: string): Promise<IUser | null> {
     return await this.usersService.getUser(userId);
   }
+
+   /**
+   * Проверка существования пользователя.
+   * @param login Логин пользователя для поиска
+   * @returns Статус существования пользователя
+   */
+   @Get('userByLogin/:userLogin')
+   @ApiOperation({ summary: 'Get user by login' })
+   @ApiParam({
+    name: 'userLogin',
+    type: String,
+    description: 'Login of the user',
+  })
+  @ApiResponse({ status: 200, description: 'user' })
+   @ApiResponse({ status: 404, description: 'User not found' })
+   async getUserByLogin(@Param('userLogin') userLogin: string):Promise<IUser | null> {
+     console.log(userLogin);
+     return await this.usersService.getUserByLogin(userLogin);
+   }
 }
