@@ -27,6 +27,7 @@ async function bootstrap() {
     .addTag('Tours')
     .addTag('Auth')
     .addTag('Permissions')
+    .addTag('Orders')
     .addTag('Roles')
     .addBearerAuth()
     .build();
