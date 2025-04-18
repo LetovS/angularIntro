@@ -14,6 +14,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
 import { OrdersModule } from './orders/orders.module';
+import { FileStatusGateway } from './file-status/file-status.gateway';
+import { FileNotificationService } from './file-notification/file-notification.service';
+import { FileStatusModule } from './file-status/file-status.module';
+import { FileNotificationModule } from './file-notification/file-notification.module';
 
 @Module({
   imports: [
@@ -36,7 +40,9 @@ import { OrdersModule } from './orders/orders.module';
     CountriesModule,
     PermissionsModule,
     RolesModule,
-    OrdersModule
+    OrdersModule,
+    FileStatusModule,
+    FileNotificationModule
   ],
   controllers: [],
   providers: [AppService, AuthGuardsService],

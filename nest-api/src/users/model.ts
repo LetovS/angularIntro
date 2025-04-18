@@ -3,7 +3,10 @@ import { ApiProperty } from "@nestjs/swagger";
 export interface IUser {
   id?: string;
   login: string;
-  password?: string;
+  password?: string;  
+  email?: string;
+  role?: string;
+  nickname?: string;
 }
 
 export class CreateUserRequest {
