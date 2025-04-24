@@ -9,6 +9,8 @@ import {Card} from 'primeng/card';
 import { SelectItem } from 'primeng/api';
 import {FormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
+import {SignalRService} from '../../../services/signal-r.service';
+import {NotificationsService} from '../../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-users',
@@ -41,15 +43,18 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('///USERS:ngOnInit');
+
     this.usersService.getUsers()
-    .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         console.log('///USERS:received data', data);
-        if(Array.isArray(data)){
-          this.users = data
+        if (Array.isArray(data)) {
+          this.users = data;
+          this.userStore = JSON.parse(JSON.stringify(data)); // для сравнения
         }
-      })
+      });
   }
+
 
   ngOnDestroy() {
     this.users = [];

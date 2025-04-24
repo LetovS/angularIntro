@@ -11,10 +11,13 @@ import { CountriesModule } from './countries/countries.module';
 import { jwtKeys } from './static/private/keys';
 import { AuthGuardsService } from './infrastructure/auth/auth-guards/auth-guards.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RolesController } from './roles/roles.controller';
-import { PermissionsController } from './permissions/permissions.controller';
 import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
+import { OrdersModule } from './orders/orders.module';
+import { FileStatusGateway } from './file-status/file-status.gateway';
+import { FileNotificationService } from './file-notification/file-notification.service';
+import { FileStatusModule } from './file-status/file-status.module';
+import { FileNotificationModule } from './file-notification/file-notification.module';
 import { CartModule } from './cart/cart.module';
 
 @Module({
@@ -39,6 +42,9 @@ import { CartModule } from './cart/cart.module';
     PermissionsModule,
     RolesModule,
     CartModule,
+    OrdersModule,
+    FileStatusModule,
+    FileNotificationModule
   ],
   controllers: [],
   providers: [AppService, AuthGuardsService],

@@ -18,12 +18,14 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
+import { ChangePasswordRequest, CreateUserRequest, IChangePassword, IUser } from './model';
+import { FileNotificationService } from 'src/file-notification/file-notification.service';
 import { ChangePasswordRequest, ChangeRoleRequest, CreateUserRequest, IChangePassword, IUser } from './model';
 
 @ApiTags('Users') // Группировка эндпоинтов по тегу
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly fileNotify: FileNotificationService) {}
 
   /**
    * Добавление нового пользователя.
@@ -103,8 +105,13 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'Users' })
   @ApiResponse({ status: 200, description: 'list' })
-  async getUsers(): Promise<IUser[]> {
+  async getUsers(): Promise<IUser[]> {    
     return await this.usersService.getUsers();
+  }
+
+  @Get('test')
+  async sendNotifications(): Promise<void>{
+    await this.fileNotify.processFile(3333, 3333, 'Completed');
   }
 
   /**

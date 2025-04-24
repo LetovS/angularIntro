@@ -27,6 +27,7 @@ async function bootstrap() {
     .addTag('Tours')
     .addTag('Auth')
     .addTag('Permissions')
+    .addTag('Orders')
     .addTag('Roles')
     .addTag('Cart')
     .addBearerAuth()
@@ -36,7 +37,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://localhost:4200'],
+    origin: ['https://localhost:4200'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

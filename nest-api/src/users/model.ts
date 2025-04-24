@@ -4,7 +4,10 @@ import { IsNotEmpty, IsString } from "class-validator";
 export interface IUser {
   id?: string;
   login: string;
-  password?: string;
+  password?: string;  
+  email?: string;
+  role?: string;
+  nickname?: string;
 }
 
 export class CreateUserRequest {
