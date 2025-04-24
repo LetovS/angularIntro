@@ -10,6 +10,7 @@ import { SelectItem } from 'primeng/api';
 import {FormsModule} from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {SignalRService} from '../../../services/signal-r.service';
+import {NotificationsService} from '../../../services/notifications/notifications.service';
 
 @Component({
   selector: 'app-users',
@@ -37,8 +38,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     { label: 'Guest', value: 'guest' }
   ];
 
-  constructor(private usersService: UserService,
-              private signalRService: SignalRService) {
+  constructor(private usersService: UserService) {
   }
 
   ngOnInit() {
@@ -53,22 +53,6 @@ export class UsersComponent implements OnInit, OnDestroy {
           this.userStore = JSON.parse(JSON.stringify(data)); // для сравнения
         }
       });
-
-    // Подключаем SignalR
-    this.signalRService.startConnection(3333);
-
-    // Подписка на событие (например, FileStatusChanged, или можно создать UsersUpdated)
-    this.signalRService.onFileStatusChanged(() => {
-      console.log('///USERS:SignalR => получено обновление, обновляем список пользователей');
-      this.usersService.getUsers()
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((data) => {
-          if (Array.isArray(data)) {
-            this.users = data;
-            this.userStore = JSON.parse(JSON.stringify(data));
-          }
-        });
-    });
   }
 
 
@@ -76,7 +60,6 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.users = [];
     this.destroy$.next();
     this.destroy$.complete();
-    this.signalRService.stopConnection();
   }
 
   isUserModified(user: IUser): boolean {

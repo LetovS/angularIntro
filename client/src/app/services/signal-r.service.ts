@@ -4,7 +4,7 @@ import { io, Socket } from 'socket.io-client';
 @Injectable({
   providedIn: 'root'
 })
-export class SignalRService {
+export class SignalRService   {
   private socket!: Socket;
 
   startConnection(userId: number) {

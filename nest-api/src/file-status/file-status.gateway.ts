@@ -3,7 +3,8 @@ import {
   WebSocketServer,
   SubscribeMessage,
   OnGatewayConnection,
-  OnGatewayDisconnect
+  OnGatewayDisconnect,
+  OnGatewayInit
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 
@@ -14,7 +15,8 @@ import { Server, Socket } from 'socket.io';
   },
   namespace: '/filestatushub',
 })
-export class FileStatusGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class FileStatusGateway implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit  {
+  
   @WebSocketServer()
   server: Server;
 
@@ -36,5 +38,15 @@ export class FileStatusGateway implements OnGatewayConnection, OnGatewayDisconne
   // Это метод для отправки события на клиента
   notifyUser(userId: number, data: any) {
     this.server.to(`user-${userId}`).emit('FileStatusChanged', data);
+  }
+
+  afterInit() {
+    // Запускаем интервал при инициализации Gateway
+    setInterval(() => {
+      const message = {
+        timestamp: new Date(),
+        message: 'Это сообщение раз в 10 секунд',
+      };
+    }, 10000); // каждые 10 секунд
   }
 }
