@@ -10,7 +10,7 @@ export class CreateTourRequest implements ITour {
   @ApiProperty({ description: "Tour's operator", example: 'test' })
   tourOperator: string;
   @ApiProperty({ description: "Tour's price", example: 1000 })
-  price: string;
+  price: number;
   @ApiProperty({ description: "Url's image", example: '' })
   img?: string;
   @ApiProperty({
@@ -32,7 +32,7 @@ export interface ITour {
   name: string;
   description: string;
   tourOperator: string;
-  price: string;
+  price: number;
   img?: string;
   date?: Date;
   type?: string;

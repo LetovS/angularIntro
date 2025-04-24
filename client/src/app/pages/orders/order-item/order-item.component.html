@@ -7,7 +7,7 @@
   <div class="order-details">
     <p><strong>Customer:</strong> {{order.customerName}}</p>
     <p><strong>Date:</strong> {{order.date | date}}</p>
-    <p><strong>Total:</strong> {{order.total | currency:'USD':'symbol':'1.0-0'}}</p>
+    <p><strong>Total:</strong> {{order.total | currency:'EUR':'symbol':'1.0-0'}}</p>
     <p><strong>Status:</strong> {{order.status ? 'Оплачен' : 'Ожидает оплаты'}}</p>
   </div>
 
@@ -15,7 +15,7 @@
     <h4>Продукты:</h4>
     <ul>
       <li *ngFor="let item of order.items">
-        {{item.name}} - {{item.quantity}} × {{item.price | currency}}
+        {{item.name}} - {{item.quantity}} × {{item.price | currency:'EUR':'symbol':'1.0-0'}}
       </li>
     </ul>
   </div>

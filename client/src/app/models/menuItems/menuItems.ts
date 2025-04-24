@@ -4,7 +4,7 @@ import {LocalizationService} from '../../services/localization.service';
 
 export function initMenuItems(service: LocalizationService, role: string | null): MenuItem[] {
   const allItems: { key: string, roles?: string[] }[] = [
-    { key: 'tours' }, // Всегда доступен
+    { key: 'tours' },
     { key: 'orders', roles: ['admin', 'moderator', 'user'] },
     { key: 'settings', roles: ['admin', 'moderator'] },
   ];

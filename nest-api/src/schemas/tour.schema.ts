@@ -35,7 +35,7 @@ export class Tour {
   tourOperator: string;
 
   @Prop({ required: true, trim: true })
-  price: string;
+  price: number;
 
   @Prop({ default: null })
   img: string;

@@ -152,7 +152,7 @@ export class ToursComponent implements OnInit, OnDestroy {
 
   buyTour(tour: ITour) {
     this.cartService.addOrder(tour);
-    this.notificationService.showToastWithTemplate(tour)
+    //this.notificationService.showToastWithTemplate(tour)
     this.closeModal();
   }
 

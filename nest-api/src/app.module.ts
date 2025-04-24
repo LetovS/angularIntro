@@ -15,6 +15,7 @@ import { RolesController } from './roles/roles.controller';
 import { PermissionsController } from './permissions/permissions.controller';
 import { PermissionsModule } from './permissions/permissions.module';
 import { RolesModule } from './roles/roles.module';
+import { CartModule } from './cart/cart.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { RolesModule } from './roles/roles.module';
     CountriesModule,
     PermissionsModule,
     RolesModule,
+    CartModule,
   ],
   controllers: [],
   providers: [AppService, AuthGuardsService],

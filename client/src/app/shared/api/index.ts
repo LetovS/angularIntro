@@ -12,6 +12,7 @@ export const API= {
   countries: `${baseUrl}`+ '/' + `${environment.countriesController}`,
   getUsers: `${baseUrl}`+ '/' + `${environment.usersController}`,
   getUser: `${baseUrl}`+ '/' + `${environment.usersController}` + '/userByLogin',
+  getCartsById: `${baseUrl}`+ '/' + `${environment.cartController}`,
   countryByCode: 'https://restcountries.com/v3.1/alpha',
   getWhether:"https://api.open-meteo.com/v1/forecast",
   anotherByCode: 'https://restcountries.com/v3.1/alpha',

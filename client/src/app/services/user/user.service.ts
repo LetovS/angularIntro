@@ -9,7 +9,7 @@ import {
 } from '../../models/User/iuser';
 import {HttpClient} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {BehaviorSubject, catchError, forkJoin, map, Observable, of, Subject, tap, throwError} from 'rxjs';
+import {BehaviorSubject, catchError, forkJoin, map, Observable, Subject, tap} from 'rxjs';
 import {NotificationsService} from '../notifications/notifications.service';
 
 export interface IAuth {
@@ -20,6 +20,7 @@ export interface IAuth {
   providedIn: 'root'
 })
 export class UserService {
+
   private currentUser = new BehaviorSubject<IUser | null>(null);
   public  currentUser$: Observable<IUser | null> = this.currentUser.asObservable();
 
@@ -46,6 +47,7 @@ export class UserService {
 
     return forkJoin<[IUser, IAuth]>(userDb, token).pipe(
       map((data) => {
+        console.log(data);
         this.setUser(data[0]);
         return data[1];
       })
@@ -68,11 +70,11 @@ export class UserService {
     console.log('set', user);
     this.currentUser.next(user);
     if (user){
-      console.log('session',JSON.stringify({login: user?.login, role: user?.role}));
+      console.log('session',JSON.stringify({login: user?.login, role: user?.role, id: user.id}));
       sessionStorage.setItem(UserStorageKey,
         JSON.stringify({login: user?.login,
           role: user?.role,
-          nickname: user?.nickname}));
+          nickname: user?.nickname, id: user.id}));
     } else {
       sessionStorage.removeItem(UserStorageKey);
       sessionStorage.removeItem(JwtTokenKey);

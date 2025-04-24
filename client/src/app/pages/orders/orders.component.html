@@ -1,13 +1,13 @@
 <div class="orders-container">
   <h2>Orders List</h2>
 
-  <div *ngIf="orders().length === 0" class="no-orders">
+  <div *ngIf="orders.length === 0" class="no-orders">
     No orders available.
   </div>
 
   <div class="orders-list">
     <app-order-item
-      *ngFor="let order of orders()"
+      *ngFor="let order of orders"
       [order]="order"
       (delete)="removeOrder(order.id)">
     </app-order-item>

@@ -1,51 +1,56 @@
-import {computed, Injectable, OnInit, Signal, signal, WritableSignal} from '@angular/core';
+import {computed, Injectable, OnInit} from '@angular/core';
 import {ITour} from '../../models/tour/tour';
-import {initTestData, IOrder} from '../../models/orders/order';
+import {IOrder} from '../../models/orders/order';
 import {NotificationsService} from '../notifications/notifications.service';
+import {UserService} from '../user/user.service';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {API} from '../../shared/api';
+import {IUser} from '../../models/User/iuser';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
-  // Сигнал для заказов
-  private _orders = signal<IOrder[]>([]);
-
-  // Сигнал для количества (вычисляемое значение)
-  private _cartCount = computed(() => this._orders().length)
-
-  constructor(private notificationService: NotificationsService) {
+export class CartService implements OnInit{
+  orders: IOrder[] = [];
+  private _orders = new BehaviorSubject<IOrder[]>(this.orders);
+  public  orders$ = this._orders.asObservable();
+  currentUser: IUser | null = null;
+  constructor(private notificationService: NotificationsService,
+              private userService: UserService, private httpClient: HttpClient,) {
   }
 
-  get cartCountSignal() {
-    return this._cartCount;
+  ngOnInit(): void {
+    this.currentUser = this.userService.getUser();
   }
 
   addOrder(tour: ITour): void {
     const newOrder: IOrder = {
       id: `ORD-${Date.now()}`,
-      customerName: 'Тестовый клиент',
+      customerName: this.userService.getUser().nickname,
       date: new Date(),
       status: false,
       total: tour.price,
       items: [{
         name: tour.name,
         quantity: 1,
-        price: 333
+        price: tour.price,
       }]
     };
-    this._orders.update(orders => [...orders, newOrder]);
+
     this.notificationService.initToast("success", 'Your order was added', '',1000)
   }
 
+  getOrdersByUserId(userId: string): Observable<IOrder> {
+    const user = this.userService.getUser();
+    return  this.httpClient.get<IOrder>(API.getCartsById + `/${user.id}`);
+  }
   getOrders(): IOrder []{
-    return this._orders();
+    return  [];
   }
 
-  getOrdersReadOnly(): Signal<IOrder[]> {
-    return this._orders.asReadonly();
-  }
-  // Удалить заказ по ID
+
   removeOrder(orderId: string): void {
-    this._orders.update(orders => orders.filter(o => o.id !== orderId));
+
   }
 }

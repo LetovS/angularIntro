@@ -28,6 +28,7 @@ async function bootstrap() {
     .addTag('Auth')
     .addTag('Permissions')
     .addTag('Roles')
+    .addTag('Cart')
     .addBearerAuth()
     .build();
 

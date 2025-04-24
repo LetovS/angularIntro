@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Double, HydratedDocument, now } from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 import { max } from 'rxjs';
 
 export type CountryDocument = HydratedDocument<Country>;

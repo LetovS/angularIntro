@@ -1,8 +1,7 @@
-// role.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { Document, HydratedDocument } from 'mongoose';
 
-export type RoleDocument = HydratedDocument<Role>;
+export type OrderItemDocument = HydratedDocument<OrderItem>;
 
 @Schema({
   timestamps: true,
@@ -25,12 +24,15 @@ export type RoleDocument = HydratedDocument<Role>;
     },
   },
 })
-export class Role {
-  @Prop({ required: true, unique: true })
+export class OrderItem extends Document {
+  @Prop({ required: true })
   name: string;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Permission' }] })
-  permissions: Types.ObjectId[];
+  @Prop({ required: true, min: 1 })
+  quantity: number;
+
+  @Prop({ required: true, min: 0 })
+  price: number;
 }
 
-export const RoleSchema = SchemaFactory.createForClass(Role);
+export const OrderItemSchema = SchemaFactory.createForClass(OrderItem);

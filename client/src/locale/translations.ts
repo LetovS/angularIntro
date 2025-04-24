@@ -1,6 +1,6 @@
 export const translations = {
   en: {
-    tours: 'Tickets',
+    tours: 'Tours',
     settings: 'Settings',
     orders: 'Orders',
     cart: 'Cart',
@@ -56,7 +56,7 @@ export const translations = {
     btnSave: 'Save'
   },
   ru: {
-    tours: 'Билеты',
+    tours: 'Туры',
     settings: 'Настройки',
     orders: 'Заказы',
     cart: 'Корзина',

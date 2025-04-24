@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$))
       .subscribe((data) => {
         if (data){
+          console.log('get user',data);
           this.user = data;
         }
       }
@@ -63,7 +64,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     setInterval(() => {
         this.dateTime = new Date();
       }, 1000)
-    this.cartItemsCount = this.cartService.cartCountSignal;
+    console.log('current user', this.user)
+    this.cartService.getOrdersByUserId(this.user.id).subscribe((data) => {
+      console.log('getCart user',data);
+    })
+    //this.cartItemsCount = this.cartService.cartCountSignal;
   }
 
   logOut(): void {
