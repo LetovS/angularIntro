@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {RouterLink} from '@angular/router';
 import {Button} from 'primeng/button';
 import {InputText} from 'primeng/inputtext';
-import {IChangePassword, IUser} from '../../../models/User/iuser';
+import {IChangePassword, IUser, UserStorageKey} from '../../../models/User/iuser';
 import {UserService} from '../../../services/user/user.service';
 
 @Component({
@@ -26,7 +26,6 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
   }
-
   private initForm(): void {
     this.passwordForm = this.fb.group({
       oldPassword: ['', Validators.required],
@@ -43,23 +42,24 @@ export class ChangePasswordComponent implements OnInit {
   onSubmit(): void {
     if (this.passwordForm.valid) {
       //TODO метод на сервере по смене пароля
-      const user = JSON.parse(sessionStorage.getItem('user')) as IUser;
+      const user = JSON.parse(sessionStorage.getItem(UserStorageKey)) as IUser;
 
       const changePasswordRequest: IChangePassword = {
         login: user.login,
-        oldPassword: user.password,
+        oldPassword: this.passwordForm.get('oldPassword')?.value,
         newPassword: this.passwordForm.get('newPassword')?.value
       }
 
-      this.userService.changePassword(changePasswordRequest).subscribe((data) => {
-        if(data)
-          sessionStorage.setItem('user', JSON.stringify({
-            login:changePasswordRequest.login,
-            password: changePasswordRequest.newPassword
-          }));
-        else{
-          alert('Something went wrong!')
-        }
+      this.userService.changePassword(changePasswordRequest)
+        .subscribe((data) => {
+          if(data)
+            sessionStorage.setItem('user', JSON.stringify({
+              login:changePasswordRequest.login,
+              password: changePasswordRequest.newPassword
+            }));
+          else{
+            alert('Something went wrong!')
+          }
       })
     }
   }

@@ -17,7 +17,7 @@ export class CartService {
   }
 
   get cartCountSignal() {
-    return this._cartCount; // или просто return this._cartCount;
+    return this._cartCount;
   }
 
   addOrder(tour: ITour): void {
@@ -36,9 +36,11 @@ export class CartService {
     this._orders.update(orders => [...orders, newOrder]);
     this.notificationService.initToast("success", 'Your order was added', '',1000)
   }
+
   getOrders(): IOrder []{
     return this._orders();
   }
+
   getOrdersReadOnly(): Signal<IOrder[]> {
     return this._orders.asReadonly();
   }

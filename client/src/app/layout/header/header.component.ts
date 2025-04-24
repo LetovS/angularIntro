@@ -1,12 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DatePipe, NgIf} from '@angular/common';
 import {UserService} from '../../services/user/user.service';
-import {ToursService} from '../../services/tours/tours.service';
 import {initMenuItems} from '../../models/menuItems/menuItems';
 import {Router} from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import {ButtonModule} from 'primeng/button';
-import {IUser, UserStorageKey} from '../../models/User/iuser';
+import {IUser} from '../../models/User/iuser';
 import {MenuItem} from 'primeng/api';
 import {Tooltip} from 'primeng/tooltip';
 import {CartService} from '../../services/cart/cart.service';
@@ -44,21 +43,28 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
   ngOnInit(): void {
-      this.user = this.userService.getUser();
-      this.updateMenuItems();
+    this.user = this.userService.getUser();
+    this.updateMenuItems();
+    this.userService.currentUser$.pipe(
+      takeUntil(this.destroy$))
+      .subscribe((data) => {
+        if (data){
+          this.user = data;
+        }
+      }
+    )
+    this.localizationService.currentLang$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(lang => {
+        this.currentLang = lang;
+        this.updateMenuItems();
+      });
 
-      this.localizationService.currentLang$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(lang => {
-          this.currentLang = lang;
-          this.updateMenuItems();
-        });
-
-      setInterval(() => {
-          this.dateTime = new Date();
-        }, 1000)
-      this.cartItemsCount = this.cartService.cartCountSignal;
-    }
+    setInterval(() => {
+        this.dateTime = new Date();
+      }, 1000)
+    this.cartItemsCount = this.cartService.cartCountSignal;
+  }
 
   logOut(): void {
     console.log('logout')
@@ -85,7 +91,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   setLanguage(lang: 'en' | 'ru') {
     this.localization.setLanguage(lang)
   }
+
   private updateMenuItems(): void {
-    this.menuItems = initMenuItems(this.localizationService);
+    if (this.user){
+      this.menuItems = initMenuItems(this.localizationService, this.user.role);
+    } else {
+      this.menuItems = initMenuItems(this.localizationService, null);
+    }
   }
 }

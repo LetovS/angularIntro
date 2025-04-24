@@ -25,5 +25,10 @@ export interface IChangePassword{
   newPassword: string;
 }
 
+export class IChangeRoleRequest {
+  id: string;
+  role: string;
+}
+
 export const UserStorageKey = 'current_user';
 export const JwtTokenKey = 'token';
