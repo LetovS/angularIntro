@@ -1,33 +1,29 @@
-import {
-  Component, computed,
-  OnDestroy,
-  OnInit
-} from '@angular/core';
-import {OrderItemComponent} from './order-item/order-item.component';
-import {NgForOf, NgIf} from '@angular/common';
-import {CartService} from '../../services/cart/cart.service';
-import {NotificationsService} from '../../services/notifications/notifications.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {IOrder} from '../../models/orders/order';
-import {BehaviorSubject, Subject} from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {IOrder} from '../../models/order';
+import {Card} from 'primeng/card';
+import {CurrencyPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
+import {OrdersService} from '../../services/orders.service';
+import {Subject, takeUntil} from 'rxjs';
+import {Button} from 'primeng/button';
 
 @Component({
   selector: 'app-orders',
   imports: [
-    OrderItemComponent,
+    Card,
+    DatePipe,
+    CurrencyPipe,
     NgIf,
-    NgForOf
+    NgForOf,
+    Button
   ],
   templateUrl: './orders.component.html',
   standalone: true,
   styleUrl: './orders.component.scss'
 })
 export class OrdersComponent implements OnInit, OnDestroy {
-  orders: IOrder[] = [];
-  private destroy$ = new Subject<void>();
-  private _cartCount = computed(() => this.cartService.orders$)
-  constructor(private cartService: CartService,
-              private notifyService: NotificationsService) {
+  orders: IOrder [] = [];
+  destroy$: Subject<void> = new Subject<void>();
+  constructor(private ordersService: OrdersService) {
   }
 
   ngOnDestroy(): void {
@@ -36,11 +32,16 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    //this.notifyService.clear('order-add');
-    //this.cartService.orders$
+    this.ordersService.orders$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.orders = data;
+    })
   }
 
-  removeOrder(orderId: string) {
-    this.cartService.removeOrder(orderId);
+  finishedOrder(order: IOrder) {
+
+  }
+
+  cancelOrder(order: IOrder) {
+
   }
 }

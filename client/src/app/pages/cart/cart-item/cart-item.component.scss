@@ -1,4 +1,4 @@
-.order-card {
+.cart-card {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
@@ -7,11 +7,11 @@
   transition: transform 0.2s;
 }
 
-.order-card:hover {
+.cart-card:hover {
   transform: translateY(-2px);
 }
 
-.order-header {
+.cart-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,17 +36,17 @@
   margin: 5px 0;
 }
 
-.order-items {
+.cart-items {
   margin-top: 10px;
   padding-top: 10px;
   border-top: 1px solid #eee;
 }
 
-.order-items ul {
+.cart-items ul {
   padding-left: 20px;
   margin: 5px 0 0;
 }
 
-.order-items li {
+.cart-items li {
   margin-bottom: 3px;
 }

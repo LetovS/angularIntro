@@ -5,6 +5,7 @@ import {LocalizationService} from '../../services/localization.service';
 export function initMenuItems(service: LocalizationService, role: string | null): MenuItem[] {
   const allItems: { key: string, roles?: string[] }[] = [
     { key: 'tours' },
+    { key: 'cart', roles: ['admin', 'moderator', 'user'] },
     { key: 'orders', roles: ['admin', 'moderator', 'user'] },
     { key: 'settings', roles: ['admin', 'moderator'] },
   ];
@@ -59,3 +60,22 @@ export function socialLinks (): ISocial []  {
     }
   ];
 }
+
+
+export function getHeaderTitle(header: string): string {
+  const headerTitles: Record<string, string> = {
+    isSelected: 'Выбрано',
+    name: 'Название тура',
+    quantity:'Кол-во путёвок',
+    price: 'Цена за ед.',
+  };
+  return headerTitles[header] || header;
+}
+
+
+export const cartHeaders = [
+  'isSelected',
+  'name',
+  'quantity',
+  'price'
+];

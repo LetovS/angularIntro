@@ -1,15 +1,29 @@
-<div class="orders-container">
-  <h2>Orders List</h2>
+@if (orders.length > 0) {
+  <div class="orders-container">
+    @for (order of orders; track order.id) {
+      <p-card class="small-card"
+              [header]="order.firstName + ' ' + order.lastName"
+              [subheader]="'Age: ' + order.age + ', Citizenship: ' + order.citizenShip">
+        <div class="p-card-content">
+          <p><strong>Birth Date:</strong> {{order.birthDate | date}}</p>
+          <p><strong>Card Number:</strong> {{order.cardNumber}}</p>
 
-  <div *ngIf="orders.length === 0" class="no-orders">
-    No orders available.
+          <h4>Order Items:</h4>
+          <div *ngFor="let item of order.orderItems" class="order-item">
+            <p><strong>Name:</strong> {{item.name}}</p>
+            <p><strong>Quantity:</strong> {{item.quantity}}</p>
+            <p><strong>Price:</strong> {{item.price | currency}}</p>
+          </div>
+        </div>
+        <ng-template #footer>
+          <div class="flex justify-content-end">
+            <p-button class="mr-3" severity="primary" label="Оплатить" (onClick)="finishedOrder(order)" />
+            <p-button severity="danger" label="Отменить заказ" (onClick)="cancelOrder(order)" />
+          </div>
+        </ng-template>
+      </p-card>
+    }
   </div>
-
-  <div class="orders-list">
-    <app-order-item
-      *ngFor="let order of orders"
-      [order]="order"
-      (delete)="removeOrder(order.id)">
-    </app-order-item>
-  </div>
-</div>
+} @else {
+  <div class="empty-message">Активных заказов нет.</div>
+}

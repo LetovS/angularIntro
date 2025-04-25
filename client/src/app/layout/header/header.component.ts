@@ -49,7 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$))
       .subscribe((data) => {
         if (data){
-          console.log('get user',data);
           this.user = data;
         }
       }
@@ -64,18 +63,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     setInterval(() => {
         this.dateTime = new Date();
       }, 1000)
-    console.log('current user', this.user)
     this.cartService.getOrdersByUserId(this.user.id).subscribe((data) => {
-      console.log('getCart user',data);
+
     })
-    //this.cartItemsCount = this.cartService.cartCountSignal;
+   this.cartService.cartItems$.subscribe((data) => {
+     this.cartItemsCount = data.length;
+   });
   }
 
   logOut(): void {
-    console.log('logout')
-      this.userService.setUser(null);
-      this.router.navigate(['/auth']);
-    }
+    this.userService.setUser(null);
+    this.router.navigate(['/auth']);
+  }
 
   toolTip: 'login' | 'logout' = 'login';
   hoverLogoutBtn(val: boolean): void{
@@ -85,12 +84,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     } else {
       this.toolTip = !!user ? 'logout' : 'login';
     }
-
       this.logoutIcon = val ? 'pi pi-sign-out' : 'pi pi-user'
     }
 
-  navigateToOrders(): void {
-    this.router.navigate(['/orders']);
+  navigateToCart(): void {
+    this.router.navigate(['/cart']);
   }
 
   setLanguage(lang: 'en' | 'ru') {

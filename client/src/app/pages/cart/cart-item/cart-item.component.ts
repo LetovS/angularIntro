@@ -1,21 +1,21 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {IOrder} from '../../../models/orders/order';
+import {IOrderOld} from '../../../models/cart/cart';
 import {CurrencyPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
 
 @Component({
-  selector: 'app-order-item',
+  selector: 'app-cart-item',
   imports: [
     DatePipe,
     CurrencyPipe,
     NgIf,
     NgForOf
   ],
-  templateUrl: './order-item.component.html',
+  templateUrl: './cart-item.component.html',
   standalone: true,
-  styleUrl: './order-item.component.scss'
+  styleUrl: './cart-item.component.scss'
 })
-export class OrderItemComponent {
-  @Input() order!: IOrder;
+export class CartItemComponent {
+  @Input() order!: IOrderOld;
   @Output() delete = new EventEmitter<string>();
 
   onDelete() {

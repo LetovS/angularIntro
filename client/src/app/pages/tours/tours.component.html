@@ -44,6 +44,11 @@
           />
         </div>
       </p-card>
+       @if (item.isCart){
+         <div class="mt-1">В корзине</div>
+       } @else {
+         <div class="mt-1">Не корзине</div>
+       }
      </div>
   }
   @empty {

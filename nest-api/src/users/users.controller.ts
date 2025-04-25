@@ -18,7 +18,6 @@ import {
   ApiQuery,
 } from '@nestjs/swagger';
 import { UsersService } from './users.service';
-import { ChangePasswordRequest, CreateUserRequest, IChangePassword, IUser } from './model';
 import { FileNotificationService } from 'src/file-notification/file-notification.service';
 import { ChangePasswordRequest, ChangeRoleRequest, CreateUserRequest, IChangePassword, IUser } from './model';
 

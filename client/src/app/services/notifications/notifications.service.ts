@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import { MessageService } from 'primeng/api';
-import {IOrder} from '../../models/orders/order';
+import {IOrderOld} from '../../models/cart/cart';
 import {ITour} from '../../models/tour/tour';
 
 @Injectable({

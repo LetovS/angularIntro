@@ -10,6 +10,7 @@ export interface ITour{
   locationId: string;
   country?: string;
   code?: string;
+  isCart?: boolean;
 }
 
 export class TourRequest implements ITour{

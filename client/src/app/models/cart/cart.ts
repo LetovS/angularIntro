@@ -1,4 +1,4 @@
-export interface IOrder {
+export interface IOrderOld {
   items: IOrderItem[];
   status: boolean;
   total: number;
@@ -12,4 +12,5 @@ export interface IOrderItem{
   name: string;
   quantity: number;
   price: number;
+  isSelected?: boolean;
 }

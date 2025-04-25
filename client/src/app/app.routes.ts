@@ -8,10 +8,10 @@ import {authGuard} from './shared/guards/auth/auth.guard';
 import {SettingsComponent} from './pages/settings/settings.component';
 import {ChangePasswordComponent} from './pages/settings/change-password/change-password.component';
 import {StatisticsComponent} from './pages/settings/statistics/statistics.component';
-import {OrdersComponent} from './pages/orders/orders.component';
-import {OrderItemComponent} from './pages/orders/order-item/order-item.component';
 import {UsersComponent} from './pages/settings/users/users.component';
 import {ToursEditorComponent} from './pages/settings/tours-editor/tours-editor.component';
+import {OrdersComponent} from './pages/orders/orders.component';
+import {CartComponent} from './pages/cart/cart.component';
 
 export const routes: Routes = [
   {
@@ -57,20 +57,24 @@ export const routes: Routes = [
     }
   ]},
   {
+    path: 'cart',
+    canActivate: [authGuard],
+    component: LayoutComponent,
+    children: [
+      {
+        path: '', component: CartComponent
+      },
+      {
+        path: 'cart', redirectTo: '', pathMatch: 'full'
+      }]},
+  {
     path: 'orders',
     canActivate: [authGuard],
     component: LayoutComponent,
     children: [
       {
         path: '', component: OrdersComponent
-      },
-      {
-        path: 'order', redirectTo: '', pathMatch: 'full'
-      },
-      {
-        path: 'order/:orderId', component: OrderItemComponent
-      }
-    ]},
+      }]},
   {path: '', redirectTo:'/auth', pathMatch: 'full'},
   {path: '**', redirectTo:'/not-found', pathMatch: 'full'}
 ];

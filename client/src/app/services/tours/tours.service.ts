@@ -1,12 +1,25 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {API} from '../../shared/api';
-import {catchError, forkJoin, map, Observable, of, Subject, switchMap, tap, throwError} from 'rxjs';
+import {
+  catchError,
+  delay,
+  forkJoin,
+  map,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+  throwError,
+  withLatestFrom
+} from 'rxjs';
 import {ILocation, ITour, TourRequest} from '../../models/tour/tour';
 import {IDateFilter, ITourType} from '../../models/filters/filters';
 import {ICountry} from '../../models/country/country';
 import {Coords, IAnotherCountryResponse, ICoords, ISwitchViewModel, IWeatherViewModel} from '../../models/models';
 import {MapService} from '../map.service';
+import {CartService} from '../cart/cart.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +27,10 @@ import {MapService} from '../map.service';
 export class ToursService {
   private tourTypeSubject = new Subject<ITourType | IDateFilter>();
   readonly tourType$ = this.tourTypeSubject.asObservable();
-  constructor(private httpClient: HttpClient, private mapService: MapService) { }
+  constructor(
+    private httpClient: HttpClient,
+    private mapService: MapService,
+    private cartService: CartService) { }
 
   /**
    * Получает список туров.
@@ -27,16 +43,23 @@ export class ToursService {
       .get<ITour[]>(API.tours);
 
     return forkJoin<[ICountry [], ITour []]>([countries, tours]).pipe(
-      map((data) => {
+      withLatestFrom(this.cartService.cartItems$),
+      map(([data, cartItems]) => {
         let toursWithCountries = [] as ITour [];
+
         const toursArr = data[1];
         const countriesMap = new Map();
+
         data[0].forEach(c => {
           countriesMap.set(c.iso_code2, c)
         })
 
         if(Array.isArray(toursArr)){
           toursWithCountries = toursArr.map((tour) =>{
+            const isTourInBasket = cartItems.find((cartItem) => cartItem.name === tour.name);
+            if (isTourInBasket){
+              tour.isCart = true;
+            }
             return {
               ...tour,
               country: countriesMap.get(tour.code) || null

@@ -1,5 +1,5 @@
-<div class="order-card">
-  <div class="order-header">
+<div class="cart-card">
+  <div class="cart-header">
     <h3>Order #{{order.id}}</h3>
     <button (click)="onDelete()" class="delete-btn">×</button>
   </div>
@@ -11,7 +11,7 @@
     <p><strong>Status:</strong> {{order.status ? 'Оплачен' : 'Ожидает оплаты'}}</p>
   </div>
 
-  <div class="order-items m-2 p-2" *ngIf="order.items.length > 0">
+  <div class="cart-items m-2 p-2" *ngIf="order.items.length > 0">
     <h4>Продукты:</h4>
     <ul>
       <li *ngFor="let item of order.items">

@@ -7,16 +7,12 @@ import {
   OnChanges, OnDestroy,
   OnInit,
   Output,
-  signal,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {ITour} from '../../../models/tour/tour';
 import {ToursService} from '../../../services/tours/tours.service';
 import {Button, ButtonModule} from 'primeng/button';
-import {Card} from 'primeng/card';
-import {SearchTourPipe} from '../../../pipies/searchPipe/search-tour.pipe';
-import {Carousel} from 'primeng/carousel';
 import {PrimeTemplate} from 'primeng/api';
 import {GalleriaModule} from 'primeng/galleria';
 import {NgOptimizedImage} from '@angular/common';

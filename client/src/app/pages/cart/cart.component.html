@@ -1,0 +1,145 @@
+<div class="cart-container">
+  @if (cartItems.length > 0){
+    <p-table
+      [value]="cartItems"
+      [rows]="5"
+      stripedRows
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [paginator]="false"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          @for (header of cartHeaders; track header) {
+            <th  class="text-center">{{ getHeaderTitle(header) }}</th>
+          }
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cert>
+        <tr>
+          @for (header of cartHeaders; track header) {
+            <td class="text-center">
+              @if (header.startsWith('isSelected')) {
+                <p-checkbox
+                  [binary]="true"
+                  [(ngModel)]="cert[header]"
+                  (onChange)="isSelectedItem($event, cert)"
+                ></p-checkbox>
+              } @else {
+                {{ cert[header] }}
+              }
+            </td>
+          }
+        </tr>
+      </ng-template>
+    </p-table>
+    <div class="flex justify-content-end mt-3">
+      <p-button
+        class="mr-3"
+        severity="primary"
+        label="Оформить заказ"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="createOrder()"
+
+      />
+      <p-button
+        severity="danger"
+        label="Удалить из карзины"
+        [disabled]="selectedItems.length === 0"
+        (onClick)="removeCartItem()"
+      />
+    </div>
+  } @else {
+    <div>Корзина пуста.</div>
+  }
+
+  @if (showForms){
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit($event)" *ngIf="userForm" class="mt-3 user-info col-4">
+      @for (fileObj of userFormFieldsArr; track fileObj.control) {
+        <ng-container
+          [ngTemplateOutlet]="formFieldTotal"
+          [ngTemplateOutletContext]="{
+        control: fileObj.control,
+        label: fileObj.label,
+        placeHolder: fileObj.placeHolder,
+        type: fileObj.type,
+        mask: fileObj.mask
+      }"
+        ></ng-container>
+      }
+
+      <p-button
+        type="submit"
+        styleClass="btn btn-primary mt-5"
+        severity="primary"
+        [disabled]="userForm.invalid"
+        label="Оформить"
+      />
+      <p-button
+        type="submit"
+        styleClass="btn btn-primary mt-5"
+        severity="secondary"
+        label="Отменить"
+        class="ml-3"
+        (onClick)="cancelCreateOrder()"
+      />
+    </form>
+  }
+</div>
+
+<ng-template
+  #formFieldTotal
+  let-control="control"
+  let-placeHolder="placeHolder"
+  let-label="label"
+  let-type="type"
+  let-mask="mask"
+>
+  <div [formGroup]="userForm" class="flex justify-content-between align-items-center mt-3">
+    <label [attr.for]="control">{{ label }}</label>
+
+    <ng-container [ngSwitch]="type">
+
+      <!-- input -->
+      <input *ngSwitchCase="'input'"
+             type="text"
+             [id]="control"
+             pInputText
+             class="form-control"
+             [formControlName]="control"
+             [placeholder]="placeHolder" />
+
+      <!-- masked input -->
+      <p-inputmask *ngSwitchCase="'mask'"
+                   [id]="control"
+                   class="form-control"
+                   [formControlName]="control"
+                   [mask]="mask"
+                   [placeholder]="placeHolder"
+                   [slotChar]="' '"
+                   [autoClear]="true">
+      </p-inputmask>
+
+      <!-- date -->
+      <input *ngSwitchCase="'date'"
+             type="date"
+             pInputText
+             class="form-control"
+             [id]="control"
+             [formControlName]="control" />
+
+      <!-- number -->
+      <p-inputNumber *ngSwitchCase="'number'"
+                     [id]="control"
+                     [formControlName]="control"
+                     [showButtons]="true"
+                     [min]="0">
+      </p-inputNumber>
+
+      <!-- fallback (optional) -->
+      <span *ngSwitchDefault class="text-muted">Неизвестный тип: {{ type }}</span>
+
+    </ng-container>
+  </div>
+</ng-template>
+
+
